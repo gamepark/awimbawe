@@ -71,8 +71,8 @@ One advice though: it is much easier to animate the elements if they all are a d
 
 The state of the game is a Javascript object. The specifications for this object must be written here: `/rules/src/GameState.ts`
 
-If you change the specification, it will probably break the game setup here: `/rules/src/MyBoardGame.ts`.
-In this file, you can rename "MyBoardGame" with the real name of your game, and in the constructor when you have no arguments,
+If you change the specification, it will probably break the game setup here: `/rules/src/Awimbawe.ts`.
+In this file, you can rename "Awimbawe" with the real name of your game, and in the constructor when you have no arguments,
 you must set up a new game with the properties matching your specifications.
 
 **Everytime you change GameState, you must open the browser console and run `game.new()` to replace the old obsolete game state with a fresh new game.**
@@ -93,7 +93,7 @@ Then, run:
 ```
 rclone config
 > n (For "New remote)
-name> [code of the game]
+name> awimbawe
 Storage> 4 (Amazon S3 Compliant Storage Provider)
 provider> Other
 env_auth> false
@@ -111,7 +111,7 @@ Now, to deploy a new version of the board game, you have 2 command lines to run:
 
 ```
 yarn build
-rclone sync app/build [code-of-the-game]:[code-of-the-game].game-park.com --progress --s3-acl=public-read
+rclone sync app/build awimbawe:awimbawe.game-park.com --progress --s3-acl=public-read
 ```
 
 More details about this deployment method here: https://www.clever-cloud.com/blog/engineering/2020/06/24/deploy-cellar-s3-static-site/

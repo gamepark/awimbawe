@@ -1,15 +1,15 @@
-import GameView from '@gamepark/board-game-template/GameView'
-import {drawCardInPlayerView, drawCardInView, isDrawCardView} from '@gamepark/board-game-template/moves/DrawCard'
-import MoveType from '@gamepark/board-game-template/moves/MoveType'
-import MoveView from '@gamepark/board-game-template/moves/MoveView'
-import {spendGold} from '@gamepark/board-game-template/moves/SpendGold'
+import GameView from '@gamepark/awimbawe/GameView'
+import {drawCardInPlayerView, drawCardInView, isDrawCardView} from '@gamepark/awimbawe/moves/DrawCard'
+import MoveType from '@gamepark/awimbawe/moves/MoveType'
+import MoveView from '@gamepark/awimbawe/moves/MoveView'
+import {spendGold} from '@gamepark/awimbawe/moves/SpendGold'
 import {Game} from '@gamepark/rules-api'
 
 /**
  * This class is useful when the game has "IncompleteInformation" (or "SecretInformation").
  * It allows to handle, in a different way than the backend side, the moves that involve hidden information.
  */
-export default class MyBoardGameView implements Game<GameView, MoveView> {
+export default class AwimbaweView implements Game<GameView, MoveView> {
   state: GameView
 
   constructor(state: GameView) {

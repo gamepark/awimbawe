@@ -1,2 +1,2 @@
-export {default} from './MyBoardGame'
-export {MyBoardGameOptionsSpec} from './MyBoardGameOptions'
+export {default} from './Awimbawe'
+export {AwimbaweOptionsSpec} from './AwimbaweOptions'

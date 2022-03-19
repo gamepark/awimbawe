@@ -6,14 +6,14 @@ import PlayerColor, {playerColors} from './PlayerColor'
 /**
  * This is the options for each players in the game.
  */
-type MyBoardGamePlayerOptions = { id: PlayerColor }
+type AwimbawePlayerOptions = { id: PlayerColor }
 
 /**
  * This is the type of object that the game receives when a new game is started.
  * The first generic parameter, "{}", can be changed to include game options like variants or expansions.
  */
-export type MyBoardGameOptions = {
-  players: MyBoardGamePlayerOptions[]
+export type AwimbaweOptions = {
+  players: AwimbawePlayerOptions[]
 }
 
 /**
@@ -21,7 +21,7 @@ export type MyBoardGameOptions = {
  * @param arg GameState or Game options
  * @return true if arg is a Game options
  */
-export function isGameOptions(arg: GameState | MyBoardGameOptions): arg is MyBoardGameOptions {
+export function isGameOptions(arg: GameState | AwimbaweOptions): arg is AwimbaweOptions {
   return typeof (arg as GameState).deck === 'undefined'
 }
 
@@ -29,7 +29,7 @@ export function isGameOptions(arg: GameState | MyBoardGameOptions): arg is MyBoa
  * This object describes all the options a game can have, and will be used by GamePark website to create automatically forms for you game
  * (forms for friendly games, or forms for matchmaking preferences, for instance).
  */
-export const MyBoardGameOptionsSpec: OptionsSpec<MyBoardGameOptions> = {
+export const AwimbaweOptionsSpec: OptionsSpec<AwimbaweOptions> = {
   players: {
     id: {
       label: (t: TFunction) => t('Color'),

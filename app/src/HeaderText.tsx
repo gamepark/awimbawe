@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import GameView from '@gamepark/board-game-template/GameView'
-import {getPlayerName} from '@gamepark/board-game-template/MyBoardGameOptions'
+import GameView from '@gamepark/awimbawe/GameView'
+import {getPlayerName} from '@gamepark/awimbawe/AwimbaweOptions'
 import {usePlayerId} from '@gamepark/react-client'
 import {useTranslation} from 'react-i18next'
 
