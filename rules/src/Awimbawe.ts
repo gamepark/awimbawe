@@ -1,13 +1,13 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
+import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState from './GameState'
 import GameView from './GameView'
+import Heir from './Heir'
 import {drawCard} from './moves/DrawCard'
 import Move from './moves/Move'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
 import {spendGold} from './moves/SpendGold'
-import {isGameOptions, AwimbaweOptions} from './AwimbaweOptions'
-import PlayerColor from './PlayerColor'
 
 /**
  * Your Board Game rules must extend either "SequentialGame" or "SimultaneousGame".
@@ -16,8 +16,8 @@ import PlayerColor from './PlayerColor'
  * If the game contains information that some players know, but the other players does not, it must implement "SecretInformation" instead.
  * Later on, you can also implement "Competitive", "Undo", "TimeLimit" and "Eliminations" to add further features to the game.
  */
-export default class Awimbawe extends SequentialGame<GameState, Move, PlayerColor>
-  implements SecretInformation<GameState, GameView, Move, MoveView, PlayerColor> {
+export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
+  implements SecretInformation<GameState, GameView, Move, MoveView, Heir> {
   /**
    * This constructor is called when the game "restarts" from a previously saved state.
    * @param state The state of the game
@@ -34,7 +34,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, PlayerColo
    */
   constructor(arg: GameState | AwimbaweOptions) {
     if (isGameOptions(arg)) {
-      super({players: arg.players.map(player => ({color: player.id})), round: 1, deck: []})
+      super({players: arg.players.map(player => ({heir: player.id})), round: 1, deck: []})
     } else {
       super(arg)
     }
@@ -52,7 +52,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, PlayerColo
    * Only required in a SequentialGame.
    * @return The identifier of the player whose turn it is
    */
-  getActivePlayer(): PlayerColor | undefined {
+  getActivePlayer(): Heir | undefined {
     return undefined // You must return undefined only when game is over, otherwise the game will be blocked.
   }
 
@@ -125,7 +125,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, PlayerColo
    * @param playerId Identifier of the player
    * @return what the player can see
    */
-  getPlayerView(playerId: PlayerColor): GameView {
+  getPlayerView(playerId: Heir): GameView {
     console.log(playerId)
     // Here we could, for example, return a "playerView" with only the number of cards in hand for the other player only.
     return {...this.state, deck: this.state.deck.length}
@@ -152,7 +152,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, PlayerColo
    * @param playerId Identifier of the player seeing the move
    * @return What a person should know about the move that was played
    */
-  getPlayerMoveView(move: Move, playerId: PlayerColor): MoveView {
+  getPlayerMoveView(move: Move, playerId: Heir): MoveView {
     console.log(playerId)
     if (move.type === MoveType.DrawCard && move.playerId === playerId) {
       return {...move, card: this.state.deck[0]}

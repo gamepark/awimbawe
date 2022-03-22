@@ -1,6 +1,6 @@
 import GameState from '../GameState'
 import GameView from '../GameView'
-import PlayerColor from '../PlayerColor'
+import Heir from '../Heir'
 import MoveType from './MoveType'
 
 /**
@@ -9,7 +9,7 @@ import MoveType from './MoveType'
  */
 type DrawCard = {
   type: MoveType.DrawCard
-  playerId: PlayerColor
+  playerId: Heir
 }
 
 export default DrawCard

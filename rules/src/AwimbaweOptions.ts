@@ -1,12 +1,12 @@
 import {OptionsSpec} from '@gamepark/rules-api'
 import {TFunction} from 'i18next'
 import GameState from './GameState'
-import PlayerColor, {playerColors} from './PlayerColor'
+import Heir, {heirs} from './Heir'
 
 /**
  * This is the options for each players in the game.
  */
-type AwimbawePlayerOptions = { id: PlayerColor }
+type AwimbawePlayerOptions = { id: Heir }
 
 /**
  * This is the type of object that the game receives when a new game is started.
@@ -32,22 +32,18 @@ export function isGameOptions(arg: GameState | AwimbaweOptions): arg is Awimbawe
 export const AwimbaweOptionsSpec: OptionsSpec<AwimbaweOptions> = {
   players: {
     id: {
-      label: (t: TFunction) => t('Color'),
-      values: playerColors,
+      label: (t: TFunction) => t('Heir'),
+      values: heirs,
       valueSpec: color => ({label: t => getPlayerName(color, t)})
     }
   }
 }
 
-export function getPlayerName(playerId: PlayerColor, t: TFunction) {
+export function getPlayerName(playerId: Heir, t: TFunction) {
   switch (playerId) {
-    case PlayerColor.Red:
-      return t('Red player')
-    case PlayerColor.Blue:
-      return t('Blue player')
-    case PlayerColor.Green:
-      return t('Green player')
-    case PlayerColor.Yellow:
-      return t('Yellow player')
+    case Heir.WhiteTiger:
+      return t('White Tiger')
+    case Heir.BlackPanther:
+      return t('Black Panther')
   }
 }

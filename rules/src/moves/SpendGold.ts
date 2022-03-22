@@ -1,6 +1,6 @@
 import GameState from '../GameState'
 import GameView from '../GameView'
-import PlayerColor from '../PlayerColor'
+import Heir from '../Heir'
 import MoveType from './MoveType'
 
 /**
@@ -8,7 +8,7 @@ import MoveType from './MoveType'
  */
 type SpendGold = {
   type: MoveType.SpendGold
-  playerId: PlayerColor
+  playerId: Heir
   quantity: number
 }
 

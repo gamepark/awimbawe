@@ -1,5 +1,5 @@
-import PlayerColor from './PlayerColor'
+import Heir from './Heir'
 
 export default interface PlayerState {
-  color: PlayerColor
+  heir: Heir
 }
