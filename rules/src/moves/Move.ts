@@ -1,9 +1,9 @@
-import DrawCard from './DrawCard'
-import SpendGold from './SpendGold'
+import PlayAnimal from './PlayAnimal'
+import WinTrick from './WinTrick'
 
 /**
  * A "Move" is the combination of all the types of moves that exists in you game
  */
-type Move = SpendGold | DrawCard // | DoOtherStuff | ChooseCard | MovePawn...
+type Move = PlayAnimal | WinTrick
 
 export default Move

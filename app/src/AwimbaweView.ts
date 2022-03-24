@@ -1,8 +1,8 @@
 import GameView from '@gamepark/awimbawe/GameView'
-import {drawCardInPlayerView, drawCardInView, isDrawCardView} from '@gamepark/awimbawe/moves/DrawCard'
 import MoveType from '@gamepark/awimbawe/moves/MoveType'
 import MoveView from '@gamepark/awimbawe/moves/MoveView'
-import {spendGold} from '@gamepark/awimbawe/moves/SpendGold'
+import {playAnimal} from '@gamepark/awimbawe/moves/PlayAnimal'
+import {winTrick} from '@gamepark/awimbawe/moves/WinTrick'
 import {Game} from '@gamepark/rules-api'
 
 /**
@@ -35,15 +35,10 @@ export default class AwimbaweView implements Game<GameView, MoveView> {
    */
   play(move: MoveView): void {
     switch (move.type) {
-      case MoveType.SpendGold:
-        return spendGold(this.state, move)
-      case MoveType.DrawCard:
-        if (isDrawCardView(move)) {
-          return drawCardInPlayerView(this.state, move)
-        } else {
-          return drawCardInView(this.state, move)
-        }
+      case MoveType.PlayAnimal:
+        return playAnimal(this.state, move)
+      case MoveType.WinTrick:
+        return winTrick(this.state, move)
     }
   }
-
 }

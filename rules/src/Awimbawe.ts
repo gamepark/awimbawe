@@ -1,13 +1,16 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
+import shuffle from 'lodash.shuffle'
+import {animals} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
-import GameState from './GameState'
-import GameView from './GameView'
-import Heir from './Heir'
-import {drawCard} from './moves/DrawCard'
+import GameState, {getPlayers} from './GameState'
+import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
+import Heir, {otherHeir} from './Heir'
 import Move from './moves/Move'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
-import {spendGold} from './moves/SpendGold'
+import {playAnimal, playAnimalMove} from './moves/PlayAnimal'
+import {winTrick, winTrickMove} from './moves/WinTrick'
+import PlayerState from './PlayerState'
 
 /**
  * Your Board Game rules must extend either "SequentialGame" or "SimultaneousGame".
@@ -34,26 +37,40 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    */
   constructor(arg: GameState | AwimbaweOptions) {
     if (isGameOptions(arg)) {
-      super({players: arg.players.map(player => ({heir: player.id})), round: 1, deck: []})
+      const cards = shuffle(animals)
+      const whiteTiger = {
+        score: 0,
+        hand: cards.splice(0, 6),
+        piles: [...Array(4)].map(_ => [{animal: cards.pop()!}, {animal: cards.pop()!, faceUp: true}]),
+        tricks: []
+      }
+      const blackPanther = {
+        score: 0,
+        hand: cards.splice(0, 6),
+        piles: [...Array(4)].map(_ => [{animal: cards.pop()!}, {animal: cards.pop()!, faceUp: true}]),
+        tricks: []
+      }
+      const setup: GameState = {
+        [Heir.WhiteTiger]: whiteTiger,
+        [Heir.BlackPanther]: blackPanther,
+        lead: Heir.WhiteTiger // TODO: heir with least crown in piles, or random
+      }
+      super(setup)
     } else {
       super(arg)
     }
   }
 
-  /**
-   * @return True when game is over
-   */
   isOver(): boolean {
-    return false
+    return this.getPlayers().some(player => player.score === 2)
   }
 
-  /**
-   * Retrieves the player which must act. It is used to secure the game and prevent players from acting outside their turns.
-   * Only required in a SequentialGame.
-   * @return The identifier of the player whose turn it is
-   */
+  getPlayers(): PlayerState[] {
+    return getPlayers(this.state)
+  }
+
   getActivePlayer(): Heir | undefined {
-    return undefined // You must return undefined only when game is over, otherwise the game will be blocked.
+    return this.state[this.state.lead].played ? otherHeir(this.state.lead) : this.state.lead
   }
 
   /**
@@ -67,10 +84,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * - A class that implements "Dummy" to provide a custom Dummy player.
    */
   getLegalMoves(): Move[] {
-    return [
-      {type: MoveType.SpendGold, playerId: this.getActivePlayer()!, quantity: 5},
-      {type: MoveType.DrawCard, playerId: this.getActivePlayer()!}
-    ]
+    const activePlayer = this.getActivePlayer()
+    if (!activePlayer) return []
+    const player = this.state[activePlayer]
+    return [...player.hand, ...player.piles.map(pile => pile[pile.length - 1].animal)].map(animal => playAnimalMove(activePlayer, animal))
   }
 
   /**
@@ -80,10 +97,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    */
   play(move: Move): void {
     switch (move.type) {
-      case MoveType.SpendGold:
-        return spendGold(this.state, move)
-      case MoveType.DrawCard:
-        return drawCard(this.state, move)
+      case MoveType.PlayAnimal:
+        return playAnimal(this.state, move)
+      case MoveType.WinTrick:
+        return winTrick(this.state, move)
     }
   }
 
@@ -101,15 +118,9 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @return The next automatic consequence that should be played in current game state.
    */
   getAutomaticMove(): void | Move {
-    /**
-     * Example:
-     * for (const player of this.state.players) {
-     *   if (player.mustDraw) {
-     *     return {type: MoveType.DrawCard, playerId: player.color}
-     *   }
-     * }
-     */
-    return
+    if (this.getPlayers().every(p => p.played)) {
+      return winTrickMove(Heir.WhiteTiger) // TODO: who wins the tricks
+    }
   }
 
   /**
@@ -117,18 +128,31 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @return What a person can see from the game state
    */
   getView(): GameView {
-    return {...this.state, deck: this.state.deck.length}
+    return {
+      [Heir.WhiteTiger]: this.getOtherPlayerView(Heir.WhiteTiger),
+      [Heir.BlackPanther]: this.getOtherPlayerView(Heir.BlackPanther)
+    }
   }
 
   /**
    * If you game has "SecretInformation", you must also implement "getPlayerView", returning the information visible by a specific player.
-   * @param playerId Identifier of the player
-   * @return what the player can see
+   * @param heir Identifier of the player
+   * @return GameView that the player is allowed to know
    */
-  getPlayerView(playerId: Heir): GameView {
-    console.log(playerId)
-    // Here we could, for example, return a "playerView" with only the number of cards in hand for the other player only.
-    return {...this.state, deck: this.state.deck.length}
+  getPlayerView(heir: Heir): GameView {
+    return {
+      [Heir.WhiteTiger]: heir === Heir.WhiteTiger ? this.getMyPlayerView(heir) : this.getOtherPlayerView(Heir.WhiteTiger),
+      [Heir.BlackPanther]: heir === Heir.BlackPanther ? this.getMyPlayerView(heir) : this.getOtherPlayerView(Heir.BlackPanther)
+    }
+  }
+
+  getOtherPlayerView(heir: Heir): OtherPlayerView {
+    return {...this.getMyPlayerView(heir), hand: this.state[heir].hand.length}
+  }
+
+  getMyPlayerView(heir: Heir): MyPlayerView {
+    const player = this.state[heir]
+    return {...player, piles: player.piles.map(pile => pile.map(card => card.faceUp ? card.animal : null))}
   }
 
   /**
@@ -137,7 +161,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * Sometime, you will hide information: for example if a player secretly choose a card, you will hide the card to the other players or spectators.
    *
    * @param move The move that has been played
-   * @return What a person should know about the move that was played
+   * @return MoveView with the information that a person should know about the move that was played
    */
   getMoveView(move: Move): MoveView {
     return move
@@ -150,13 +174,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    *
    * @param move The move that has been played
    * @param playerId Identifier of the player seeing the move
-   * @return What a person should know about the move that was played
+   * @return MoveView with the information that this player should know about the move that was played
    */
   getPlayerMoveView(move: Move, playerId: Heir): MoveView {
-    console.log(playerId)
-    if (move.type === MoveType.DrawCard && move.playerId === playerId) {
-      return {...move, card: this.state.deck[0]}
-    }
-    return move
+    console.log(playerId) // TODO: when a new round starts, then only the player can see the cards he received in hand
+    return this.getMoveView(move)
   }
 }

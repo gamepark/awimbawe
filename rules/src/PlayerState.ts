@@ -1,5 +1,11 @@
-import Heir from './Heir'
+import Animal from './Animal'
+import PileAnimal from './PileAnimal'
 
 export default interface PlayerState {
-  heir: Heir
+  score: number
+  hand: Animal[]
+  piles: PileAnimal[][]
+  played?: Animal
+  tricks: Animal[]
+  blockedAnimal?: Animal
 }

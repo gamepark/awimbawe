@@ -22,7 +22,7 @@ export type AwimbaweOptions = {
  * @return true if arg is a Game options
  */
 export function isGameOptions(arg: GameState | AwimbaweOptions): arg is AwimbaweOptions {
-  return typeof (arg as GameState).deck === 'undefined'
+  return typeof (arg as GameState)[Heir.WhiteTiger] === 'undefined'
 }
 
 /**

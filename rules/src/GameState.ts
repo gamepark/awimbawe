@@ -1,12 +1,18 @@
+import GameView, {PlayerView} from './GameView'
+import Heir from './Heir'
 import PlayerState from './PlayerState'
 
-/**
- * In here, you describe what a GameState will look like at any time during a game.
- */
 type GameState = {
-  players: PlayerState[]
-  round: number
-  deck: number[]
+  [Heir.WhiteTiger]: PlayerState
+  [Heir.BlackPanther]: PlayerState
+  lead: Heir
 }
 
 export default GameState
+
+export function getPlayers(state: GameState): PlayerState[]
+export function getPlayers(state: GameView): PlayerView[]
+export function getPlayers(state: GameState | GameView): (PlayerState | PlayerView)[]
+export function getPlayers(state: GameState | GameView): (PlayerState | PlayerView)[] {
+  return [state[Heir.WhiteTiger], state[Heir.BlackPanther]]
+}
