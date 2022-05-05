@@ -1,24 +1,35 @@
 /** @jsxImportSource @emotion/react */
-import {css, keyframes} from '@emotion/react'
+import { css, keyframes } from '@emotion/react'
 import Animal from '@gamepark/awimbawe/Animal'
 import GameView from '@gamepark/awimbawe/GameView'
-import {Letterbox} from '@gamepark/react-components'
+import Heir, { otherHeir } from '@gamepark/awimbawe/Heir'
+import { usePlayerId } from '@gamepark/react-client'
+import { Letterbox } from '@gamepark/react-components'
 import Card from './material/Card'
+import PlayerDisplay from './PlayerDisplay'
+
 
 type Props = {
   game: GameView
 }
 
 export default function GameDisplay({game}: Props) {
+  const playerId = usePlayerId<Heir>()
   return (
     <Letterbox css={letterBoxStyle} top={0}>
+      <PlayerDisplay player={game[otherHeir(playerId ?? Heir.WhiteTiger) ] } top={true}/>
+      <Card css={topPlayerHeir} animal={Animal.DesertElephant}/>
       <div css={sampleCss}>
-        {JSON.stringify(game)}
+        {/* {JSON.stringify(game)} */}
       </div>
-      <Card css={sampleCardCss} animal={Animal.GrasslandCheetah}/>
+      <Card css={bottomPlayerHeir} animal={Animal.GrasslandCheetah}/>          
+      <PlayerDisplay player={game[playerId ?? Heir.WhiteTiger]}/>
     </Letterbox>
   )
 }
+
+
+
 
 const fadeIn = keyframes`
   from, 50% {
@@ -44,7 +55,12 @@ const sampleCss = css`
   border-radius: 1em;
 `
 
-const sampleCardCss = css`
+const bottomPlayerHeir = css`
   bottom: 5em;
   left: 5em;
+`
+
+const topPlayerHeir = css`
+  top: 5em;
+  right: 5em;
 `
