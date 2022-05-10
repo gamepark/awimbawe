@@ -9,7 +9,7 @@ type Props = {
   animal?: Animal
 } & HTMLAttributes<HTMLDivElement>
 
-export default function Card({animal, ...props}: Props) {
+export default function AnimalCard({animal, ...props}: Props) {
   return (
     <div css={[style, animal ? front(animal) : hidden]} {...props}/>
   )

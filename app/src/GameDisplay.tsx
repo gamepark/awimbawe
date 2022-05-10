@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css, keyframes } from '@emotion/react'
-import Animal from '@gamepark/awimbawe/Animal'
 import GameView from '@gamepark/awimbawe/GameView'
 import Heir, { otherHeir } from '@gamepark/awimbawe/Heir'
 import { usePlayerId } from '@gamepark/react-client'
 import { Letterbox } from '@gamepark/react-components'
-import Card from './material/Card'
 import PlayerDisplay from './PlayerDisplay'
+import HeirCard from './material/HeirCard'
 
 
 type Props = {
@@ -18,11 +17,11 @@ export default function GameDisplay({game}: Props) {
   return (
     <Letterbox css={letterBoxStyle} top={0}>
       <PlayerDisplay player={game[otherHeir(playerId ?? Heir.WhiteTiger) ] } top={true}/>
-      <Card css={topPlayerHeir} animal={Animal.DesertElephant}/>
+      <HeirCard css={topPlayerHeir} heir={Heir.BlackPanther} flipped/>
       <div css={sampleCss}>
         {/* {JSON.stringify(game)} */}
       </div>
-      <Card css={bottomPlayerHeir} animal={Animal.GrasslandCheetah}/>          
+      <HeirCard css={bottomPlayerHeir} heir={Heir.WhiteTiger} flipped/>       
       <PlayerDisplay player={game[playerId ?? Heir.WhiteTiger]}/>
     </Letterbox>
   )
@@ -56,11 +55,11 @@ const sampleCss = css`
 `
 
 const bottomPlayerHeir = css`
-  bottom: 5em;
-  left: 5em;
+  bottom: 8em;
+  left: 3em;
 `
 
 const topPlayerHeir = css`
-  top: 5em;
-  right: 5em;
+  top: 8em;
+  right: 3em;
 `

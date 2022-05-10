@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { isOtherPlayerView, PlayerView } from '@gamepark/awimbawe/GameView'
 import { Hand } from '@gamepark/react-components'
-import Card from './material/Card'
+import AnimalCard from './material/AnimalCard'
 import { cardHeight, cardWidth, handLeft } from './styles'
 
 type Props = {
@@ -18,9 +18,9 @@ export default function PlayerHand({ player, top }: Props) {
         <Hand css={[handCss,top ? topCss : bottomCss]} >
             {isOtherPlayerView(player) ?
 
-                [...Array(player.hand)].map((_, index) => <Card key={index} />) :
+                [...Array(player.hand)].map((_, index) => <AnimalCard key={index} />) :
 
-                player.hand.map(animal => <Card key={animal} animal={animal} />)}
+                player.hand.map(animal => <AnimalCard key={animal} animal={animal} />)}
 
         </Hand>
 
@@ -43,12 +43,12 @@ const handCss = css`
 `
 
 const topCss = css`
-top: 4em;
+top: 10em;
 right: ${handLeft}em;
 transform: scaleY(-1);
 `
 
 const bottomCss = css`
-bottom: 4em;
+bottom: 10em;
 left: ${handLeft}em;
 `

@@ -27,13 +27,20 @@ import plainCheetah from './plain-cheetah.jpg'
 import plainHyena from './plain-hyena.jpg'
 import plainSnake from './plain-snake.jpg'
 import plainElephant from './plain-elephant.jpg'
+import blackPanther from './black-panther.jpg'
+import whiteTiger from './white-tiger.jpg'
+import blackPantherGold from './black-panther-gold.jpg'
+import whiteTigerGold from './white-tiger-gold.jpg'
 
 const Images = {
   cardBack, eagle7, eagle8, eagle9, eagle10,
   grasslandMouse, grasslandRhinoceros, grasslandCheetah, grasslandHyena, grasslandSnake, grasslandElephant,
   desertMouse, desertRhinoceros, desertCheetah, desertHyena, desertSnake, desertElephant,
   mountainMouse, mountainRhinoceros, mountainCheetah, mountainHyena, mountainSnake, mountainElephant,
-  plainMouse, plainRhinoceros, plainCheetah, plainHyena, plainSnake, plainElephant
+  plainMouse, plainRhinoceros, plainCheetah, plainHyena, plainSnake, plainElephant,
+
+  blackPanther,whiteTiger,
+  blackPantherGold,whiteTigerGold
 }
 
 export default Images
