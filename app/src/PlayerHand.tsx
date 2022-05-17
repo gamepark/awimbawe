@@ -36,14 +36,12 @@ export default function PlayerHand({ player, top }: Props) {
 
 const handCss = css`
   position: absolute;
-  
-  
   width: ${cardWidth}em;
   height: ${cardHeight}em;
 `
 
 const topCss = css`
-top: 10em;
+top: 16em;
 right: ${handLeft}em;
 transform: scaleY(-1);
 `

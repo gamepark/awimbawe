@@ -41,7 +41,13 @@ const style = css`
     background-image: url(${Images.cardBack});
     transform: rotateY(-180deg);
   }
+
+  &:hover {
+    transform: scale(1.2);
+    z-index: 1000000;
+  }
 `
+
 
 const front = (animal: Animal) => css`
   &:before {

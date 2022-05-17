@@ -37,8 +37,9 @@ const bottomCardPositionCss = (pileIndex: number, cardIndex: number) => css`
 
 `
 const topCardPositionCss = (pileIndex: number, cardIndex: number) => css`
-    bottom: ${64 + cardIndex * (cardHeight / 3)}em;
+    bottom: ${64 - cardIndex * (cardHeight / 3)}em;
     right: ${110 + pileIndex * (cardWidth + 1)}em;
+    
     
 
 

@@ -14,15 +14,17 @@ type Props = {
 
 export default function GameDisplay({game}: Props) {
   const playerId = usePlayerId<Heir>()
+  const bottomPlayerId = playerId ?? Heir.WhiteTiger
+  const topPlayerId = otherHeir(bottomPlayerId)
   return (
     <Letterbox css={letterBoxStyle} top={0}>
-      <PlayerDisplay player={game[otherHeir(playerId ?? Heir.WhiteTiger) ] } top={true}/>
+      <PlayerDisplay player={game[topPlayerId ] } top={true} heir={topPlayerId}/>
       <HeirCard css={topPlayerHeir} heir={Heir.BlackPanther} flipped/>
       <div css={sampleCss}>
         {/* {JSON.stringify(game)} */}
       </div>
       <HeirCard css={bottomPlayerHeir} heir={Heir.WhiteTiger} flipped/>       
-      <PlayerDisplay player={game[playerId ?? Heir.WhiteTiger]}/>
+      <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId}/>
     </Letterbox>
   )
 }
@@ -41,6 +43,7 @@ const fadeIn = keyframes`
 
 const letterBoxStyle = css`
   animation: ${fadeIn} 3s ease-in forwards;
+  border: 2px solid #fff
 `
 
 const sampleCss = css`
@@ -55,11 +58,12 @@ const sampleCss = css`
 `
 
 const bottomPlayerHeir = css`
-  bottom: 8em;
-  left: 3em;
+  bottom: 22em;
+  left: 1.5em;
 `
 
 const topPlayerHeir = css`
-  top: 8em;
-  right: 3em;
+  top: 22em;
+  right: 1.5em;
+  transform: rotateX(180deg)
 `
