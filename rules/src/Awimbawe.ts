@@ -1,15 +1,15 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import {animals} from './Animal'
+import Animal, {animals} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState, {getPlayers} from './GameState'
 import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
-import Heir, {otherHeir} from './Heir'
+import Heir, {heirs, otherHeir} from './Heir'
 import Move from './moves/Move'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
 import {playAnimal, playAnimalMove} from './moves/PlayAnimal'
-import {winTrick, winTrickMove} from './moves/WinTrick'
+import {getWinnerAnimal, winTrick, winTrickMove} from './moves/WinTrick'
 import PlayerState from './PlayerState'
 
 /**
@@ -118,8 +118,11 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @return The next automatic consequence that should be played in current game state.
    */
   getAutomaticMove(): void | Move {
-    if (this.getPlayers().every(p => p.played)) {
-      return winTrickMove(Heir.WhiteTiger) // TODO: who wins the tricks
+    if (this.state[Heir.WhiteTiger].played && this.state[Heir.BlackPanther].played) {
+      const animal1 = this.state[this.state.lead].played!
+      const animal2 = this.state[otherHeir(this.state.lead)].played!
+      const winner = getWinnerAnimal(animal1,animal2) === animal1 ? this.state.lead : otherHeir(this.state.lead)
+      return winTrickMove(winner) // TODO: who wins the tricks
     }
   }
 

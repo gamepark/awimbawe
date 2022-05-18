@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { isOtherPlayerView, PlayerView } from '@gamepark/awimbawe/GameView'
+import { usePlay } from '@gamepark/react-client'
 import { Hand } from '@gamepark/react-components'
 import AnimalCard from './material/AnimalCard'
 import { cardHeight, cardWidth, handLeft } from './styles'
@@ -11,11 +12,18 @@ type Props = {
 }
 
 export default function PlayerHand({ player, top }: Props) {
-
+    const play = usePlay()
     return (
 
 
-        <Hand css={[handCss,top ? topCss : bottomCss]} >
+        <Hand getItemProps={index => ({
+            drag: {
+                type: "animal",
+                item: {animal: !isOtherPlayerView(player) && player.hand[index] },
+                canDrag: !isOtherPlayerView(player),
+                drop: play
+            }
+        })} css={[handCss,top ? topCss : bottomCss]} >
             {isOtherPlayerView(player) ?
 
                 [...Array(player.hand)].map((_, index) => <AnimalCard key={index} />) :
