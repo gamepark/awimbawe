@@ -42,10 +42,6 @@ const style = css`
     transform: rotateY(-180deg);
   }
 
-  &:hover {
-    transform: scale(1.2);
-    z-index: 1000000;
-  }
 `
 
 

@@ -31,7 +31,7 @@ export default function PlayerDisplay({ player, top, heir }: Props) {
             <div css={[playerInfoCss, top ? topPlayerPosition : bottomPlayerPosition]} >
                 <Avatar playerId={heir} css={avatarCss} />
                 <h3 css={titleStyle}>
-                    <span css={[nameStyle]}>{info?.name ?? getPlayerName(heir, t)}</span>
+                    <span css={nameStyle}>{info?.name ?? getPlayerName(heir, t)}</span>
                     <PlayerTimer playerId={heir} css={css`flex-shrink: 0`} />
                     <GamePoints playerId={heir} css={css`flex-shrink: 0`} />
                 </h3>

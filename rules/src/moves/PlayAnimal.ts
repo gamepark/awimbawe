@@ -1,6 +1,6 @@
 import Animal from '../Animal'
 import GameState from '../GameState'
-import GameView, {isOtherPlayerView, isPlayerView} from '../GameView'
+import GameView, { isOtherPlayerView, isPlayerView } from '../GameView'
 import Heir from '../Heir'
 import MoveType from './MoveType'
 
@@ -13,14 +13,17 @@ type PlayAnimal = {
 export default PlayAnimal
 
 export function playAnimalMove(heir: Heir, animal: Animal): PlayAnimal {
-  return {type: MoveType.PlayAnimal, heir, animal}
+  return { type: MoveType.PlayAnimal, heir, animal }
 }
 
 export function playAnimal(state: GameState | GameView, move: PlayAnimal) {
   const player = state[move.heir]
   player.played = move.animal
   if (isOtherPlayerView(player)) {
-    player.hand--
+    const isFromPile = player.piles.some(pile => pile.includes(move.animal))
+    if (!isFromPile) {
+      player.hand--
+    }
   } else {
     player.hand = player.hand.filter(a => a !== move.animal)
   }

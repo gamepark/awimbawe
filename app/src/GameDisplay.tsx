@@ -6,6 +6,7 @@ import { usePlayerId } from '@gamepark/react-client'
 import { Letterbox } from '@gamepark/react-components'
 import PlayerDisplay from './PlayerDisplay'
 import HeirCard from './material/HeirCard'
+import PlayArea from './PlayArea'
 
 
 type Props = {
@@ -25,6 +26,7 @@ export default function GameDisplay({game}: Props) {
       </div>
       <HeirCard css={bottomPlayerHeir} heir={Heir.WhiteTiger} flipped/>       
       <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId}/>
+      {playerId && <PlayArea playerId={playerId}/>}
     </Letterbox>
   )
 }
