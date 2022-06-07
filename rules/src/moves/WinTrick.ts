@@ -1,5 +1,5 @@
 import Animal from '../Animal'
-import GameState, { getPlayers } from '../GameState'
+import GameState, {getPlayers} from '../GameState'
 import GameView from '../GameView'
 import Heir from '../Heir'
 import MoveType from './MoveType'
@@ -15,12 +15,6 @@ export function winTrickMove(heir: Heir): WinTrick {
   return { type: MoveType.WinTrick, heir }
 }
 
-
-
-
-
-
-
 export function winTrick(state: GameState | GameView, move: WinTrick) {
   const player = state[move.heir]
   const players = getPlayers(state)
@@ -28,9 +22,6 @@ export function winTrick(state: GameState | GameView, move: WinTrick) {
   players.forEach(p => delete p.played)
 }
 
-
-
-
-export function getWinnerAnimal(animal1: Animal, animal2: Animal) {
+export function getWinnerAnimal(animal1: Animal, _animal2: Animal) {
   return animal1
 }
