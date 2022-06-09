@@ -7,7 +7,7 @@ import { cardHeight, cardWidth } from '../styles'
 
 type Props = {
   heir: Heir
-  flipped: boolean
+  flipped?: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 export default function HeirCard({ heir, flipped, ...props }: Props) {

@@ -5,8 +5,10 @@ import Heir, { otherHeir } from '@gamepark/awimbawe/Heir'
 import { usePlayerId } from '@gamepark/react-client'
 import { Letterbox } from '@gamepark/react-components'
 import PlayerDisplay from './PlayerDisplay'
-import HeirCard from './material/HeirCard'
+import PlayDropArea from './PlayDropArea'
 import PlayArea from './PlayArea'
+import { getActivePlayer } from '@gamepark/awimbawe/Awimbawe'
+
 
 
 type Props = {
@@ -15,18 +17,21 @@ type Props = {
 
 export default function GameDisplay({game}: Props) {
   const playerId = usePlayerId<Heir>()
-  const bottomPlayerId = playerId ?? Heir.WhiteTiger
+  const bottomPlayerId = playerId ?? Heir.WhiteTiger  // what does mean "??" = fallback (valeur par défaut)
   const topPlayerId = otherHeir(bottomPlayerId)
   return (
     <Letterbox css={letterBoxStyle} top={0}>
-      <PlayerDisplay player={game[topPlayerId ] } top={true} heir={topPlayerId}/>
-      <HeirCard css={topPlayerHeir} heir={Heir.BlackPanther} flipped/>
+      <PlayerDisplay player={game[topPlayerId] } top heir={topPlayerId}/>
+
       <div css={sampleCss}>
         {/* {JSON.stringify(game)} */}
       </div>
-      <HeirCard css={bottomPlayerHeir} heir={Heir.WhiteTiger} flipped/>       
-      <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId}/>
-      {playerId && <PlayArea playerId={playerId}/>}
+        
+      <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId} canPlay={getActivePlayer(game)===bottomPlayerId}/> 
+
+      <PlayArea bottomAnimal={game[bottomPlayerId].played} topAnimal={game[topPlayerId].played}/>
+      {playerId && <PlayDropArea playerId={playerId}/>}
+
     </Letterbox>
   )
 }
@@ -59,13 +64,3 @@ const sampleCss = css`
   border-radius: 1em;
 `
 
-const bottomPlayerHeir = css`
-  bottom: 22em;
-  left: 1.5em;
-`
-
-const topPlayerHeir = css`
-  top: 22em;
-  right: 1.5em;
-  transform: rotateX(180deg)
-`

@@ -1,51 +1,30 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react"
-import Animal from "@gamepark/awimbawe/Animal"
-import Heir from "@gamepark/awimbawe/Heir"
-import { playAnimalMove } from "@gamepark/awimbawe/moves/PlayAnimal"
-import { useDrop } from "react-dnd"
+import { css } from '@emotion/react'
+import Animal from "@gamepark/awimbawe/Animal";
+import AnimalCard from "./material/AnimalCard";
 
 type Props = {
-    playerId : Heir
-}
+  bottomAnimal?: Animal;
+  topAnimal?: Animal;
+};
 
-export default function PlayArea({playerId}: Props) {
-    const [{ isOver }, dropRef] = useDrop({
-        accept: "animal",
-        collect: monitor => ({
-            isOver: monitor.isOver()
-        }),
-        drop: (item: {animal:Animal}) => playAnimalMove(playerId,item.animal)
-    })
-    return (
-
-        <div ref={dropRef} css={[styleCss, isOver && overCss]}>
-
-        </div>
-
-
-
-    )
-
-
-
-
-
-
+export default function PlayArea({ bottomAnimal, topAnimal }: Props) {
+  return (
+    <>
+      {bottomAnimal && <AnimalCard animal={bottomAnimal} css={bottomAnimalCss} />}
+      {topAnimal && <AnimalCard animal={topAnimal} css={topAnimalCss} />}
+    </>
+  );
 }
 
 
-
-const styleCss = css`
-position: absolute;
-height: 10em ;
-width: 50em ;
-top: 50em;
-left: 50em;
-border: 2px solid #fff;
+const bottomAnimalCss = css`
+  bottom: 35em;
+  left: 80em;
 `
 
-const overCss = css`
-background-color: rgba(0, 255, 0, 0.5);
-
+const topAnimalCss = css`
+  top: 40em;
+  right: 78em; //68vh
+  transform: rotateZ(180deg)
 `

@@ -70,7 +70,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   }
 
   getActivePlayer(): Heir | undefined {
-    return this.state[this.state.lead].played ? otherHeir(this.state.lead) : this.state.lead
+    return getActivePlayer(this.state)
   }
 
   /**
@@ -88,6 +88,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     if (!activePlayer) return []
     const player = this.state[activePlayer]
     return [...player.hand, ...player.piles.map(pile => pile[pile.length - 1].animal)].map(animal => playAnimalMove(activePlayer, animal))
+    // TODO pouvoir serpent bloquant la carte
   }
 
   /**
@@ -98,9 +99,11 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   play(move: Move): void {
     switch (move.type) {
       case MoveType.PlayAnimal:
-        return playAnimal(this.state, move)
+        playAnimal(this.state, move)
+        break 
       case MoveType.WinTrick:
-        return winTrick(this.state, move)
+        winTrick(this.state, move)
+        break
     }
   }
 
@@ -122,7 +125,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
       const animal1 = this.state[this.state.lead].played!
       const animal2 = this.state[otherHeir(this.state.lead)].played!
       const winner = getWinnerAnimal(animal1,animal2) === animal1 ? this.state.lead : otherHeir(this.state.lead)
-      return winTrickMove(winner) // TODO: who wins the tricks
+      return winTrickMove(winner) 
     }
   }
 
@@ -133,7 +136,8 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   getView(): GameView {
     return {
       [Heir.WhiteTiger]: this.getOtherPlayerView(Heir.WhiteTiger),
-      [Heir.BlackPanther]: this.getOtherPlayerView(Heir.BlackPanther)
+      [Heir.BlackPanther]: this.getOtherPlayerView(Heir.BlackPanther),
+      lead : this.state.lead 
     }
   }
 
@@ -145,7 +149,8 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   getPlayerView(heir: Heir): GameView {
     return {
       [Heir.WhiteTiger]: heir === Heir.WhiteTiger ? this.getMyPlayerView(heir) : this.getOtherPlayerView(Heir.WhiteTiger),
-      [Heir.BlackPanther]: heir === Heir.BlackPanther ? this.getMyPlayerView(heir) : this.getOtherPlayerView(Heir.BlackPanther)
+      [Heir.BlackPanther]: heir === Heir.BlackPanther ? this.getMyPlayerView(heir) : this.getOtherPlayerView(Heir.BlackPanther),
+      lead : this.state.lead 
     }
   }
 
@@ -183,4 +188,8 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     console.log(playerId) // TODO: when a new round starts, then only the player can see the cards he received in hand
     return this.getMoveView(move)
   }
+}
+
+export function getActivePlayer(state : GameState | GameView): Heir | undefined {
+  return state[state.lead].played ? otherHeir(state.lead) : state.lead
 }

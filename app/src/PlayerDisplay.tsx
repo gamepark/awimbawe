@@ -5,6 +5,7 @@ import { PlayerView } from '@gamepark/awimbawe/GameView'
 import Heir from '@gamepark/awimbawe/Heir'
 import { Avatar, GamePoints, PlayerTimer, usePlayer } from '@gamepark/react-client'
 import { useTranslation } from 'react-i18next'
+import HeirCard from './material/HeirCard'
 import PlayerHand from './PlayerHand'
 import PlayerPiles from './PlayerPiles'
 import { headerHeight } from './styles'
@@ -15,16 +16,20 @@ type Props = {
     heir : Heir
     player: PlayerView
     top?: boolean
+    canPlay?: boolean
 }
 
-export default function PlayerDisplay({ player, top, heir }: Props) {
+export default function PlayerDisplay({ player, top, heir, canPlay = false }: Props) {
     const info = usePlayer(heir)
     const {t} = useTranslation()
     return (
         <>
+            <HeirCard css={top ? topPlayerHeir : bottomPlayerHeir} heir={heir}/>
 
             <PlayerHand player={player}
-                top={top} />
+                top={top}
+                canPlay={canPlay}
+                />
 
             <PlayerPiles top={top} piles={player.piles} />
 
@@ -62,7 +67,16 @@ right: 45em;
   top: ${headerHeight + 1}em
 `
 
+const bottomPlayerHeir = css`
+  bottom: 22em;
+  left: 1.5em;
+`
 
+const topPlayerHeir = css`
+  top: 22em;
+  right: 1.5em;
+  transform: rotateZ(180deg);
+`
 
 const avatarCss = css`
   position: absolute;

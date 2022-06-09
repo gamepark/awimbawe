@@ -24,4 +24,5 @@ export function winTrick(state: GameState | GameView, move: WinTrick) {
 
 export function getWinnerAnimal(animal1: Animal, _animal2: Animal) {
   return animal1
+  // TODO règle animal vainqueur du pli
 }

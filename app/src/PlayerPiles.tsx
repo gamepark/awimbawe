@@ -49,14 +49,14 @@ export default function PlayerPiles({ piles, top }: Props) {
 const bottomCardPositionCss = (pileIndex: number, cardIndex: number) => css`
     position: absolute;
     top: ${64 + cardIndex * (cardHeight / 3)}em;
-    left: ${110 + pileIndex * (cardWidth + 1)}em;
+    left: ${105 + pileIndex * (cardWidth + 1)}em;
 
 
 `
 const topCardPositionCss = (pileIndex: number, cardIndex: number) => css`
     position: absolute;
     bottom: ${64 - cardIndex * (cardHeight / 3)}em;
-    right: ${110 + pileIndex * (cardWidth + 1)}em;
+    right: ${105 + pileIndex * (cardWidth + 1)}em;
     
     
 

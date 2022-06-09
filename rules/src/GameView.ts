@@ -7,7 +7,9 @@ import PlayerState from './PlayerState'
  * It usually derives from the GameState, because only a few properties change.
  */
 type GameView = {
-  [key in Heir]: PlayerView
+  [Heir.WhiteTiger]: PlayerView
+  [Heir.BlackPanther]: PlayerView  
+  lead : Heir
 }
 
 export default GameView

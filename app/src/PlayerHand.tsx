@@ -9,18 +9,19 @@ import { cardHeight, cardWidth, handLeft } from './styles'
 type Props = {
     player: PlayerView
     top?: boolean
+    canPlay?: boolean
 }
 
-export default function PlayerHand({ player, top }: Props) {
+export default function PlayerHand({ player, top, canPlay = false }: Props) {
     const play = usePlay()
     return (
 
-
+        // TODO gestion de cartes jouées
         <Hand getItemProps={index => ({
             drag: {
                 type: "animal",
                 item: {animal: !isOtherPlayerView(player) && player.hand[index] },
-                canDrag: !isOtherPlayerView(player),
+                canDrag: !isOtherPlayerView(player) && canPlay,
                 drop: play
             }
         })} css={[handCss,top ? topCss : bottomCss]} >
