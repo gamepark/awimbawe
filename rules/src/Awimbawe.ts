@@ -1,6 +1,6 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import {animals} from './Animal'
+import Animal, {animals, sameSuit} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState, {getPlayers} from './GameState'
 import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
@@ -87,7 +87,16 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     const activePlayer = this.getActivePlayer()
     if (!activePlayer) return []
     const player = this.state[activePlayer]
-    return [...player.hand, ...player.piles.map(pile => pile[pile.length - 1].animal)].map(animal => playAnimalMove(activePlayer, animal))
+    if (activePlayer === this.state.lead){
+      return getAvaibleCards(player).map(animal => playAnimalMove(activePlayer, animal))
+    }else{
+      const opponentAnimal = this.state[otherHeir(activePlayer)].played!
+
+      return getAvaibleCards(player)
+      .filter((animal, _ ,avaiblecards) => canPlay(animal,opponentAnimal,avaiblecards))
+      .map(animal => playAnimalMove(activePlayer, animal))
+
+    }
     // TODO pouvoir serpent bloquant la carte
   }
 
@@ -192,4 +201,15 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
 
 export function getActivePlayer(state : GameState | GameView): Heir | undefined {
   return state[state.lead].played ? otherHeir(state.lead) : state.lead
+}
+
+export function getAvaibleCards(player : PlayerState) {
+  return [...player.hand, ...player.piles.filter(pile => pile.length>0).map(pile => pile[pile.length - 1].animal)]
+}
+
+export function canPlay(animal : Animal, opponentAnimal : Animal, avaibleCards : Animal[]){
+  if(avaibleCards.some(avaiblecard => sameSuit(avaiblecard,opponentAnimal))){
+    return sameSuit(animal,opponentAnimal)
+  }
+  return false //TODO aigle+défausse
 }

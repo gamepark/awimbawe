@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next'
 import HeirCard from './material/HeirCard'
 import PlayerHand from './PlayerHand'
 import PlayerPiles from './PlayerPiles'
+import PlayerTricks from './PlayerTricks'
 import { headerHeight } from './styles'
 
 
@@ -33,6 +34,8 @@ export default function PlayerDisplay({ player, top, heir, canPlay = false }: Pr
 
             <PlayerPiles top={top} piles={player.piles} />
 
+            <PlayerTricks top={top} tricks={player.tricks}/> 
+
             <div css={[playerInfoCss, top ? topPlayerPosition : bottomPlayerPosition]} >
                 <Avatar playerId={heir} css={avatarCss} />
                 <h3 css={titleStyle}>
@@ -48,7 +51,6 @@ export default function PlayerDisplay({ player, top, heir, canPlay = false }: Pr
 }
 
 
-
 const playerInfoCss = css`
   position: absolute;
   height: 5em;
@@ -58,24 +60,26 @@ const playerInfoCss = css`
 `
 
 const bottomPlayerPosition = css`
-left: 45em;
-  bottom: 1em
+  left: 45em;
+  bottom: 1em;
 `
 
 const topPlayerPosition = css`
-right: 45em;
-  top: ${headerHeight + 1}em
+  right: 45em;
+  top: ${headerHeight + 1}em;
 `
 
 const bottomPlayerHeir = css`
-  bottom: 22em;
+  bottom: 1.5em;
   left: 1.5em;
+  z-index: 1;
 `
 
 const topPlayerHeir = css`
-  top: 22em;
+  top: ${1.5 + headerHeight}em;
   right: 1.5em;
   transform: rotateZ(180deg);
+  z-index: 1;
 `
 
 const avatarCss = css`

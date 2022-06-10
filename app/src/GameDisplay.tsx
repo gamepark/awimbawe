@@ -31,6 +31,7 @@ export default function GameDisplay({game}: Props) {
 
       <PlayArea bottomAnimal={game[bottomPlayerId].played} topAnimal={game[topPlayerId].played}/>
       {playerId && <PlayDropArea playerId={playerId}/>}
+      
 
     </Letterbox>
   )

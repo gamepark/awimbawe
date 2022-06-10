@@ -16,11 +16,29 @@ export function isEagle(animal: Animal) {
   return animal <= 10
 }
 
+export function isHyena(animal: Animal) {
+  return animal % 10 == 4
+}
+
+export function isMouse(animal: Animal){
+  return animal % 10 == 1
+}
+
+export function isElephant(animal: Animal){
+  return animal % 10 == 6
+}
+
 export function getAnimalPower(animal: Animal) {
   return isEagle(animal) ? animal : animal % 10
 }
 
+// export function sameAnimal(animal1 : Animal , animal2 : Animal){
+//   return animal1 % 10 == animal2 % 10
+// }
 
+export function sameSuit(animal1 : Animal, animal2: Animal){
+  return Math.floor((animal1-1)/10) === Math.floor((animal2-1)/10)
+}
 
 
 
