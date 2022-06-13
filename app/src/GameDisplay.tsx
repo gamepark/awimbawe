@@ -30,7 +30,7 @@ export default function GameDisplay({game}: Props) {
       <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId} canPlay={getActivePlayer(game)===bottomPlayerId}/> 
 
       <PlayArea bottomAnimal={game[bottomPlayerId].played} topAnimal={game[topPlayerId].played}/>
-      {playerId && <PlayDropArea playerId={playerId}/>}
+      {playerId && <PlayDropArea playerId={playerId} game={game}/>}
       
 
     </Letterbox>

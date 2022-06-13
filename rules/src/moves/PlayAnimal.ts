@@ -31,5 +31,6 @@ export function playAnimal(state: GameState | GameView, move: PlayAnimal) {
     player.piles = player.piles.map(p => p.filter(pileAnimal => pileAnimal !== move.animal))
   } else {
     player.piles = player.piles.map(p => p.filter(pileAnimal => pileAnimal.animal !== move.animal))
+    //serpent
   }
 }

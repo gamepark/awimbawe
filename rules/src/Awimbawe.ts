@@ -1,6 +1,6 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import Animal, {animals, sameSuit} from './Animal'
+import Animal, {animals, isEagle, sameSuit} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState, {getPlayers} from './GameState'
 import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
@@ -207,9 +207,14 @@ export function getAvaibleCards(player : PlayerState) {
   return [...player.hand, ...player.piles.filter(pile => pile.length>0).map(pile => pile[pile.length - 1].animal)]
 }
 
-export function canPlay(animal : Animal, opponentAnimal : Animal, avaibleCards : Animal[]){
+export function canPlay(animal : Animal, opponentAnimal : Animal, avaibleCards : Animal[]) : boolean{
   if(avaibleCards.some(avaiblecard => sameSuit(avaiblecard,opponentAnimal))){
-    return sameSuit(animal,opponentAnimal)
+   return sameSuit(animal,opponentAnimal)
+  }else if(avaibleCards.some(avaiblecards => isEagle(avaiblecards))){
+    return isEagle(animal)
+  }else{
+    return true
   }
-  return false //TODO aigle+défausse
+
+  // return false //TODO aigle+défausse
 }
