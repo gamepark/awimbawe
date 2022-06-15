@@ -4,11 +4,12 @@ import Animal, {animals, isEagle, sameSuit} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState, {getPlayers} from './GameState'
 import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
-import Heir, {otherHeir} from './Heir'
+import Heir, {heirs, otherHeir} from './Heir'
 import Move from './moves/Move'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
 import {playAnimal, playAnimalMove} from './moves/PlayAnimal'
+import { revealAnimal, revealAnimalMove } from './moves/RevealAnimal'
 import {getWinnerAnimal, winTrick, winTrickMove} from './moves/WinTrick'
 import PlayerState from './PlayerState'
 
@@ -113,6 +114,9 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
       case MoveType.WinTrick:
         winTrick(this.state, move)
         break
+      case MoveType.RevealAnimal:
+        revealAnimal(this.state, move)
+        break
     }
   }
 
@@ -129,12 +133,22 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    *
    * @return The next automatic consequence that should be played in current game state.
    */
-  getAutomaticMove(): void | Move {
+  getAutomaticMove(): void | Move | Move[] {
     if (this.state[Heir.WhiteTiger].played && this.state[Heir.BlackPanther].played) {
       const animal1 = this.state[this.state.lead].played!
       const animal2 = this.state[otherHeir(this.state.lead)].played!
       const winner = getWinnerAnimal(animal1,animal2) === animal1 ? this.state.lead : otherHeir(this.state.lead)
-      return winTrickMove(winner) 
+      const moves:Move[] = [winTrickMove(winner)]
+      for(const heir of heirs){
+        const player = this.state[heir]
+        for(let pileIndex=0; pileIndex<player.piles.length;pileIndex++){
+          const pile = player.piles[pileIndex]
+          if(pile.length > 0 && !pile[pile.length-1].faceUp){
+            moves.push(revealAnimalMove(heir,pileIndex))
+          }
+        }
+      }
+      return moves
     }
   }
 
@@ -181,6 +195,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @return MoveView with the information that a person should know about the move that was played
    */
   getMoveView(move: Move): MoveView {
+    if(move.type === MoveType.RevealAnimal){
+      const pile = this.state[move.heir].piles[move.pileIndex]
+      return {...move,animal: pile[pile.length-1].animal}
+    }
     return move
   }
 
@@ -215,6 +233,4 @@ export function canPlay(animal : Animal, opponentAnimal : Animal, avaibleCards :
   }else{
     return true
   }
-
-  // return false //TODO aigle+défausse
 }

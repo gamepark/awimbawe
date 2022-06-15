@@ -1,19 +1,20 @@
-import GameView from '@gamepark/awimbawe/GameView'
-import MoveType from '@gamepark/awimbawe/moves/MoveType'
-import MoveView from '@gamepark/awimbawe/moves/MoveView'
-import {playAnimal} from '@gamepark/awimbawe/moves/PlayAnimal'
-import {winTrick} from '@gamepark/awimbawe/moves/WinTrick'
-import {Game} from '@gamepark/rules-api'
+import GameView from "@gamepark/awimbawe/GameView";
+import MoveType from "@gamepark/awimbawe/moves/MoveType";
+import MoveView from "@gamepark/awimbawe/moves/MoveView";
+import { playAnimal } from "@gamepark/awimbawe/moves/PlayAnimal";
+import {revealAnimalInView } from "@gamepark/awimbawe/moves/RevealAnimal";
+import { winTrick } from "@gamepark/awimbawe/moves/WinTrick";
+import { Game } from "@gamepark/rules-api";
 
 /**
  * This class is useful when the game has "IncompleteInformation" (or "SecretInformation").
  * It allows to handle, in a different way than the backend side, the moves that involve hidden information.
  */
 export default class AwimbaweView implements Game<GameView, MoveView> {
-  state: GameView
+  state: GameView;
 
   constructor(state: GameView) {
-    this.state = state
+    this.state = state;
   }
 
   /**
@@ -24,7 +25,7 @@ export default class AwimbaweView implements Game<GameView, MoveView> {
    * @return A MoveView which can be completely anticipated by the player or the spectator
    */
   getAutomaticMove(): void | MoveView {
-    return
+    return;
   }
 
   /**
@@ -36,9 +37,12 @@ export default class AwimbaweView implements Game<GameView, MoveView> {
   play(move: MoveView): void {
     switch (move.type) {
       case MoveType.PlayAnimal:
-        return playAnimal(this.state, move)
+        return playAnimal(this.state, move);
       case MoveType.WinTrick:
-        return winTrick(this.state, move)
+        return winTrick(this.state, move);
+      case MoveType.RevealAnimal:
+        revealAnimalInView(this.state, move);
+        break;
     }
   }
 }
