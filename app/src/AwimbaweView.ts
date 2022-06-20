@@ -1,12 +1,12 @@
-import GameView from "@gamepark/awimbawe/GameView";
-import { blockAnimal } from "@gamepark/awimbawe/moves/BlockAnimal";
-import { movePileAnimal } from "@gamepark/awimbawe/moves/MovePileAnimal";
-import MoveType from "@gamepark/awimbawe/moves/MoveType";
-import MoveView from "@gamepark/awimbawe/moves/MoveView";
-import { playAnimal } from "@gamepark/awimbawe/moves/PlayAnimal";
-import {revealAnimalInView } from "@gamepark/awimbawe/moves/RevealAnimal";
-import { winTrick } from "@gamepark/awimbawe/moves/WinTrick";
-import { Game } from "@gamepark/rules-api";
+import GameView from '@gamepark/awimbawe/GameView'
+import {blockAnimal} from '@gamepark/awimbawe/moves/BlockAnimal'
+import {movePileAnimal} from '@gamepark/awimbawe/moves/MovePileAnimal'
+import MoveType from '@gamepark/awimbawe/moves/MoveType'
+import MoveView from '@gamepark/awimbawe/moves/MoveView'
+import {playAnimalInView} from '@gamepark/awimbawe/moves/PlayAnimal'
+import {revealAnimalInView} from '@gamepark/awimbawe/moves/RevealAnimal'
+import {winTrick} from '@gamepark/awimbawe/moves/WinTrick'
+import {Game} from '@gamepark/rules-api'
 
 /**
  * This class is useful when the game has "IncompleteInformation" (or "SecretInformation").
@@ -39,7 +39,7 @@ export default class AwimbaweView implements Game<GameView, MoveView> {
   play(move: MoveView): void {
     switch (move.type) {
       case MoveType.PlayAnimal:
-        playAnimal(this.state, move);
+        playAnimalInView(this.state, move);
         break;
       case MoveType.WinTrick:
         winTrick(this.state, move);

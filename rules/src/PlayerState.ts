@@ -1,12 +1,12 @@
 import Animal from './Animal'
 import PileAnimal from './PileAnimal'
+import StockAnimal from './StockAnimal'
 
 export default interface PlayerState {
   score: number
-  hand: Animal[]
+  hand: StockAnimal[]
   piles: PileAnimal[][]
   played?: Animal
   tricks: Animal[]
   pendingPower?: boolean
-  blockedAnimal?: Animal
 }

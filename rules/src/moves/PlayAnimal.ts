@@ -1,7 +1,8 @@
-import Animal, { isRhinoceros } from '../Animal'
+import Animal, {isRhinoceros} from '../Animal'
 import GameState from '../GameState'
-import GameView, { isOtherPlayerView, isPlayerView } from '../GameView'
+import GameView, {getCardAnimal, PlayerView} from '../GameView'
 import Heir from '../Heir'
+import PlayerState from '../PlayerState'
 import MoveType from './MoveType'
 
 type PlayAnimal = {
@@ -12,28 +13,36 @@ type PlayAnimal = {
 
 export default PlayAnimal
 
-export function playAnimalMove(heir: Heir, animal: Animal): PlayAnimal {
-  return { type: MoveType.PlayAnimal, heir, animal }
+export type PlayAnimalView = PlayAnimal & {
+  handIndex?: number
 }
 
-export function playAnimal(state: GameState | GameView, move: PlayAnimal) {
+export function playAnimalMove(heir: Heir, animal: Animal): PlayAnimal {
+  return {type: MoveType.PlayAnimal, heir, animal}
+}
+
+export function playAnimal(state: GameState, move: PlayAnimal) {
   const player = state[move.heir]
-  player.played = move.animal
-  if(isRhinoceros(move.animal) /*|| isSerpent(move.animal)*/){ 
-    player.pendingPower = true 
-  }
-  if (isOtherPlayerView(player)) {
-    const isFromPile = player.piles.some(pile => pile.includes(move.animal))
-    if (!isFromPile) {
-      player.hand--
-    }
+  putAnimalInPlayArea(player, move.animal)
+  player.hand = player.hand.filter(card => card.animal !== move.animal)
+  player.piles = player.piles.map(p => p.filter(pileAnimal => pileAnimal.animal !== move.animal))
+}
+
+export function playAnimalInView(state: GameView, move: PlayAnimalView) {
+  const player = state[move.heir]
+  putAnimalInPlayArea(player, move.animal)
+  const isFromPile = player.piles.some(pile => pile.some(card => card.animal === move.animal))
+  if (isFromPile) {
+    player.piles = player.piles.map(p => p.filter(card => card.animal !== move.animal))
   } else {
-    player.hand = player.hand.filter(a => a !== move.animal)
+    const handIndex = move.handIndex ?? player.hand.findIndex(card => getCardAnimal(card) === move.animal)
+    player.hand.splice(handIndex, 1)
   }
-  if (isPlayerView(player)) {
-    player.piles = player.piles.map(p => p.filter(pileAnimal => pileAnimal !== move.animal))
-  } else {
-    player.piles = player.piles.map(p => p.filter(pileAnimal => pileAnimal.animal !== move.animal))
-    //serpent
+}
+
+function putAnimalInPlayArea(player: PlayerState | PlayerView, animal: Animal) {
+  player.played = animal
+  if (isRhinoceros(animal) /*|| isSerpent(move.animal)*/) {
+    player.pendingPower = true
   }
 }

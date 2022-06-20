@@ -1,7 +1,6 @@
-import Animal from './Animal'
+import StockAnimal from './StockAnimal'
 
-type PileAnimal = {
-  animal: Animal
+type PileAnimal = StockAnimal & {
   faceUp?: boolean
 }
 

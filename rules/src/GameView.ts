@@ -1,6 +1,7 @@
 import Animal from './Animal'
 import Heir from './Heir'
 import PlayerState from './PlayerState'
+import StockAnimal from './StockAnimal'
 
 /**
  * In here, you describe what a GameView will look like at any time during a game.
@@ -8,8 +9,8 @@ import PlayerState from './PlayerState'
  */
 type GameView = {
   [Heir.WhiteTiger]: PlayerView
-  [Heir.BlackPanther]: PlayerView  
-  lead : Heir
+  [Heir.BlackPanther]: PlayerView
+  lead: Heir
 }
 
 export default GameView
@@ -17,15 +18,19 @@ export default GameView
 export type PlayerView = MyPlayerView | OtherPlayerView
 
 export type MyPlayerView = Omit<PlayerState, 'piles'> & {
-  piles: (Animal | null)[][]
+  piles: Partial<StockAnimal>[][]
 }
 
 export type OtherPlayerView = Omit<MyPlayerView, 'hand'> & {
-  hand: number
+  hand: Omit<StockAnimal, 'animal'>[]
 }
 
-export function isOtherPlayerView(player: PlayerState | PlayerView): player is OtherPlayerView {
-  return typeof player.hand === 'number'
+export function isKnownCard(card: Partial<StockAnimal>): card is StockAnimal {
+  return (card as StockAnimal).animal !== undefined
+}
+
+export function getCardAnimal(card: Partial<StockAnimal>): Animal | undefined {
+  return isKnownCard(card) ? card.animal : undefined
 }
 
 export function isPlayerView(player: PlayerState | PlayerView): player is PlayerView {

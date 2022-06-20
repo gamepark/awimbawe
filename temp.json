@@ -1,0 +1,96 @@
+{
+  "1": {
+    "score": 0,
+    "hand": [
+      {},
+      {},
+      {},
+      {},
+      {}
+    ],
+    "piles": [
+      [
+        {},
+        {
+          "animal": 35,
+          "faceUp": true
+        }
+      ],
+      [
+        {},
+        {
+          "animal": 46,
+          "faceUp": true
+        }
+      ],
+      [
+        {},
+        {
+          "animal": 42,
+          "faceUp": true
+        }
+      ],
+      [
+        {
+          "animal": 32,
+          "faceUp": true
+        }
+      ]
+    ],
+    "tricks": [],
+    "played": 12,
+    "pendingPower": true
+  },
+  "2": {
+    "score": 0,
+    "hand": [
+      {
+        "animal": 26
+      },
+      {
+        "animal": 24
+      },
+      {
+        "animal": 8
+      },
+      {
+        "animal": 43
+      },
+      {
+        "animal": 34
+      }
+    ],
+    "piles": [
+      [
+        {},
+        {
+          "animal": 25,
+          "faceUp": true
+        }
+      ],
+      [
+        {}
+      ],
+      [
+        {},
+        {
+          "animal": 16,
+          "faceUp": true
+        }
+      ],
+      [
+        {},
+        {
+          "animal": 15,
+          "faceUp": true
+        }
+      ]
+    ],
+    "tricks": [
+      44,
+      45
+    ],
+    "played": 14
+  },
+  "lead": 2
+}

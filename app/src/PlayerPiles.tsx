@@ -1,15 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
-import Animal from '@gamepark/awimbawe/Animal'
+import {css} from '@emotion/react'
+import {getCardAnimal, isKnownCard} from '@gamepark/awimbawe/GameView'
+import StockAnimal from '@gamepark/awimbawe/StockAnimal'
 // import { getActivePlayer } from '@gamepark/awimbawe/Awimbawe'
 // import { otherHeir } from '@gamepark/awimbawe/Heir'
-import { usePlay } from '@gamepark/react-client'
-import { Draggable } from '@gamepark/react-components'
+import {usePlay} from '@gamepark/react-client'
+import {Draggable} from '@gamepark/react-components'
 import AnimalCard from './material/AnimalCard'
-import { cardHeight, cardWidth, headerHeight, topPileLeft } from './styles'
+import {cardHeight, cardWidth, headerHeight, topPileLeft} from './styles'
 
 type Props = {
-    piles: (Animal | null)[][]
+    piles: Partial<StockAnimal>[][]
     top?: boolean
     draggable : boolean
 }
@@ -20,16 +21,15 @@ export default function PlayerPiles({ piles, top, draggable }: Props) {
         <>
 
             {piles.map((pile, pileIndex) =>
-                pile.map((animal, cardIndex) =>
+                pile.map((card, cardIndex) =>
                         <Draggable css={top ? topCardPositionCss(pileIndex, cardIndex) : bottomCardPositionCss(pileIndex, cardIndex)}
-                            key={animal ?? pileIndex + "_" + cardIndex}
+                            key={isKnownCard(card) ? card.animal : pileIndex + "_" + cardIndex}
                             type="animal"
-                            item={{ animal, pileIndex }}
+                            item={{ animal: getCardAnimal(card), pileIndex }}
                             canDrag={draggable && cardIndex == pile.length - 1}
                             drop={play}>
 
-                            <AnimalCard
-                                animal={animal ?? undefined} />
+                            <AnimalCard animal={getCardAnimal(card)} />
                         </Draggable>
                 )
 
