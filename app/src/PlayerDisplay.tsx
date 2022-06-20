@@ -3,9 +3,10 @@ import { css } from '@emotion/react'
 import { getPlayerName } from '@gamepark/awimbawe/AwimbaweOptions'
 import { PlayerView } from '@gamepark/awimbawe/GameView'
 import Heir from '@gamepark/awimbawe/Heir'
-import { Avatar, GamePoints, PlayerTimer, usePlayer } from '@gamepark/react-client'
+import { Avatar, GamePoints, PlayerTimer, usePlayer, usePlayerId } from '@gamepark/react-client'
 import { useTranslation } from 'react-i18next'
 import HeirCard from './material/HeirCard'
+import PileDropArea from './PileDropArea'
 import PlayerHand from './PlayerHand'
 import PlayerPiles from './PlayerPiles'
 import PlayerTricks from './PlayerTricks'
@@ -17,22 +18,27 @@ type Props = {
     heir : Heir
     player: PlayerView
     top?: boolean
-    canPlay?: boolean
+    isActive: boolean
+    canMovePile?: boolean
 }
 
-export default function PlayerDisplay({ player, top, heir, canPlay = false }: Props) {
+export default function PlayerDisplay({ player, top, heir, isActive, canMovePile = false}: Props) {
     const info = usePlayer(heir)
     const {t} = useTranslation()
+    const playerId = usePlayerId<Heir>()
     return (
         <>
             <HeirCard css={top ? topPlayerHeir : bottomPlayerHeir} heir={heir}/>
 
             <PlayerHand player={player}
                 top={top}
-                canPlay={canPlay}
+                canDrag={isActive && playerId===heir && !player.pendingPower}
                 />
 
-            <PlayerPiles top={top} piles={player.piles} />
+            <PlayerPiles top={top} piles={player.piles} draggable={canMovePile || (isActive && playerId===heir && !player.pendingPower)} />
+
+            {canMovePile && player.piles.map((_,pileIndex) => <PileDropArea pileIndex={pileIndex} key={pileIndex} />)}
+            
 
             <PlayerTricks top={top} tricks={player.tricks}/> 
 

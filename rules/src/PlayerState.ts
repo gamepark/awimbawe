@@ -7,5 +7,6 @@ export default interface PlayerState {
   piles: PileAnimal[][]
   played?: Animal
   tricks: Animal[]
+  pendingPower?: boolean
   blockedAnimal?: Animal
 }

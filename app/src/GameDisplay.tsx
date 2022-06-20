@@ -8,6 +8,7 @@ import PlayerDisplay from './PlayerDisplay'
 import PlayDropArea from './PlayDropArea'
 import PlayArea from './PlayArea'
 import { getActivePlayer } from '@gamepark/awimbawe/Awimbawe'
+import { isRhinoceros } from '@gamepark/awimbawe/Animal'
 
 
 
@@ -19,15 +20,13 @@ export default function GameDisplay({game}: Props) {
   const playerId = usePlayerId<Heir>()
   const bottomPlayerId = playerId ?? Heir.WhiteTiger  // what does mean "??" = fallback (valeur par défaut)
   const topPlayerId = otherHeir(bottomPlayerId)
+  const player = playerId? game[playerId]:undefined
   return (
-    <Letterbox css={letterBoxStyle} top={0}>
-      <PlayerDisplay player={game[topPlayerId] } top heir={topPlayerId}/>
-
-      <div css={sampleCss}>
-        {/* {JSON.stringify(game)} */}
-      </div>
+    <Letterbox onClick={()=> console.log(game)} css={letterBoxStyle} top={0}>
+      <PlayerDisplay player={game[topPlayerId] } top heir={topPlayerId} isActive={getActivePlayer(game)===topPlayerId} 
+      canMovePile={player?.pendingPower && isRhinoceros(player.played!)}/>
         
-      <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId} canPlay={getActivePlayer(game)===bottomPlayerId}/> 
+      <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId} isActive={getActivePlayer(game)===bottomPlayerId}/> 
 
       <PlayArea bottomAnimal={game[bottomPlayerId].played} topAnimal={game[topPlayerId].played}/>
       {playerId && <PlayDropArea playerId={playerId} game={game}/>}
@@ -52,16 +51,5 @@ const fadeIn = keyframes`
 const letterBoxStyle = css`
   animation: ${fadeIn} 3s ease-in forwards;
   border: 2px solid #fff
-`
-
-const sampleCss = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  background-color: black;
-  padding: 0.5em;
-  border-radius: 1em;
 `
 

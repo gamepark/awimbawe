@@ -1,11 +1,13 @@
 import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import Animal, {animals, isEagle, sameSuit} from './Animal'
+import Animal, {animals, isEagle, isRhinoceros, sameSuit} from './Animal'
 import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
 import GameState, {getPlayers} from './GameState'
 import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
 import Heir, {heirs, otherHeir} from './Heir'
 import Move from './moves/Move'
+import { blockAnimal } from './moves/BlockAnimal'
+import { movePileAnimal, movePileAnimalMove} from './moves/MovePileAnimal'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
 import {playAnimal, playAnimalMove} from './moves/PlayAnimal'
@@ -88,6 +90,22 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     const activePlayer = this.getActivePlayer()
     if (!activePlayer) return []
     const player = this.state[activePlayer]
+
+    if(player.pendingPower){
+      if(isRhinoceros(player.played!)){
+        const moves : Move[] = []
+        const opponentPiles = this.state[otherHeir(activePlayer)].piles
+        for(let origin = 0; origin < opponentPiles.length; origin++){
+          if(opponentPiles[origin].length > 0){
+            for(let destination = 0; destination < opponentPiles.length; destination++){
+              moves.push(movePileAnimalMove(origin,destination))
+            }
+          }
+        }
+        return moves
+      } //todo serpent
+    }
+
     if (activePlayer === this.state.lead){
       return getAvaibleCards(player).map(animal => playAnimalMove(activePlayer, animal))
     }else{
@@ -98,7 +116,6 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
       .map(animal => playAnimalMove(activePlayer, animal))
 
     }
-    // TODO pouvoir serpent bloquant la carte
   }
 
   /**
@@ -117,6 +134,12 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
       case MoveType.RevealAnimal:
         revealAnimal(this.state, move)
         break
+      case MoveType.MovePileAnimal:
+        movePileAnimal(this.state, move)
+        break
+      case MoveType.BlockAnimal:
+        blockAnimal(this.state, move)
+        break
     }
   }
 
@@ -134,7 +157,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @return The next automatic consequence that should be played in current game state.
    */
   getAutomaticMove(): void | Move | Move[] {
-    if (this.state[Heir.WhiteTiger].played && this.state[Heir.BlackPanther].played) {
+    if (this.getPlayers().every(player => player.played && !player.pendingPower)) { 
       const animal1 = this.state[this.state.lead].played!
       const animal2 = this.state[otherHeir(this.state.lead)].played!
       const winner = getWinnerAnimal(animal1,animal2) === animal1 ? this.state.lead : otherHeir(this.state.lead)
@@ -217,12 +240,13 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   }
 }
 
-export function getActivePlayer(state : GameState | GameView): Heir | undefined {
-  return state[state.lead].played ? otherHeir(state.lead) : state.lead
+export function getActivePlayer(state : GameState | GameView): Heir {
+  const lead = state[state.lead]
+  return lead.played && !lead.pendingPower ? otherHeir(state.lead) : state.lead
 }
 
 export function getAvaibleCards(player : PlayerState) {
-  return [...player.hand, ...player.piles.filter(pile => pile.length>0).map(pile => pile[pile.length - 1].animal)]
+  return [...player.hand, ...player.piles.filter(pile => pile.length>0 && pile[pile.length-1].faceUp).map(pile => pile[pile.length - 1].animal)]
 }
 
 export function canPlay(animal : Animal, opponentAnimal : Animal, avaibleCards : Animal[]) : boolean{

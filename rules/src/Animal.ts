@@ -28,6 +28,14 @@ export function isElephant(animal: Animal){
   return animal % 10 == 6
 }
 
+export function isRhinoceros(animal: Animal){
+  return animal % 10 == 2
+}
+
+export function isSerpent(animal:Animal){
+  return animal % 10 == 5
+}
+
 export function getAnimalPower(animal: Animal) {
   return isEagle(animal) ? animal : animal % 10
 }

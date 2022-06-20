@@ -1,4 +1,4 @@
-import Animal from '../Animal'
+import Animal, { isRhinoceros } from '../Animal'
 import GameState from '../GameState'
 import GameView, { isOtherPlayerView, isPlayerView } from '../GameView'
 import Heir from '../Heir'
@@ -19,6 +19,9 @@ export function playAnimalMove(heir: Heir, animal: Animal): PlayAnimal {
 export function playAnimal(state: GameState | GameView, move: PlayAnimal) {
   const player = state[move.heir]
   player.played = move.animal
+  if(isRhinoceros(move.animal) /*|| isSerpent(move.animal)*/){ 
+    player.pendingPower = true 
+  }
   if (isOtherPlayerView(player)) {
     const isFromPile = player.piles.some(pile => pile.includes(move.animal))
     if (!isFromPile) {

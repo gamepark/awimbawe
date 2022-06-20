@@ -15,8 +15,16 @@ export default function AnimalCard({animal, ...props}: Props) {
   )
 }
 
+export type AnimalDragObject = {
+    animal: Animal;
+    pileIndex? : number
+};
+
+export const AnimalItemType = "animal"
+
+
+
 const style = css`
-  position: absolute;
   width: ${cardWidth}em;
   height: ${cardHeight}em;
   transform-style: preserve-3d;

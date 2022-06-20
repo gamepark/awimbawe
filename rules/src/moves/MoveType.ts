@@ -3,7 +3,7 @@
  * Even though it is not strictly required to use a type like that, it helps a lot in practice!
  */
 enum MoveType {
-  PlayAnimal, WinTrick, RevealAnimal
+  PlayAnimal, WinTrick, RevealAnimal, MovePileAnimal, BlockAnimal
 }
 
 export default MoveType
