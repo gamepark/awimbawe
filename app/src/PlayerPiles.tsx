@@ -56,8 +56,8 @@ const topCardPositionCss = (pileIndex: number, cardIndex: number) => css`
     top: ${headerHeight + 1 + cardIndex * (cardHeight / 3)}em;
     left: ${topPileLeft(pileIndex)}em;
     
-    //todo change to top+left
-
+    // filter: grayscale();
+    // transform: translateY(4em);
 
 `
 

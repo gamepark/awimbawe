@@ -5,14 +5,18 @@ import MoveType from './MoveType'
 
 type BlockAnimal = {
   type: MoveType.BlockAnimal,
-  pileIndex : number,
+  pileIndex? : number,
 
 }
 
 export default BlockAnimal
 
-export function blockAnimalMove(origin : number): BlockAnimal {
-  return { type: MoveType.BlockAnimal, pileIndex: origin}
+ export type BlockAnimalRandomized = BlockAnimal &  { 
+  handIndex? : number,
+}
+
+export function blockAnimalMove(pileIndex? : number): BlockAnimal {
+  return { type: MoveType.BlockAnimal, pileIndex}
 }
 
 
@@ -21,7 +25,8 @@ export function blockAnimal(state: GameState | GameView, move: BlockAnimal){
     // const opponent = state[otherHeir(player)]
 
     if(state.lead === player){
-
+      // retirer carte au deuxième joueur 
+      
     }else{
 
     }
@@ -37,5 +42,5 @@ export function blockAnimal(state: GameState | GameView, move: BlockAnimal){
     // }
     delete state[player].pendingPower
     return move
-
+    //todo
 }

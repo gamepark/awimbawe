@@ -1,18 +1,19 @@
-import {SecretInformation, SequentialGame} from '@gamepark/rules-api'
+import { RandomMove, SecretInformation, SequentialGame } from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import Animal, {animals, isEagle, isRhinoceros, sameSuit} from './Animal'
-import {AwimbaweOptions, isGameOptions} from './AwimbaweOptions'
-import GameState, {getPlayers} from './GameState'
-import GameView, {MyPlayerView, OtherPlayerView} from './GameView'
-import Heir, {heirs, otherHeir} from './Heir'
-import {blockAnimal} from './moves/BlockAnimal'
+import Animal, { animals, isEagle, isRhinoceros, isSerpent, sameSuit } from './Animal'
+import { AwimbaweOptions, isGameOptions } from './AwimbaweOptions'
+import GameState, { getPlayers } from './GameState'
+import GameView, { MyPlayerView, OtherPlayerView } from './GameView'
+import Heir, { heirs, otherHeir } from './Heir'
+import { blockAnimal } from './moves/BlockAnimal'
 import Move from './moves/Move'
-import {movePileAnimal, movePileAnimalMove} from './moves/MovePileAnimal'
+import { movePileAnimal, movePileAnimalMove } from './moves/MovePileAnimal'
+import MoveRandomized from './moves/MoveRandomized'
 import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
-import {playAnimal, playAnimalMove} from './moves/PlayAnimal'
-import {revealAnimal, revealAnimalMove} from './moves/RevealAnimal'
-import {getWinnerAnimal, winTrick, winTrickMove} from './moves/WinTrick'
+import { playAnimal, playAnimalMove } from './moves/PlayAnimal'
+import { revealAnimal, revealAnimalMove } from './moves/RevealAnimal'
+import { getWinnerAnimal, winTrick, winTrickMove } from './moves/WinTrick'
 import PlayerState from './PlayerState'
 
 /**
@@ -23,7 +24,7 @@ import PlayerState from './PlayerState'
  * Later on, you can also implement "Competitive", "Undo", "TimeLimit" and "Eliminations" to add further features to the game.
  */
 export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
-  implements SecretInformation<GameState, GameView, Move, MoveView, Heir> {
+  implements SecretInformation<GameState, GameView, Move, MoveView, Heir>, RandomMove<GameState,Move,MoveRandomized> {
   /**
    * This constructor is called when the game "restarts" from a previously saved state.
    * @param state The state of the game
@@ -103,7 +104,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
           }
         }
         return moves
-      } //todo serpent
+      }else if (isSerpent(player.played!)){
+        // const moves: Move[] = []
+
+      }//todo serpent
     }
 
     if (activePlayer === this.state.lead) {
@@ -118,12 +122,21 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     }
   }
 
+  randomize(move: Move): MoveRandomized {
+    if ( move.type == MoveType.BlockAnimal && move.pileIndex === undefined ){
+      const opponent = this.state[otherHeir(this.getActivePlayer()!)]
+
+      return {...move, handIndex:Math.floor(Math.random()*opponent.hand.length)}
+    } 
+    return move
+  }
+
   /**
    * This is the one and only play where you will update the game's state, depending on the move that has been played.
    *
    * @param move The move that should be applied to current state.
    */
-  play(move: Move): void {
+  play(move: MoveRandomized): void {
     switch (move.type) {
       case MoveType.PlayAnimal:
         playAnimal(this.state, move)
@@ -225,7 +238,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @param move The move that has been played
    * @return MoveView with the information that a person should know about the move that was played
    */
-  getMoveView(move: Move): MoveView {
+  getMoveView(move: MoveRandomized): MoveView {
     return this.getPlayerMoveView(move)
   }
 
@@ -238,7 +251,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
    * @param playerId Identifier of the player seeing the move
    * @return MoveView with the information that this player should know about the move that was played
    */
-  getPlayerMoveView(move: Move, playerId?: Heir): MoveView {
+  getPlayerMoveView(move: MoveRandomized, playerId?: Heir): MoveView {
     switch (move.type) {
       case MoveType.PlayAnimal: {
         if (move.heir === playerId) return move
