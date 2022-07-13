@@ -1,6 +1,5 @@
-import BlockAnimal, { BlockAnimalRandomized } from './BlockAnimal'
 import Move from './Move'
 
-type MoveRandomized = Exclude<Move, BlockAnimal> | BlockAnimalRandomized 
+type MoveRandomized = Move
 
 export default MoveRandomized

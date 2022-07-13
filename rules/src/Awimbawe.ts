@@ -5,7 +5,8 @@ import { AwimbaweOptions, isGameOptions } from './AwimbaweOptions'
 import GameState, { getPlayers } from './GameState'
 import GameView, { MyPlayerView, OtherPlayerView } from './GameView'
 import Heir, { heirs, otherHeir } from './Heir'
-import { blockAnimal } from './moves/BlockAnimal'
+import { blockAnimalInHand, blockAnimalInHandMove } from './moves/BlockAnimalInHand'
+import { blockAnimalInPile, blockAnimalInPileMove } from './moves/BlockAnimalInPile'
 import Move from './moves/Move'
 import { movePileAnimal, movePileAnimalMove } from './moves/MovePileAnimal'
 import MoveRandomized from './moves/MoveRandomized'
@@ -105,8 +106,19 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         }
         return moves
       }else if (isSerpent(player.played!)){
-        // const moves: Move[] = []
-
+        const moves: Move[] = []
+        const opponentHand = this.state[otherHeir(activePlayer)].hand
+        const opponentPiles = this.state[otherHeir(activePlayer)].piles
+        for(let handindex = 0; handindex >opponentHand.length; handindex++){
+          moves.push(blockAnimalInHandMove(handindex))
+        }
+        for (let index = 0; index < opponentPiles.length; index++) {
+          if (opponentPiles[index].length > 0) {
+            moves.push(blockAnimalInPileMove(index))
+          }
+        }
+          
+        return moves
       }//todo serpent
     }
 
@@ -123,11 +135,6 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   }
 
   randomize(move: Move): MoveRandomized {
-    if ( move.type == MoveType.BlockAnimal && move.pileIndex === undefined ){
-      const opponent = this.state[otherHeir(this.getActivePlayer()!)]
-
-      return {...move, handIndex:Math.floor(Math.random()*opponent.hand.length)}
-    } 
     return move
   }
 
@@ -150,9 +157,11 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
       case MoveType.MovePileAnimal:
         movePileAnimal(this.state, move)
         break
-      case MoveType.BlockAnimal:
-        blockAnimal(this.state, move)
+      case MoveType.BlockAnimalInPile:
+        blockAnimalInPile(this.state, move)
         break
+      case MoveType.BlockAnimalInHand:
+        blockAnimalInHand(this.state, move)
     }
   }
 
@@ -282,6 +291,7 @@ export function getAvailableAnimals(player: PlayerState): Animal[] {
 }
 
 export function canPlay(animal: Animal, opponentAnimal: Animal, availableAnimals: Animal[]): boolean {
+  // if(availableAnimals.some(animal => animal))
   if (availableAnimals.some(animal => sameSuit(animal, opponentAnimal))) {
     return sameSuit(animal, opponentAnimal)
   } else if (availableAnimals.some(animal => isEagle(animal))) {

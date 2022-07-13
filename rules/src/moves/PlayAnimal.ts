@@ -1,4 +1,4 @@
-import Animal, {isRhinoceros} from '../Animal'
+import Animal, {isRhinoceros, isSerpent} from '../Animal'
 import GameState from '../GameState'
 import GameView, {getCardAnimal, PlayerView} from '../GameView'
 import Heir from '../Heir'
@@ -42,7 +42,7 @@ export function playAnimalInView(state: GameView, move: PlayAnimalView) {
 
 function putAnimalInPlayArea(player: PlayerState | PlayerView, animal: Animal) {
   player.played = animal
-  if (isRhinoceros(animal) /*|| isSerpent(move.animal)*/) {
+  if (isRhinoceros(animal) || isSerpent(animal)) {
     player.pendingPower = true
   }
 }
