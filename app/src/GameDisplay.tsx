@@ -8,7 +8,7 @@ import PlayerDisplay from './PlayerDisplay'
 import PlayDropArea from './PlayDropArea'
 import PlayArea from './PlayArea'
 import { getActivePlayer } from '@gamepark/awimbawe/Awimbawe'
-import { isRhinoceros } from '@gamepark/awimbawe/Animal'
+import { isRhinoceros, isSerpent } from '@gamepark/awimbawe/Animal'
 
 
 
@@ -22,10 +22,10 @@ export default function GameDisplay({game}: Props) {
   const topPlayerId = otherHeir(bottomPlayerId)
   const player = playerId? game[playerId]:undefined
   return (
-    <Letterbox onClick={()=> console.log(game)} css={letterBoxStyle} top={0}>
+    <Letterbox css={letterBoxStyle} top={0}>
       <PlayerDisplay player={game[topPlayerId] } top heir={topPlayerId} isActive={getActivePlayer(game)===topPlayerId} 
-      canMovePile={player?.pendingPower && isRhinoceros(player.played!)}/>
-        
+      canMovePile={player?.pendingPower && isRhinoceros(player.played!)} canBlock={player?.pendingPower && isSerpent(player.played!)}/>
+      //done
       <PlayerDisplay player={game[bottomPlayerId]} heir={bottomPlayerId} isActive={getActivePlayer(game)===bottomPlayerId}/> 
 
       <PlayArea bottomAnimal={game[bottomPlayerId].played} topAnimal={game[topPlayerId].played}/>

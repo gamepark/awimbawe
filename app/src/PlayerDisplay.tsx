@@ -20,9 +20,10 @@ type Props = {
     top?: boolean
     isActive: boolean
     canMovePile?: boolean
+    canBlock?: boolean
 }
 
-export default function PlayerDisplay({ player, top, heir, isActive, canMovePile = false}: Props) {
+export default function PlayerDisplay({ player, top, heir, isActive, canMovePile = false, canBlock}: Props) {
     const info = usePlayer(heir)
     const {t} = useTranslation()
     const playerId = usePlayerId<Heir>()
@@ -33,9 +34,10 @@ export default function PlayerDisplay({ player, top, heir, isActive, canMovePile
             <PlayerHand player={player}
                 top={top}
                 canDrag={isActive && playerId===heir && !player.pendingPower}
+                canBlock={canBlock}
                 />
 
-            <PlayerPiles top={top} piles={player.piles} draggable={canMovePile || (isActive && playerId===heir && !player.pendingPower)} />
+            <PlayerPiles top={top} piles={player.piles} draggable={canMovePile || (isActive && playerId===heir && !player.pendingPower)} canBlock={canBlock} />
 
             {canMovePile && player.piles.map((_,pileIndex) => <PileDropArea pileIndex={pileIndex} key={pileIndex} />)}
             

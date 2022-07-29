@@ -51,7 +51,7 @@ export default function PlayDropArea({playerId, game}: Props) {
       {displayError && (
         <span>
           {' '}
-          {availableAnimals.some((animal) => sameSuit(animal, opponentAnimal))
+          {availableAnimals.some((animal) => sameSuit(animal, opponentAnimal)) 
             ? t('You must play an animal with the same suit')
             : t('You must play an eagle')}{' '}
         </span>

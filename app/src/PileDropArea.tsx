@@ -35,13 +35,17 @@ export default function PileDropArea({ pileIndex }: Props) {
 
 const styleCss = (pileIndex : number) => css`
   position: absolute;
-  height: 25em;
+  height: 10em;
   width: ${cardWidth}em;
-  top: 40em;
+  top: 5em;
   left: ${topPileLeft(pileIndex)}em;
   border-radius: 1em;
+  // pointer-events: none;
+  // > * > * {
+  //   pointer-events: auto;
+  // }
 `;
-
+//question
 const overCss = css`
   background-color: rgba(0, 255, 0, 0.5);
 `;

@@ -94,7 +94,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     const player = this.state[activePlayer]
 
     if (player.pendingPower) {
-      if (isRhinoceros(player.played!)) {
+      if (isRhinoceros(player.played!) && player.piles.length>0) {
         const moves: Move[] = []
         const opponentPiles = this.state[otherHeir(activePlayer)].piles
         for (let origin = 0; origin < opponentPiles.length; origin++) {
@@ -105,11 +105,11 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
           }
         }
         return moves
-      }else if (isSerpent(player.played!)){
+      }else if (isSerpent(player.played!) && getAvailableAnimals(player).length>1){
         const moves: Move[] = []
         const opponentHand = this.state[otherHeir(activePlayer)].hand
         const opponentPiles = this.state[otherHeir(activePlayer)].piles
-        for(let handindex = 0; handindex >opponentHand.length; handindex++){
+        for(let handindex = 0; handindex < opponentHand.length; handindex++){
           moves.push(blockAnimalInHandMove(handindex))
         }
         for (let index = 0; index < opponentPiles.length; index++) {
@@ -119,7 +119,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         }
           
         return moves
-      }//todo serpent
+      }//done
     }
 
     if (activePlayer === this.state.lead) {
@@ -285,8 +285,8 @@ export function getActivePlayer(state: GameState | GameView): Heir {
 
 export function getAvailableAnimals(player: PlayerState): Animal[] {
   return [
-    ...player.hand.map(card => card.animal),
-    ...player.piles.filter(pile => pile.length > 0 && pile[pile.length - 1].faceUp).map(pile => pile[pile.length - 1].animal)
+    ...player.hand.filter(card => !card.blocked).map(card => card.animal),
+    ...player.piles.filter(pile => pile.length > 0 && pile[pile.length - 1].faceUp && !pile[pile.length-1].blocked).map(pile => pile[pile.length - 1].animal)
   ]
 }
 

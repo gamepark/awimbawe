@@ -1,6 +1,6 @@
-import Animal, {isRhinoceros, isSerpent} from '../Animal'
+import Animal, { isRhinoceros, isSerpent } from '../Animal'
 import GameState from '../GameState'
-import GameView, {getCardAnimal, PlayerView} from '../GameView'
+import GameView, { getCardAnimal, PlayerView } from '../GameView'
 import Heir from '../Heir'
 import PlayerState from '../PlayerState'
 import MoveType from './MoveType'
@@ -45,4 +45,18 @@ function putAnimalInPlayArea(player: PlayerState | PlayerView, animal: Animal) {
   if (isRhinoceros(animal) || isSerpent(animal)) {
     player.pendingPower = true
   }
+
+  if(player.hand.length > 0){
+    for(let i = 0; i < player.hand.length; i++){
+      delete player.hand[i].blocked;
+    }
+  }
+  
+  for(let y = 0; y < player.piles.length; y++){
+    if(player.piles[y].length > 0){
+      delete player.piles[y][player.piles[y].length-1].blocked;
+    }
+  }
+
+  //done
 }

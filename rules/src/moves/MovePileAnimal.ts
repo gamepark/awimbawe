@@ -20,6 +20,10 @@ export function movePileAnimalMove(origin: number, destination: number): MovePil
 export function movePileAnimal(state: GameState | GameView, move: MovePileAnimal) {
   const player = getActivePlayer(state)
   const opponent = state[otherHeir(player)]
-  opponent.piles[move.destination].unshift(opponent.piles[move.origin].pop() as PileAnimal)
+  if(state[player].piles.length>1){
+    opponent.piles[move.destination].unshift(opponent.piles[move.origin].pop() as PileAnimal)
+  }
   delete state[player].pendingPower
 }
+
+// done
