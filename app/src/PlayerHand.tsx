@@ -31,7 +31,7 @@ export default function PlayerHand({
               canDrag,
               drop: play,
             },
-            onClick:() => canBlock /*&& getAvailableAnimals(player)>1 question*/ && play(blockAnimalInHandMove(index))
+            onClick:() => canBlock /*&& getAvailableAnimals(player)>1 && notblocked*/ && play(blockAnimalInHandMove(index))
           })}
           css={[handCss, top ? topCss : bottomCss]}
         >

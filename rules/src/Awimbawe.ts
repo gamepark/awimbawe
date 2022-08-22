@@ -3,7 +3,7 @@ import shuffle from 'lodash.shuffle'
 import Animal, { animals, isEagle, isRhinoceros, isSerpent, sameSuit } from './Animal'
 import { AwimbaweOptions, isGameOptions } from './AwimbaweOptions'
 import GameState, { getPlayers } from './GameState'
-import GameView, { MyPlayerView, OtherPlayerView } from './GameView'
+import GameView, { MyPlayerView, OtherPlayerView, PlayerView } from './GameView'
 import Heir, { heirs, otherHeir } from './Heir'
 import { blockAnimalInHand, blockAnimalInHandMove } from './moves/BlockAnimalInHand'
 import { blockAnimalInPile, blockAnimalInPileMove } from './moves/BlockAnimalInPile'
@@ -94,7 +94,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
     const player = this.state[activePlayer]
 
     if (player.pendingPower) {
-      if (isRhinoceros(player.played!) && player.piles.length>0) {
+      if (isRhinoceros(player.played!)) {
         const moves: Move[] = []
         const opponentPiles = this.state[otherHeir(activePlayer)].piles
         for (let origin = 0; origin < opponentPiles.length; origin++) {
@@ -105,7 +105,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
           }
         }
         return moves
-      }else if (isSerpent(player.played!) && getAvailableAnimals(player).length>1){
+      }else if (isSerpent(player.played!)){
         const moves: Move[] = []
         const opponentHand = this.state[otherHeir(activePlayer)].hand
         const opponentPiles = this.state[otherHeir(activePlayer)].piles
@@ -119,7 +119,7 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         }
           
         return moves
-      }//done
+      }
     }
 
     if (activePlayer === this.state.lead) {
@@ -283,11 +283,15 @@ export function getActivePlayer(state: GameState | GameView): Heir {
   return lead.played && !lead.pendingPower ? otherHeir(state.lead) : state.lead
 }
 
-export function getAvailableAnimals(player: PlayerState): Animal[] {
+export function getAvailableAnimals(player: PlayerState ): Animal[] {
   return [
     ...player.hand.filter(card => !card.blocked).map(card => card.animal),
     ...player.piles.filter(pile => pile.length > 0 && pile[pile.length - 1].faceUp && !pile[pile.length-1].blocked).map(pile => pile[pile.length - 1].animal)
   ]
+}
+
+export function countAvailableAnimals(player: PlayerState | PlayerView ): number {
+  return player.hand.filter(card => !card.blocked).length + player.piles.filter(pile => pile.length > 0 && pile[pile.length - 1] && !pile[pile.length-1].blocked).length 
 }
 
 export function canPlay(animal: Animal, opponentAnimal: Animal, availableAnimals: Animal[]): boolean {

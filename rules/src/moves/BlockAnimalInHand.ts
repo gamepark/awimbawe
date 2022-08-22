@@ -18,9 +18,7 @@ export function blockAnimalInHandMove(handIndex: number): BlockAnimalInHand {
 export function blockAnimalInHand( state: GameState | GameView, move: BlockAnimalInHand) {
   const player = getActivePlayer(state);
   const opponent = state[otherHeir(player)];
-  // if(getAvailableAnimals(player).length>1){
-    opponent.hand[move.handIndex].blocked = true;
-  // }
-  //question
+  opponent.hand[move.handIndex].blocked = true;
+  
   delete state[player].pendingPower;
 }

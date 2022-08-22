@@ -32,6 +32,10 @@ export function isRhinoceros(animal: Animal){
   return animal % 10 == 2
 }
 
+export function isCheetah(animal: Animal){
+  return animal % 10 == 3
+}
+
 export function isSerpent(animal:Animal){
   return animal % 10 == 5
 }

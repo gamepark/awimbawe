@@ -1,5 +1,6 @@
 import Animal, {
   getAnimalPower,
+  isCheetah,
   isEagle,
   isElephant,
   isMouse,
@@ -7,7 +8,7 @@ import Animal, {
 } from "../Animal";
 import GameState, { getPlayers } from "../GameState";
 import GameView from "../GameView";
-import Heir from "../Heir";
+import Heir, { otherHeir } from "../Heir";
 import MoveType from "./MoveType";
 
 type WinTrick = {
@@ -26,11 +27,28 @@ export function winTrick(state: GameState | GameView, move: WinTrick) {
   const players = getPlayers(state);
   player.tricks.push(...players.map((p) => p.played!));
 
-  state.lead = move.heir;
+  // console.log(player.tricks[player.tricks.length-1],player.tricks[player.tricks.length-2])
+  console.log(player)
+  if(isCheetah(player.tricks[player.tricks.length-1]) && !isCheetah(player.tricks[player.tricks.length-2])){
+    if(getAnimalPower(player.tricks[player.tricks.length-1]) < getAnimalPower(player.tricks[player.tricks.length-2])){
+      state.lead = otherHeir(move.heir)
+    }else{
+      state.lead = move.heir
+    }
+  }else if(!isCheetah(player.tricks[player.tricks.length-1]) && isCheetah(player.tricks[player.tricks.length-2])){
+    if(getAnimalPower(player.tricks[player.tricks.length-1]) > getAnimalPower(player.tricks[player.tricks.length-2])){
+      state.lead = otherHeir(move.heir)
+    }else{
+      state.lead = move.heir
+    }
+  }else{
+    state.lead = move.heir;
+  }
+
   for (const player of players) {
     delete player.played;
   }
-}
+} 
 
 export function getWinnerAnimal(animal1: Animal, animal2: Animal) {
   if (sameSuit(animal1, animal2)) {
@@ -46,10 +64,12 @@ export function getWinnerAnimal(animal1: Animal, animal2: Animal) {
   } else if (!isEagle(animal2)) {
     return animal1;
   } else {
-    if (1 === 1) { // var fuite pour indiquer que l'aigle doit retourner dans les plis du joueur qui l'a joué et non celui qui a remporté le pli
+    if (isEagle(animal1) && !isEagle(animal2)) { 
       return animal1;
-    } else {
+    } else if(!isEagle(animal1) && isEagle(animal2)){
       return animal2;
+    }else{
+      return animal1;
     }
   } //TODO fuite et fight
 }
