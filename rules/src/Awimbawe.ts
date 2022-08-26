@@ -1,12 +1,13 @@
 import { RandomMove, SecretInformation, SequentialGame } from '@gamepark/rules-api'
 import shuffle from 'lodash.shuffle'
-import Animal, { animals, isEagle, isRhinoceros, isSerpent, sameSuit } from './Animal'
+import Animal, { animals, getCrown, isEagle, isRhinoceros, isSerpent, sameSuit } from './Animal'
 import { AwimbaweOptions, isGameOptions } from './AwimbaweOptions'
 import GameState, { getPlayers } from './GameState'
 import GameView, { MyPlayerView, OtherPlayerView, PlayerView } from './GameView'
 import Heir, { heirs, otherHeir } from './Heir'
 import { blockAnimalInHand, blockAnimalInHandMove } from './moves/BlockAnimalInHand'
 import { blockAnimalInPile, blockAnimalInPileMove } from './moves/BlockAnimalInPile'
+import { dealCardsMove } from './moves/DealCards'
 import Move from './moves/Move'
 import { movePileAnimal, movePileAnimalMove } from './moves/MovePileAnimal'
 import MoveRandomized from './moves/MoveRandomized'
@@ -14,6 +15,7 @@ import MoveType from './moves/MoveType'
 import MoveView from './moves/MoveView'
 import { playAnimal, playAnimalMove } from './moves/PlayAnimal'
 import { revealAnimal, revealAnimalMove } from './moves/RevealAnimal'
+import { score, scoreMove } from './moves/Score'
 import { getWinnerAnimal, winTrick, winTrickMove } from './moves/WinTrick'
 import PlayerState from './PlayerState'
 
@@ -119,6 +121,8 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         }
           
         return moves
+      }else if(isEagle(player.played!)){
+        return [winTrickMove(Heir.WhiteTiger),winTrickMove(Heir.BlackPanther)]
       }
     }
 
@@ -135,6 +139,9 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
   }
 
   randomize(move: Move): MoveRandomized {
+    if (move.type == MoveType.DealCards) {
+      return {...move, shuffledDeck : shuffle(animals) }
+    }
     return move
   }
 
@@ -162,6 +169,10 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         break
       case MoveType.BlockAnimalInHand:
         blockAnimalInHand(this.state, move)
+        break
+      case MoveType.Score:
+        score(this.state, move)
+        break
     }
   }
 
@@ -194,6 +205,27 @@ export default class Awimbawe extends SequentialGame<GameState, Move, Heir>
         }
       }
       return moves
+    }
+
+    if(this.getPlayers().every(player => player.hand.length == 0 && player.piles.every(pile => pile.length == 0) && player.score != 2)){
+      //comptage des points
+      let whiteTiger = this.state[Heir.WhiteTiger] 
+      let blackPanther = this.state[Heir.BlackPanther] 
+
+      let scorewhiteTiger = whiteTiger.tricks.reduce(
+        (score, animal) => score + getCrown(animal)!, 0 
+      )
+
+      let scoreblackPanther = blackPanther.tricks.reduce(
+        (score, animal) => score + getCrown(animal)!, 0 
+      )
+      
+      const winner = scorewhiteTiger > scoreblackPanther ? Heir.WhiteTiger : Heir.BlackPanther;
+
+      // attribution du score
+      // relancement de la partie
+      return [scoreMove(winner),dealCardsMove]
+      
     }
   }
 

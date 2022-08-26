@@ -1,4 +1,4 @@
-import Animal, { isRhinoceros, isSerpent } from '../Animal'
+import Animal, { isEagle, isRhinoceros, isSerpent } from '../Animal'
 import { countAvailableAnimals } from '../Awimbawe'
 import GameState from '../GameState'
 import GameView, { getCardAnimal, PlayerView } from '../GameView'
@@ -71,9 +71,11 @@ function hasPendingPower( animal : Animal, opponent : PlayerState | PlayerView )
   if (isRhinoceros(animal) && canMovePileAnimal(opponent) ) {
     return true 
   } else if(isSerpent(animal) && countAvailableAnimals(opponent)>1){
+    return true 
+  } else if(opponent.played && !isEagle(opponent.played) && isEagle(animal)){
     return true
   } else{
-    return false 
+    return false
   }
 
 }

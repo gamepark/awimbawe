@@ -6,6 +6,7 @@ import MoveType from '@gamepark/awimbawe/moves/MoveType'
 import MoveView from '@gamepark/awimbawe/moves/MoveView'
 import {playAnimalInView} from '@gamepark/awimbawe/moves/PlayAnimal'
 import {revealAnimalInView} from '@gamepark/awimbawe/moves/RevealAnimal'
+import { score } from '@gamepark/awimbawe/moves/Score'
 import {winTrick} from '@gamepark/awimbawe/moves/WinTrick'
 import {Game} from '@gamepark/rules-api'
 
@@ -54,8 +55,11 @@ export default class AwimbaweView implements Game<GameView, MoveView> {
       case MoveType.BlockAnimalInPile:
         blockAnimalInPile(this.state, move);
         break;
-        case MoveType.BlockAnimalInHand:
+      case MoveType.BlockAnimalInHand:
         blockAnimalInHand(this.state, move);
+        break;
+      case MoveType.Score:
+        score(this.state, move)
         break;
     }
   }

@@ -10,6 +10,8 @@ enum Animal {
 
 export default Animal
 
+//reduce 
+
 export const animals = Object.values(Animal).filter(isEnumValue)
 
 export function isEagle(animal: Animal) {
@@ -44,10 +46,6 @@ export function getAnimalPower(animal: Animal) {
   return isEagle(animal) ? animal : animal % 10
 }
 
-// export function sameAnimal(animal1 : Animal , animal2 : Animal){
-//   return animal1 % 10 == animal2 % 10
-// }
-
 export function sameSuit(animal1 : Animal, animal2: Animal){
   return Math.floor((animal1-1)/10) === Math.floor((animal2-1)/10)
 }
@@ -56,5 +54,21 @@ export function sameSuit(animal1 : Animal, animal2: Animal){
 
 
 
+export function getCrown(animal : Animal){
 
+  if(isMouse(animal) || isHyena(animal)){
+    return 3
+  }else if(isRhinoceros(animal) || isCheetah(animal)){
+    return 2
+  }else if(isSerpent(animal) || isElephant(animal)){
+    return 1
+  }else if(animal == 7|| animal == 8){
+    return 0
+  }else if(animal == 9){
+    return -1
+  }else{
+    return -2
+  }
+
+}
 
