@@ -8,6 +8,7 @@ import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { rules } from './configuration/RuleDefinitions'
 import { hidingStrategies } from './configuration/HidingStrategies'
+import { locationsStrategies } from './configuration/LocationStrategies'
 
 /**
  * Your Board Game rules must extend either "SequentialGame" or "SimultaneousGame".
@@ -16,9 +17,10 @@ import { hidingStrategies } from './configuration/HidingStrategies'
  * If the game contains information that some players know, but the other players does not, it must implement "SecretInformation" instead.
  * Later on, you can also implement "Competitive", "Undo", "TimeLimit" and "Eliminations" to add further features to the game.
  */
-export default class Awimbawe extends SecretMaterialRules<number, MaterialType, LocationType> {
+export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType> {
   rules = rules
   hidingStrategies = hidingStrategies
+  locationsStrategies = locationsStrategies
   // /**
   //  * This constructor is called when the game "restarts" from a previously saved state.
   //  * @param state The state of the game

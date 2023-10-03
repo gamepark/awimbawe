@@ -1,4 +1,4 @@
-import Animal from './Animal'
+import Animal from './material/Animal'
 import PileAnimal from './PileAnimal'
 import StockAnimal from './StockAnimal'
 

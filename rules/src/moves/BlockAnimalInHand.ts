@@ -1,4 +1,4 @@
-import { getActivePlayer } from "../Awimbawe";
+import { getActivePlayer } from "../AwimbaweRules";
 import GameState from "../GameState";
 import GameView from "../GameView";
 import { otherHeir } from "../Heir";

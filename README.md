@@ -71,8 +71,8 @@ One advice though: it is much easier to animate the elements if they all are a d
 
 The state of the game is a Javascript object. The specifications for this object must be written here: `/rules/src/GameState.ts`
 
-If you change the specification, it will probably break the game setup here: `/rules/src/Awimbawe.ts`.
-In this file, you can rename "Awimbawe" with the real name of your game, and in the constructor when you have no arguments,
+If you change the specification, it will probably break the game setup here: `/rules/src/AwimbaweRules.ts`.
+In this file, you can rename "AwimbaweRules" with the real name of your game, and in the constructor when you have no arguments,
 you must set up a new game with the properties matching your specifications.
 
 **Everytime you change GameState, you must open the browser console and run `game.new()` to replace the old obsolete game state with a fresh new game.**

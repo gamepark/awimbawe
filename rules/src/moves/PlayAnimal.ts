@@ -1,5 +1,5 @@
-import Animal, { isEagle, isRhinoceros, isSerpent } from '../Animal'
-import { countAvailableAnimals } from '../Awimbawe'
+import Animal, { isEagle, isRhinoceros, isSerpent } from '../material/Animal'
+import { countAvailableAnimals } from '../AwimbaweRules'
 import GameState from '../GameState'
 import GameView, { getCardAnimal, PlayerView } from '../GameView'
 import Heir, { otherHeir } from '../Heir'

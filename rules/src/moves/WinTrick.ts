@@ -3,7 +3,7 @@ import Animal, {
   isCheetah, isElephant,
   isMouse,
   sameSuit
-} from "../Animal";
+} from "../material/Animal";
 import GameState, { getPlayers } from "../GameState";
 import GameView from "../GameView";
 import Heir from "../Heir";
@@ -41,20 +41,3 @@ export function winTrick(state: GameState | GameView, move: WinTrick) {
     delete player.pendingPower;
   }
 } 
-
-export function getWinnerAnimal(animal1: Animal, animal2: Animal) {
-  if (sameSuit(animal1, animal2)) {
-    if (isMouse(animal1) && isElephant(animal2)) {
-      return animal1;
-    } else if (isMouse(animal2) && isElephant(animal1)) {
-      return animal2;
-    } else {
-      return getAnimalPower(animal1) > getAnimalPower(animal2)
-        ? animal1
-        : animal2;
-    }
-  } else {
-    return animal1;
-  } 
-  
-}

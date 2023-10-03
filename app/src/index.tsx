@@ -1,69 +1,25 @@
-import {css, Global} from '@emotion/react'
-import {AwimbaweOptionsSpec} from '@gamepark/awimbawe/AwimbaweOptions'
-import Awimbawe from '@gamepark/awimbawe/Awimbawe'
-import {GameProvider, setupTranslation} from '@gamepark/react-client'
-import normalize from 'emotion-normalize'
-import {StrictMode} from 'react'
+/** @jsxImportSource @emotion/react */
+import { GameProvider, MaterialGameAnimations, setupTranslation } from '@gamepark/react-game'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import AwimbaweView from './AwimbaweView'
 import translations from './translations.json'
+import { addStylesheetUrl } from '@gamepark/react-game'
+import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
+import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
+import { Locators } from './locator/Locators'
+import { material } from './material/Material'
 
-setupTranslation(translations,{debug:false})
-
-const style = css`
-  html {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  *, *::before, *::after {
-    -webkit-box-sizing: inherit;
-    -moz-box-sizing: inherit;
-    box-sizing: inherit;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Oswald', "Roboto Light", serif;
-    font-size: 1vh;
-    @media (max-aspect-ratio: 16/9) {
-      font-size: calc(9vw / 16);
-    }
-  }
-
-  #root {
-    position: absolute;
-    height: 100vh;
-    width: 100vw;
-    user-select: none;
-    overflow: hidden;
-    background-image: url(${process.env.PUBLIC_URL + '/cover-1920.jpg'});
-    background-color: white;
-    background-size: cover;
-    background-position: center;
-    color: #eee;
-
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-  }
-`
+setupTranslation(translations, { debug: false })
+addStylesheetUrl('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap')
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider game="awimbawe" Rules={Awimbawe} RulesView={AwimbaweView} optionsSpec={AwimbaweOptionsSpec}>
+    <GameProvider game="awimbawe" GameSetup={AwimbaweSetup} Rules={AwimbaweRules} optionsSpec={AwimbaweOptionsSpec}
+                  material={material} locators={Locators} animations={new MaterialGameAnimations()}>
       <App/>
     </GameProvider>
-    <Global styles={[normalize, style]}/>
   </StrictMode>,
   document.getElementById('root')
 )

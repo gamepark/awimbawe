@@ -1,4 +1,4 @@
-import Animal from './Animal'
+import Animal from './material/Animal'
 import Heir from './Heir'
 import PlayerState from './PlayerState'
 import StockAnimal from './StockAnimal'

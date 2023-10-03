@@ -1,16 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import GameView from '@gamepark/awimbawe/GameView'
-import {FailuresDialog, FullscreenDialog, Menu, useGame} from '@gamepark/react-client'
-import {Header, ImagesLoader, LoadingScreen} from '@gamepark/react-components'
-import {useEffect, useState} from 'react'
-import {DndProvider} from 'react-dnd-multi-backend'
-import HTML5ToTouch from 'react-dnd-multi-backend/dist/cjs/HTML5toTouch'
-import GameDisplay from './GameDisplay'
-import HeaderText from './HeaderText'
-import Images from './images/Images'
+import { useEffect, useState } from 'react'
+import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialHeader, MaterialImageLoader, Menu, useGame } from '@gamepark/react-game'
+import { GameDisplay } from './GameDisplay'
+import { MaterialGame } from '@gamepark/rules-api'
+import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 
 export default function App() {
-  const game = useGame<GameView>()
+  const game = useGame<MaterialGame>()
   const [imagesLoading, setImagesLoading] = useState(true)
   const [isJustDisplayed, setJustDisplayed] = useState(true)
   useEffect(() => {
@@ -18,14 +14,18 @@ export default function App() {
   }, [])
   const loading = !game || imagesLoading || isJustDisplayed
   return (
-    <DndProvider options={HTML5ToTouch}>
-      {!loading && <GameDisplay game={game}/>}
+    <>
+      <GameDisplay/>
       <LoadingScreen display={loading} author="Mathieu Roussel" artist="Aubane Rittano" publisher="Explor8" developer="Teddy Campagne"/>
-      <Header><HeaderText loading={loading} game={game}/></Header>
+      <MaterialHeader GameOver={() => <>GameOver</>} rulesStepsHeaders={RulesHeaders} loading={loading}/>
+      <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)}/>
       <Menu/>
       <FailuresDialog/>
       <FullscreenDialog/>
-      <ImagesLoader images={Object.values(Images)} onImagesLoad={() => setImagesLoading(false)}/>
-    </DndProvider>
+    </>
   )
+}
+
+const RulesHeaders: Record<any, any> = {
+  [RuleId.ChooseCard]: () => <>ChooseCard</>
 }

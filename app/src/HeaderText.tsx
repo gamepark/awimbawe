@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import GameView from '@gamepark/awimbawe/GameView'
-import {getPlayerName} from '@gamepark/awimbawe/AwimbaweOptions'
-import {usePlayerId} from '@gamepark/react-client'
-import {useTranslation} from 'react-i18next'
+import { getPlayerName } from '@gamepark/awimbawe/AwimbaweOptions'
+import { useTranslation } from 'react-i18next'
+import { usePlayerId } from '@gamepark/react-game'
 
 type Props = {
   loading: boolean

@@ -1,4 +1,4 @@
-import Animal from './Animal'
+import Animal from './material/Animal'
 
 type StockAnimal = {
   animal: Animal
