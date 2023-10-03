@@ -10,7 +10,7 @@ export class ChooseCardRule extends PlayerTurnRule {
         const cardsInPlayingArea = this.material(MaterialType.AnimalCard).location(LocationType.PlayArea)
         const availableAnimals = this
             .material(MaterialType.AnimalCard)
-            .location((location) => location.type === LocationType.Hand || location.type === LocationType.Table)
+            .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
             .rotation((rotation) => !rotation?.y)
             .player(this.player)
 

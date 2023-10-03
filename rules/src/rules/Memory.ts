@@ -1,3 +1,4 @@
 export enum Memory {
-    Lead = 1
+    Lead = 1,
+    RoundWinner
 }

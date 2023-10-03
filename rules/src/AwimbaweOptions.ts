@@ -1,7 +1,7 @@
 import {OptionsSpec} from '@gamepark/rules-api'
 import {TFunction} from 'i18next'
 import GameState from './GameState'
-import Heir, {heirs} from './Heir'
+import Heir, {heirs} from './material/Heir'
 
 /**
  * This is the options for each players in the game.

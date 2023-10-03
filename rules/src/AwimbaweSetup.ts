@@ -2,7 +2,7 @@ import { MaterialGameSetup, MaterialItem } from '@gamepark/rules-api'
 import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
-import Heir, { heirs } from './Heir'
+import Heir, { heirs } from './material/Heir'
 import { AwimbaweOptions } from './AwimbaweOptions'
 import { locationsStrategies } from './configuration/LocationStrategies'
 import { animals } from './material/Animal'
@@ -15,22 +15,31 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
   locationsStrategies = locationsStrategies
 
   setupMaterial(_options: AwimbaweOptions) {
+    this.setupAnimalCards()
+    this.setupHeirCards()
+  }
+
+  setupHeirCards() {
+    const items = heirs.map((heir) => ({ id: heir, location: { type: LocationType.HeirCard }}))
+    this.material(MaterialType.HeirCard).createItems(items)
+  }
+
+  setupAnimalCards() {
     const shuffledAnimal = shuffle(animals)
-    
-  
-    const player1Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.WhiteTiger }}))
+
+    const player1Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.WhiteTiger } }))
     this.material(MaterialType.AnimalCard).createItems(player1Items)
 
-    const player2Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.BlackPanther }}))
+    const player2Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.BlackPanther } }))
     this.material(MaterialType.AnimalCard).createItems(player2Items)
 
-    for(const heir of heirs) {
+    for (const heir of heirs) {
       // Do it for 4 columns
       for (let i = 0; i < 8; i++) {
         const column = (i % 4) + 1
-        const item: MaterialItem = { 
-          id: shuffledAnimal.shift(), 
-          location: { type: LocationType.Table, player: heir, id: column } 
+        const item: MaterialItem = {
+          id: shuffledAnimal.shift(),
+          location: { type: LocationType.PlayerColumns, player: heir, id: column }
         }
 
         if (i < 4) {
@@ -40,15 +49,6 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
         this.material(MaterialType.AnimalCard).createItem(item)
       }
     }
-
-    /**
-     * [
-     *  [1, 2],
-     *  [3, 4],
-     *  [5, 6],
-     *  [7, 8],
-     * ]
-     */
   }
 
   start() {

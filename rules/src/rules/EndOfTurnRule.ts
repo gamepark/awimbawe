@@ -10,7 +10,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
 
         const cardsOnTable = this
             .material(MaterialType.AnimalCard)
-            .location(LocationType.Table)
+            .location(LocationType.PlayerColumns)
 
         const hiddenCards = cardsOnTable
             .rotation((rotation) => rotation?.y === 1)

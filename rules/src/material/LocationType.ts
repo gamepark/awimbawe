@@ -1,6 +1,7 @@
 export enum LocationType {
   Hand = 1,
-  Table,
+  HeirCard,
   PlayArea,
-  PlayerTrickStack
+  PlayerTrickStack,
+  PlayerColumns
 }

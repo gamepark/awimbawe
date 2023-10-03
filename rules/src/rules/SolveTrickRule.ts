@@ -1,7 +1,7 @@
 import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
-import Heir from "../Heir";
+import Heir from "../material/Heir";
 import Animal, { getAnimalPower, isEagle, isElephant, isMouse, sameSuit } from "../material/Animal";
 import { RuleId } from "./RuleId";
 import { Memory } from "./Memory";

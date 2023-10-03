@@ -2,7 +2,7 @@ import { ItemContext, LineLocator } from "@gamepark/react-game";
 import { MaterialItem, Coordinates } from "@gamepark/rules-api";
 import { animalCardDescription } from "../material/AnimalCardDescription";
 
-export class TableLocator extends LineLocator {
+export class PlayerColumnsLocator extends LineLocator {
 
     getDelta(item: MaterialItem, { rules, player }: ItemContext<number, number, number>): Partial<Coordinates> {
         if (item.location.player === (player ?? rules.players[0])) {
@@ -39,4 +39,4 @@ export class TableLocator extends LineLocator {
 
 }
 
-export const tableLocator = new TableLocator()
+export const playerColumnsLocator = new PlayerColumnsLocator()

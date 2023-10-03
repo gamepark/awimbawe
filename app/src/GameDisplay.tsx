@@ -9,9 +9,9 @@ export const GameDisplay = () => {
     <GameTable
       collisionAlgorithm={pointerWithin} 
       xMin={-45} 
-      xMax={45} 
+      xMax={60} 
       yMin={-25}
-      yMax={29} margin={{ top: 7, left: 0, right: 30, bottom: 0 }}
+      yMax={29} margin={{ top: 7, left: 0, right: 0, bottom: 0 }}
       css={css`background-color: rgba(255, 255, 255, 0.47)`}
       />
     <PlayerPanels/>
