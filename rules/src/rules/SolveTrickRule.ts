@@ -28,12 +28,13 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
             })
 
         this.memorize(Memory.Lead, winner)
-        moves.push(this.rules().startPlayerTurn(RuleId.ChooseCard, winner))
+        moves.push(this.rules().startRule(RuleId.EndOfTurn))
 
         return moves;
     }
 
     getWinnerAnimal(animal1: Animal, animal2: Animal) {
+      
       if (sameSuit(animal1, animal2)) {
         if (isMouse(animal1) && isElephant(animal2)) {
           return animal1;

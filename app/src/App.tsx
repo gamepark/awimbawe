@@ -27,5 +27,7 @@ export default function App() {
 }
 
 const RulesHeaders: Record<any, any> = {
-  [RuleId.ChooseCard]: () => <>ChooseCard</>
+  [RuleId.ChooseCard]: () => <>ChooseCard</>,
+  [RuleId.SolveTrick]: () => <>SolveTrick</>,
+  [RuleId.EndOfTurn]: () => <>EndOfTurn</>,
 }

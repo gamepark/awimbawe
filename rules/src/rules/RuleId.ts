@@ -1,4 +1,5 @@
 export enum RuleId {
   ChooseCard = 1,
-  SolveTrick
+  SolveTrick,
+  EndOfTurn
 }

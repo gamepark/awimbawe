@@ -17,11 +17,11 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
   setupMaterial(_options: AwimbaweOptions) {
     const shuffledAnimal = shuffle(animals)
     
-    
+  
     const player1Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.WhiteTiger }}))
     this.material(MaterialType.AnimalCard).createItems(player1Items)
 
-    const player2Items = shuffledAnimal.slice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.BlackPanther }}))
+    const player2Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.BlackPanther }}))
     this.material(MaterialType.AnimalCard).createItems(player2Items)
 
     for(const heir of heirs) {
