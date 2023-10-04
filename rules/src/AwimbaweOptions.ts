@@ -1,6 +1,5 @@
 import {OptionsSpec} from '@gamepark/rules-api'
 import {TFunction} from 'i18next'
-import GameState from './GameState'
 import Heir, {heirs} from './material/Heir'
 
 /**
@@ -14,15 +13,6 @@ type AwimbawePlayerOptions = { id: Heir }
  */
 export type AwimbaweOptions = {
   players: AwimbawePlayerOptions[]
-}
-
-/**
- * Typeguard to help Typescript distinguish between a GameState and new game's options, for you main class constructor.
- * @param arg GameState or Game options
- * @return true if arg is a Game options
- */
-export function isGameOptions(arg: GameState | AwimbaweOptions): arg is AwimbaweOptions {
-  return typeof (arg as GameState)[Heir.WhiteTiger] === 'undefined'
 }
 
 /**

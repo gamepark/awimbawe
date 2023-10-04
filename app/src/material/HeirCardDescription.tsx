@@ -1,6 +1,6 @@
 import { CardDescription } from '@gamepark/react-game'
 import Images from '../images/Images'
-import Heir from '@gamepark/awimbawe/Heir'
+import Heir from '@gamepark/awimbawe/material/Heir'
 
 export class HeirCardDescription extends CardDescription {
 
