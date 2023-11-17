@@ -1,10 +1,11 @@
-import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
+import { MaterialItem, MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import Heir from "../material/Heir";
 import Animal, { getAnimalPower, isEagle, isElephant, isHyena, isMouse, sameSuit } from "../material/Animal";
 import { RuleId } from "./RuleId";
 import { Memory } from "./Memory";
+import { EagleChoice } from "./CustomMoveType";
 
 export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, LocationType> {
 
@@ -21,27 +22,54 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
             .material(MaterialType.AnimalCard)
             .location(LocationType.PlayArea)
             .moveItems((item) => {
-              if (isHyena(item.id)){
-                return { 
-                  location: { 
-                      type: LocationType.PlayerHyena, 
-                      player: winner
-                  }
-                }
+              if (this.hasRanAway) {
+                this.memorize(Memory.Lead, lead)
+                return this.runaway(item, lead, opponent)
               }
-              
-              return { 
-                location: { 
-                    type: LocationType.PlayerTrickStack, 
-                    player: winner
-                }
-              }
+
+              this.memorize(Memory.Lead, winner)
+              return this.solve(item, winner)
             })
 
-        this.memorize(Memory.Lead, winner)
         moves.push(this.rules().startRule(RuleId.EndOfTurn))
 
         return moves;
+    }
+
+    runaway(item: MaterialItem, lead: Heir, opponent: Heir) {
+      if (opponent === item.location.player) {
+        return { 
+          location: { 
+              type: LocationType.PlayerTrickStack, 
+              player: item.location.player
+          }
+        }
+      }
+
+      return this.solve(item, lead)
+    }
+
+    solve(item: MaterialItem, winner: Heir) {
+      if (isHyena(item.id)){
+        return { 
+          location: { 
+              type: LocationType.PlayerHyena, 
+              player: winner
+          }
+        }
+      }
+
+      
+      return { 
+        location: { 
+            type: LocationType.PlayerTrickStack, 
+            player: winner
+        }
+      }
+    }
+
+    get hasRanAway() {
+      return this.remind(Memory.Eagle) === EagleChoice.Runaway
     }
     
     getWinnerAnimal(animal1: Animal, animal2: Animal) {
@@ -65,6 +93,11 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
         return animal1;
       } 
       
+    }
+
+    onRuleEnd() {
+      this.forget(Memory.Eagle)
+      return []
     }
 
     get lead() {

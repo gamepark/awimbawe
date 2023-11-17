@@ -27,7 +27,7 @@ export class PlayerColumnsDescription extends LocationDescription {
 
     getCoordinates(location: Location, _context: MaterialContext) {
         return {
-            x: 37 - (location.id - 1) * (animalCardDescription.width + 1),
+            x: 38.7 - (location.id - 1) * (animalCardDescription.width + 1.5),
             y: -7,
             z: -1
         }

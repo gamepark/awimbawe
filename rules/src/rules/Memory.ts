@@ -1,5 +1,6 @@
 export enum Memory {
     Lead = 1,
     Winner,
-    StartPlayer
+    StartPlayer,
+    Eagle,
 }

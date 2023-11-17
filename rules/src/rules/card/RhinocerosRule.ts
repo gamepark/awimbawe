@@ -12,23 +12,36 @@ export class RhinocerosRule extends CardRule {
         const moves: MaterialMove[] = []
 
         for (let column = 1; column <= 4; column++) {
-            const topCard = this
+            const columnCard = this
                 .material(MaterialType.AnimalCard)
                 .location(LocationType.PlayerColumns)
                 .locationId(column)
                 .player((p) => this.player !== p)
-                .maxBy((item) => item.location.x!)    
+            
+            const topCard = columnCard.maxBy((item) => item.location.x!)    
 
+                
             if (topCard.length) {
                 const item = topCard.getItem()!
                 for (let newColumn = 1; newColumn <= 4; newColumn++) {
+                    if (newColumn === column && columnCard.length === 1) continue
                     moves.push(
-                        topCard.moveItem({ location: {
-                            type: LocationType.PlayerColumns,
-                            id: newColumn,
-                            player: item.location.player, 
-                            x: 0
-                        }})
+                        topCard.moveItem(item.rotation? {
+                            location: {
+                                type: LocationType.PlayerColumns,
+                                id: newColumn,
+                                player: item.location.player, 
+                                x: 0,
+                            },
+                            //rotation: item.rotation, 
+                        }: {
+                            location: {
+                                type: LocationType.PlayerColumns,
+                                id: newColumn,
+                                player: item.location.player, 
+                                x: 0,
+                            } 
+                        })
                     )
                 }
             }

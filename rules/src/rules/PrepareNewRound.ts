@@ -32,7 +32,8 @@ export class PrepareNewRound extends MaterialRulesPart {
     afterItemMove(move: MoveItem) {
         if (isShuffleItemType(MaterialType.AnimalCard)(move)) {
             const moves = this.fillHandAndColumnMoves
-            moves.push(this.rules().startPlayerTurn(RuleId.ChoosePlayer, this.getLead()))
+            const looser = this.game.players.find((p) => p !== this.getWinner())!
+            moves.push(this.rules().startPlayerTurn(RuleId.ChoosePlayer, looser))
             return moves
         }
 

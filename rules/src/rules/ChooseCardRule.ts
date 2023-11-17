@@ -81,7 +81,7 @@ export class ChooseCardRule extends PlayerTurnRule {
 
         const opponent = this.game.players.find((p) => p !== this.player)
         const opponentCards = this.material(MaterialType.AnimalCard)
-            .location((location) => location.type === LocationType.PlayerColumns || location.type === LocationType.PlayArea)
+            .location((location) => location.type === LocationType.PlayerColumns || location.type === LocationType.Hand)
             .player(opponent)
 
         const opponentCardCount = opponentCards.length

@@ -25,14 +25,14 @@ export class PlayerColumnsLocator extends LineLocator {
             .player(item.location.player).length
         if (item.location.player === (player ?? rules.players[0])) {
             return {
-                x: 15 + (item.location.id - 1) * (animalCardDescription.width + 1),
+                x: 15 + (item.location.id - 1) * (animalCardDescription.width + 1.5),
                 y: 20 -  Math.max((count - 2), 0) * 2,
                 z: 0
             }
         }
 
         return {
-            x: 37 - (item.location.id - 1) * (animalCardDescription.width + 1),
+            x: 38.7 - (item.location.id - 1) * (animalCardDescription.width + 1.5),
             y: -15 + Math.max((count - 2), 0) * 2,
             z: 0
         }

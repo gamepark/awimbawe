@@ -21,7 +21,6 @@ export const EagleHeader = () => {
   }
 
   const close = () => setDialogOpen(false)
-  console.log(legalMoves)
   
   return (
     <>
