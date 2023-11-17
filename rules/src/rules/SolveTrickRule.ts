@@ -2,7 +2,7 @@ import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import Heir from "../material/Heir";
-import Animal, { getAnimalPower, isEagle, isElephant, isMouse, sameSuit } from "../material/Animal";
+import Animal, { getAnimalPower, isEagle, isElephant, isHyena, isMouse, sameSuit } from "../material/Animal";
 import { RuleId } from "./RuleId";
 import { Memory } from "./Memory";
 
@@ -20,11 +20,22 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
         const moves: MaterialMove[] = this
             .material(MaterialType.AnimalCard)
             .location(LocationType.PlayArea)
-            .moveItems({ 
+            .moveItems((item) => {
+              if (isHyena(item.id)){
+                return { 
+                  location: { 
+                      type: LocationType.PlayerHyena, 
+                      player: winner
+                  }
+                }
+              }
+              
+              return { 
                 location: { 
                     type: LocationType.PlayerTrickStack, 
                     player: winner
                 }
+              }
             })
 
         this.memorize(Memory.Lead, winner)
@@ -32,7 +43,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
 
         return moves;
     }
-
+    
     getWinnerAnimal(animal1: Animal, animal2: Animal) {
       
       if (sameSuit(animal1, animal2)) {
@@ -57,7 +68,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     }
 
     get lead() {
-        return this.remind(Memory.Lead)
+      return this.remind(Memory.Lead)
     }
 
 }

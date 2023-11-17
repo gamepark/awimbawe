@@ -7,6 +7,8 @@ export const locationsStrategies:  Partial<Record<MaterialType, Partial<Record<L
     [MaterialType.AnimalCard]: {
         [LocationType.Hand]: new PositiveSequenceStrategy(),
         [LocationType.PlayerColumns]: new PositiveSequenceStrategy(),
-        [LocationType.PlayerTrickStack]: new PositiveSequenceStrategy()
+        [LocationType.PlayerTrickStack]: new PositiveSequenceStrategy(),
+        [LocationType.Deck]: new PositiveSequenceStrategy(),
+        [LocationType.PlayerHyena]: new PositiveSequenceStrategy()
     }
 }

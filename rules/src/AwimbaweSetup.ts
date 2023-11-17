@@ -5,9 +5,10 @@ import { RuleId } from './rules/RuleId'
 import Heir, { heirs } from './material/Heir'
 import { AwimbaweOptions } from './AwimbaweOptions'
 import { locationsStrategies } from './configuration/LocationStrategies'
-import { animals } from './material/Animal'
+import { animals, getCrowns } from './material/Animal'
 import shuffle from 'lodash/shuffle'
 import { Memory } from './rules/Memory'
+import sample from 'lodash/sample'
 
 export const START_HAND = 6
 
@@ -52,8 +53,38 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
   }
 
   start() {
-    // TODO: Get player with less couronnes
-    this.memorize(Memory.Lead, this.players[0])
-    return { id: RuleId.ChooseCard, player: this.players[0] }
+    const pantherCrowns  = this.getPlayerCrowns(Heir.BlackPanther)
+    const tigerCrowns  = this.getPlayerCrowns(Heir.WhiteTiger)
+    
+    let lead = undefined
+    if (pantherCrowns === tigerCrowns) {
+      lead = sample(heirs)
+    } else if (pantherCrowns < tigerCrowns) {
+      lead = Heir.BlackPanther
+    } else {
+      lead = Heir.WhiteTiger
+    }
+    
+    this.memorize(Memory.Lead, lead)
+    return { id: RuleId.ChooseCard, player: lead }
   }
+
+  getPlayerCrowns(player: Heir) {
+    // Rechercher les MaterialType.AnimalCard dans LocationType.PlayerColumns
+    const items = this
+      .material(MaterialType.AnimalCard)
+      .location(LocationType.PlayerColumns)
+      .player(player)
+      .rotation((rotation) => rotation?.y !== 1)
+      .getItems()
+
+    // Parcourir les cartes, et pour chaque animal, additionner les couronnes
+    let count = 0
+    for (const item of items) {
+      count = count + getCrowns(item.id)
+    }
+
+    return count
+  }
+
 }

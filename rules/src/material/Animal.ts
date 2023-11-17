@@ -40,34 +40,68 @@ export const animals = Object.values(Animal).filter(isEnumValue)
 export default Animal
 
 //reduce 
+export function getCrowns(animal: Animal) {
+  // Mouse => 3
+  if (isMouse(animal)) {
+    return 3
+  }
+
+  if (isRhinoceros(animal)) {
+    return 2
+  }
+    
+  if (isCheetah(animal)) {
+    return 2
+  }
+  
+  if (isSnake(animal)) {
+    return 1
+  }
+  
+  if (isHyena(animal)) {
+    return 3
+  }
+  
+  if (isElephant(animal)) {
+    return 1
+  }
+
+  if (isEagle(animal)) {
+    if (animal === Animal.Eagle9) return -1
+    if (animal === Animal.Eagle10) return -2
+  }
+
+  return 0
+}
 
 
-export function isEagle(animal: Animal) {
+export function isEagle(animal: Animal): boolean {
   return animal <= 10
 }
 
-export function isHyena(animal: Animal) {
-  return animal % 10 == 4
+
+export function isMouse(animal: Animal): boolean {
+  return animal % 10 === 1
 }
 
-export function isMouse(animal: Animal){
-  return animal % 10 == 1
+export function isRhinoceros(animal: Animal): boolean {
+  return animal % 10 === 2
 }
 
-export function isElephant(animal: Animal){
-  return animal % 10 == 6
+export function isCheetah(animal: Animal): boolean {
+  return animal % 10 === 3
 }
 
-export function isRhinoceros(animal: Animal){
-  return animal % 10 == 2
+export function isHyena(animal: Animal): boolean {
+  return animal % 10 === 4
 }
 
-export function isCheetah(animal: Animal){
-  return animal % 10 == 3
+export function isSnake(animal:Animal): boolean {
+  return animal % 10 === 5
 }
 
-export function isSerpent(animal:Animal){
-  return animal % 10 == 5
+export function isElephant(animal: Animal): boolean {
+  return animal % 10 === 6
 }
 
 export function getAnimalPower(animal: Animal) {
@@ -88,7 +122,7 @@ export function getCrown(animal : Animal){
     return 3
   }else if(isRhinoceros(animal) || isCheetah(animal)){
     return 2
-  }else if(isSerpent(animal) || isElephant(animal)){
+  }else if(isSnake(animal) || isElephant(animal)){
     return 1
   }else if(animal == 7|| animal == 8){
     return 0

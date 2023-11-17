@@ -4,6 +4,9 @@ import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialHeader, Materi
 import { GameDisplay } from './GameDisplay'
 import { MaterialGame } from '@gamepark/rules-api'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
+import { ChooseStartPlayerHeader } from './header/ChooseStartPlayerHeader'
+import { CheetahHeader } from './header/CheetahHeader'
+import { EagleHeader } from './header/EagleHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -30,4 +33,8 @@ const RulesHeaders: Record<any, any> = {
   [RuleId.ChooseCard]: () => <>ChooseCard</>,
   [RuleId.SolveTrick]: () => <>SolveTrick</>,
   [RuleId.EndOfTurn]: () => <>EndOfTurn</>,
+  [RuleId.PrepareNewRound]: () => <>PrepareNewRound</>,
+  [RuleId.ChoosePlayer]: ChooseStartPlayerHeader,
+  [RuleId.Cheetah]: CheetahHeader,
+  [RuleId.Eagle]: EagleHeader
 }

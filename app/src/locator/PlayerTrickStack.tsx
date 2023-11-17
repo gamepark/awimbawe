@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { ItemContext, PileLocator } from "@gamepark/react-game";
+import { ItemContext, ItemLocator } from "@gamepark/react-game";
 import { MaterialItem } from "@gamepark/rules-api";
 
-export class PlayerTrickStack extends PileLocator {
+export class PlayerTrickStack extends ItemLocator {
     maxAngle = 10
     delta = { x: 0.05, y: 0.05, z: 0.05}
     
-  getCoordinates(item: MaterialItem, context: ItemContext) {
+  getPosition(item: MaterialItem, context: ItemContext) {
     const { rules, player, material, type } = context
     const z = material[type].getThickness(item, context) * (item.location.x! + 1)
     if (item.location.player === (player ?? rules.players[0])) {
@@ -14,6 +14,10 @@ export class PlayerTrickStack extends PileLocator {
     }
 
     return { x: -35, y: -15, z }
+  }
+
+  getRotation(item: MaterialItem, { rules, player }: ItemContext) {
+    return item.location.player === (player ?? rules.players[0]) ? 0 : -180
   }
 }
 

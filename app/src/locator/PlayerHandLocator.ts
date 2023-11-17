@@ -17,7 +17,9 @@ export class PlayerHandLocator extends HandLocator {
   }
 
   getBaseAngle(item: MaterialItem, { player, rules }: ItemContext): number {
-    return item.location.player === (player ?? rules.players[0]) ? 0 : -180
+    const baseRotation = item.location.player === (player ?? rules.players[0]) ? 0 : -180
+    const zRotation = item.rotation?.z === 1? 90: 0
+    return baseRotation + zRotation
   }
 }
 

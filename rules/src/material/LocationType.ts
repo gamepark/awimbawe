@@ -3,5 +3,7 @@ export enum LocationType {
   HeirCard,
   PlayArea,
   PlayerTrickStack,
-  PlayerColumns
+  PlayerColumns,
+  Deck,
+  PlayerHyena
 }
