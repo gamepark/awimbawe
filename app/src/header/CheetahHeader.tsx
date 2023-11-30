@@ -17,12 +17,12 @@ export const CheetahHeader = () => {
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
 
   if (!legalMoves.length) {
-    return <>{t('Player choosing who starts the next round', { player: playerName })}</>
+    return <>{t('header.cheetah', { player: playerName })}</>
   }
 
   return (
     <>
-      <Trans defaults="Choose the next player"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
+      <Trans defaults="<0>header.cheetah.me</0>"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
         <div css={rulesCss}>
           <h2><Trans defaults="Choose the next player"><span/></Trans></h2>

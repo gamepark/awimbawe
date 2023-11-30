@@ -1,19 +1,19 @@
 import { MaterialGameSetup, MaterialItem } from '@gamepark/rules-api'
-import { MaterialType } from './material/MaterialType'
-import { LocationType } from './material/LocationType'
-import { RuleId } from './rules/RuleId'
-import Heir, { heirs } from './material/Heir'
-import { AwimbaweOptions } from './AwimbaweOptions'
-import { locationsStrategies } from './configuration/LocationStrategies'
-import { animals, getCrowns } from './material/Animal'
-import shuffle from 'lodash/shuffle'
-import { Memory } from './rules/Memory'
 import sample from 'lodash/sample'
+import shuffle from 'lodash/shuffle'
+import { AwimbaweOptions } from './AwimbaweOptions'
+import AwimbaweRules from './AwimbaweRules'
+import { animals, getCrowns } from './material/Animal'
+import Heir, { heirs } from './material/Heir'
+import { LocationType } from './material/LocationType'
+import { MaterialType } from './material/MaterialType'
+import { Memory } from './rules/Memory'
+import { RuleId } from './rules/RuleId'
 
 export const START_HAND = 6
 
 export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, LocationType, AwimbaweOptions> {
-  locationsStrategies = locationsStrategies
+  Rules = AwimbaweRules
 
   setupMaterial(_options: AwimbaweOptions) {
     this.setupAnimalCards()
@@ -44,7 +44,7 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
         }
 
         if (i < 4) {
-          item.rotation = { y: 1 }
+          item.location.rotation = { y: 1 }
         }
 
         this.material(MaterialType.AnimalCard).createItem(item)
@@ -66,7 +66,7 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
     }
     
     this.memorize(Memory.Lead, lead)
-    return { id: RuleId.ChooseCard, player: lead }
+    return this.startPlayerTurn(RuleId.ChooseCard, lead!)
   }
 
   getPlayerCrowns(player: Heir) {
@@ -75,7 +75,7 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
       .material(MaterialType.AnimalCard)
       .location(LocationType.PlayerColumns)
       .player(player)
-      .rotation((rotation) => rotation?.y !== 1)
+      .rotation((rotation: Record<string, any>) => rotation?.y !== 1)
       .getItems()
 
     // Parcourir les cartes, et pour chaque animal, additionner les couronnes

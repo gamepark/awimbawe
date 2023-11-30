@@ -9,8 +9,8 @@ export class PlayerAreaDescription extends LocationDescription {
     //extraCss = css`background-color: #ffffff30`
     location = { type: LocationType.PlayArea }
     width = (animalCardDescription.width * 2) + 15
-    height = animalCardDescription.getSize(0).height + 10
-    borderRadius = animalCardDescription.borderRadius
-    coordinates = { x: -10, y: 3, z: 0.1 }
+    height = animalCardDescription.height + 10
+    borderRadius = animalCardDescription.borderRadius + 1
+    coordinates = { x: -6.9, y: 0, z: 0.1 }
 
 }

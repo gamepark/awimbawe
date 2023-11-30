@@ -27,7 +27,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
             .location(LocationType.PlayerColumns)
 
         const hiddenCards = cardsOnTable
-            .rotation((rotation) => rotation?.y === 1)
+            .rotation((rotation: any) => rotation?.y === 1)
             .getIndexes()
 
         for (const index of hiddenCards) {
@@ -40,7 +40,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
 
             if (!cardOnTop) {
                 moves.push(
-                    ...cardsOnTable.index(index).moveItems({ rotation: { y: 0 }})
+                    ...cardsOnTable.index(index).rotateItems(false)
                 )
             }
         }

@@ -16,13 +16,13 @@ export class PlayerHyenaLocator extends LineLocator {
   getCoordinates(item: MaterialItem, context: ItemContext) {
     const { rules, player } = context
     if (item.location.player === (player ?? rules.players[0])) {
-      return { x: -35, y: 11, z: 1 }
+      return { x: -29, y: 7, z: 1 }
     }
 
-    return { x: -35, y: -5, z: 1 }
+    return { x: -29, y: -7, z: 1 }
   }
 
-  getRotation(item: MaterialItem, { rules, player }: ItemContext) {
+  getRotateZ(item: MaterialItem, { rules, player }: ItemContext) {
     return item.location.player === (player ?? rules.players[0]) ? 0 : -180
   }
 }

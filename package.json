@@ -11,11 +11,12 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
+    "linkall": "yarn link react @types/react react-dom react-redux @dnd-kit/core @emotion/react react-i18next @gamepark/rules-api @gamepark/react-client @gamepark/react-game",
+    "unlinkall": "yarn unlink react @types/react react-dom react-redux @dnd-kit/core @emotion/react react-i18next @gamepark/rules-api @gamepark/react-client @gamepark/react-game",
+    "linkgp": "yarn link @gamepark/react-client @gamepark/rules-api @gamepark/react-game",
+    "unlinkgp": "yarn unlink @gamepark/react-client @gamepark/rules-api @gamepark/react-game",
     "start": "yarn workspace @gamepark/awimbawe-app run start",
     "build": "yarn workspace @gamepark/awimbawe-app run build",
-    "linkall": "yarn link react react-dom react-redux @dnd-kit/core @emotion/react react-i18next @gamepark/rules-api @gamepark/react-client @gamepark/react-game @apollo/client @types/react",
-    "unlinkall": "yarn unlink react react-dom react-redux @dnd-kit/core @emotion/react react-i18next @gamepark/rules-api @gamepark/react-client @gamepark/react-game @apollo/client @types/react",
-    "linkgp": "yarn link @gamepark/react-client @gamepark/rules-api @gamepark/react-game",
-    "unlinkgp": "yarn unlink @gamepark/react-client @gamepark/rules-api @gamepark/react-game"
+    "deploy": "yarn workspace @gamepark/awimbawe-app run deploy"
   }
 }

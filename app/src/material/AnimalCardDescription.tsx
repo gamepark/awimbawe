@@ -3,6 +3,8 @@ import Images from '../images/Images'
 import Animal from '@gamepark/awimbawe/material/Animal'
 
 export class AnimalCardDescription extends CardDescription {
+  width = 6.35
+  height = 8.89
 
   backImage = Images.cardBack
 

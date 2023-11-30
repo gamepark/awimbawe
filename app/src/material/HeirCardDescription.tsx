@@ -1,4 +1,5 @@
 import { CardDescription } from '@gamepark/react-game'
+import { MaterialItem } from '@gamepark/rules-api'
 import Images from '../images/Images'
 import Heir from '@gamepark/awimbawe/material/Heir'
 
@@ -13,7 +14,11 @@ export class HeirCardDescription extends CardDescription {
     [Heir.WhiteTiger]: Images.WhiteTiger,
     [Heir.BlackPanther]: Images.BlackPanther
   }
-  
+
+
+  isFlipped(item: MaterialItem) {
+    return item.location.rotation
+  }
 
   rules = () => <p></p>
 }

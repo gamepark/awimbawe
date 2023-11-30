@@ -23,7 +23,7 @@ export class SnakeRule extends CardRule {
                 .maxBy((item) => item.location.x!) 
             
             if (rotateColumnCard.length) {            
-                moves.push(rotateColumnCard.moveItem({ rotation: { z: 1 }}))
+                moves.push(rotateColumnCard.rotateItem((item) => ({ ...item.location.rotation, z: 1 })))
             }
             
         }

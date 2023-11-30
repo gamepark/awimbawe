@@ -5,7 +5,7 @@ import { MaterialType } from "../material/MaterialType";
 export const hidingStrategies = {
     [MaterialType.AnimalCard]: {
         [LocationType.Hand]: hideItemIdToOthers,
-        [LocationType.PlayerColumns]: (item: MaterialItem) => item.rotation?.y === 1? ['id']: [],
+        [LocationType.PlayerColumns]: (item: MaterialItem) => item.location?.rotation?.y === 1? ['id']: [],
         [LocationType.Deck]: hideItemId
     }
 }

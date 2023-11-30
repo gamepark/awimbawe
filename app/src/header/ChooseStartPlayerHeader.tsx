@@ -17,12 +17,12 @@ export const ChooseStartPlayerHeader = () => {
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
 
   if (!legalMoves.length) {
-    return <>{t('Player choosing who starts', { player: playerName })}</>
+    return <>{t('header.choose-start', { player: playerName }) ?? t('Player choosing who starts')}</>
   }
 
   return (
     <>
-      <Trans defaults="Choose start player"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
+      <Trans defaults="header.choose-start.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
         <div css={rulesCss}>
           <h2><Trans defaults="Choose start player"><span/></Trans></h2>

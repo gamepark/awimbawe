@@ -11,13 +11,13 @@ export class ChooseCardRule extends PlayerTurnRule {
         const availableAnimals = this.getPlayableCards()
 
         if (!cardsInPlayingArea.length) {
-            return availableAnimals.moveItems({ location: { type: LocationType.PlayArea, player: this.player, x: 0 } })
+            return availableAnimals.moveItems({ type: LocationType.PlayArea, player: this.player, x: 0 })
         }
 
         const allCards: Animal[] = availableAnimals.getItems().map((item) => item.id)
         return availableAnimals
             .filter((item) => this.canPlay(item.id, cardsInPlayingArea.getItem()!.id, allCards))
-            .moveItems({ location: { type: LocationType.PlayArea, player: this.player, x: 1 } })
+            .moveItems({ type: LocationType.PlayArea, player: this.player, x: 1 })
     }
 
     getPlayableCards() {
@@ -25,7 +25,7 @@ export class ChooseCardRule extends PlayerTurnRule {
             .material(MaterialType.AnimalCard)
             .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
             .player(this.player)
-            .rotation((rotation) => !rotation?.y && !rotation?.z)
+            .rotation((rotation: Record<string, any>) => !rotation?.y && !rotation?.z)
 
         return allPlayerCards
             .filter((item) => {
@@ -43,14 +43,14 @@ export class ChooseCardRule extends PlayerTurnRule {
 
     afterItemMove(move: ItemMove) {
         if (!isMoveItemType(MaterialType.AnimalCard)(move)) return []
-        if (!move.position.location || move.position.location.type !== LocationType.PlayArea) return []
+        if (!move.location || move.location.type !== LocationType.PlayArea) return []
 
         const moves: MaterialMove[] = this.material(MaterialType.AnimalCard)
             .player(this.player)
-            .rotation((rotation) => rotation?.z === 1)
+            .rotation((rotation: Record<string, any>) => rotation?.z === 1)
             .moveItems((item) => ({
                 rotation: {
-                    ...item.rotation,
+                    ...item.location.rotation,
                     z: 0
                 }
             }))

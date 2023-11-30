@@ -26,7 +26,7 @@ export class PlayerColumnsLocator extends LineLocator {
         if (item.location.player === (player ?? rules.players[0])) {
             return {
                 x: 15 + (item.location.id - 1) * (animalCardDescription.width + 1.5),
-                y: 20 -  Math.max((count - 2), 0) * 2,
+                y: 15 -  Math.max((count - 2), 0) * 2,
                 z: 0
             }
         }
@@ -38,13 +38,9 @@ export class PlayerColumnsLocator extends LineLocator {
         }
     }
 
-    isHidden(item: MaterialItem) {
-        return item.rotation?.y === 1
-    }
-
-    getRotation(item: MaterialItem, { player, rules }: ItemContext): number {
+    getRotateZ(item: MaterialItem<number, number>, { rules, player }: ItemContext<number, number, number>): number {
         const baseRotation = item.location.player === (player ?? rules.players[0]) ? 0 : -180
-        const zRotation = item.rotation?.z === 1? 90: 0
+        const zRotation = item.location.rotation?.z === 1? 90: 0
         return baseRotation + zRotation
     }
 

@@ -32,7 +32,7 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
     
     if (hyenasPlayerB === 4) return -1
     if (hyenasPlayerA === 4) return 1
-    if (crownsPlayerA > crownsPlayerB && heirCardA?.rotation?.y === 1) {
+    if (crownsPlayerA > crownsPlayerB && heirCardA?.location?.rotation) {
       return -1
     }
 

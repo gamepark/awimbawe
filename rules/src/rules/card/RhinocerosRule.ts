@@ -26,21 +26,17 @@ export class RhinocerosRule extends CardRule {
                 for (let newColumn = 1; newColumn <= 4; newColumn++) {
                     if (newColumn === column && columnCard.length === 1) continue
                     moves.push(
-                        topCard.moveItem(item.rotation? {
-                            location: {
+                        topCard.moveItem(item.location.rotation? {
                                 type: LocationType.PlayerColumns,
                                 id: newColumn,
                                 player: item.location.player, 
                                 x: 0,
-                            },
-                            //rotation: item.rotation, 
+                                rotation: item.location.rotation
                         }: {
-                            location: {
                                 type: LocationType.PlayerColumns,
                                 id: newColumn,
                                 player: item.location.player, 
                                 x: 0,
-                            } 
                         })
                     )
                 }

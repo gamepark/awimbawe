@@ -8,7 +8,7 @@ export class AwimbaweAnimations extends MaterialGameAnimations {
 
   override getDuration(move: MaterialMove, context: MaterialAnimationContext): number {
     if (isMoveItemType(MaterialType.AnimalCard)(move)
-      && move.position.location?.type === LocationType.Deck
+      && move.location?.type === LocationType.Deck
       && context.step === AnimationStep.BEFORE_MOVE
     ) return 0.2
 

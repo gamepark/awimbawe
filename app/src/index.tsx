@@ -25,6 +25,13 @@ ReactDOM.render(
       material={material}
       locators={Locators}
       animations={new AwimbaweAnimations()}
+      theme={{
+        root: {
+          background: {
+            overlay: 'rgba(0, 0, 0, 0.3)'
+          }
+        }
+      }}
     >
       <App/>
     </GameProvider>
