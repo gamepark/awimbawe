@@ -1613,7 +1613,7 @@
     supports-webp "^3.0.0"
     use-long-press "^3.1.3"
 
-"@gamepark/rules-api@^6.15.4", "@gamepark/rules-api@~6.15.3", "@gamepark/rules-api@~6.15.4":
+"@gamepark/rules-api@^6.15.4", "@gamepark/rules-api@~6.15.4":
   version "6.15.4"
   resolved "https://registry.yarnpkg.com/@gamepark/rules-api/-/rules-api-6.15.4.tgz#59045d26815b2f5a1a1f7b8c0945e58ee8163e2f"
   integrity sha512-sJPu4caKRYfLCPPyw+/0Uv+w0uescbEQaWDoi7yyukSaZHZHW3W4wK2r1mEb2If82aX3kOaqWZ5BH2gLbLiBPQ==
