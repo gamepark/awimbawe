@@ -1,12 +1,28 @@
-import {  CompetitiveRank, MaterialGame, MaterialMove, SecretMaterialRules } from '@gamepark/rules-api'
-import Heir from './material/Heir'
-import { MaterialType } from './material/MaterialType'
-import { LocationType } from './material/LocationType'
-import { rules } from './configuration/RuleDefinitions'
-import { hidingStrategies } from './configuration/HidingStrategies'
-import { locationsStrategies } from './configuration/LocationStrategies'
+import {
+  CompetitiveRank,
+  hideItemId,
+  hideItemIdToOthers,
+  MaterialGame,
+  MaterialItem,
+  MaterialMove,
+  PositiveSequenceStrategy,
+  SecretMaterialRules
+} from '@gamepark/rules-api'
 import sumBy from 'lodash/sumBy'
 import { getCrowns } from './material/Animal'
+import Heir from './material/Heir'
+import { LocationType } from './material/LocationType'
+import { MaterialType } from './material/MaterialType'
+import { CheetahRule } from './rules/card/CheetahRule'
+import { EagleRule } from './rules/card/EagleRule'
+import { RhinocerosRule } from './rules/card/RhinocerosRule'
+import { SnakeRule } from './rules/card/SnakeRule'
+import { ChooseCardRule } from './rules/ChooseCardRule'
+import { ChooseStartPlayerRule } from './rules/ChooseStartPlayerRule'
+import { EndOfTurnRule } from './rules/EndOfTurnRule'
+import { PrepareNewRound } from './rules/PrepareNewRound'
+import { RuleId } from './rules/RuleId'
+import { SolveTrickRule } from './rules/SolveTrickRule'
 
 /**
  * Your Board Game rules must extend either "SequentialGame" or "SimultaneousGame".
@@ -17,18 +33,12 @@ import { getCrowns } from './material/Animal'
  */
 export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType>
   implements CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>  {
-  rules = rules
-  hidingStrategies = hidingStrategies
-  locationsStrategies = locationsStrategies
-
   rankPlayers(playerA: Heir, playerB: Heir) {
     const crownsPlayerA = this.getPlayerCrowns(playerA)
     const crownsPlayerB = this.getPlayerCrowns(playerB)
     const heirCardA = this.material(MaterialType.HeirCard).id(playerA).getItem()
     const hyenasPlayerA = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(playerA).length
     const hyenasPlayerB = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(playerB).length
-    console.log(playerA, hyenasPlayerA, crownsPlayerA, heirCardA)
-    console.log(playerB, hyenasPlayerB, crownsPlayerB)
     
     if (hyenasPlayerB === 4) return -1
     if (hyenasPlayerA === 4) return 1
@@ -36,7 +46,6 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
       return -1
     }
 
-    console.log(playerA, playerB, 1)
     return 1
   }
 
@@ -48,5 +57,35 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
 
 
     return sumBy(cards, (card) => getCrowns(card.id))
+  }
+
+  rules = {
+    [RuleId.ChooseCard]: ChooseCardRule,
+    [RuleId.SolveTrick]: SolveTrickRule,
+    [RuleId.EndOfTurn]: EndOfTurnRule,
+    [RuleId.PrepareNewRound]: PrepareNewRound,
+    [RuleId.ChoosePlayer]: ChooseStartPlayerRule,
+    [RuleId.Rhinoceros]: RhinocerosRule,
+    [RuleId.Snake]: SnakeRule,
+    [RuleId.Cheetah]: CheetahRule,
+    [RuleId.Eagle]: EagleRule
+  }
+
+  hidingStrategies = {
+    [MaterialType.AnimalCard]: {
+      [LocationType.Hand]: hideItemIdToOthers,
+      [LocationType.PlayerColumns]: (item: MaterialItem) => item.location?.rotation?.y === 1? ['id']: [],
+      [LocationType.Deck]: hideItemId
+    }
+  }
+
+  locationsStrategies = {
+    [MaterialType.AnimalCard]: {
+      [LocationType.Hand]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerColumns]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerTrickStack]: new PositiveSequenceStrategy(),
+      [LocationType.Deck]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerHyena]: new PositiveSequenceStrategy()
+    }
   }
 }
