@@ -1,92 +1,163 @@
 # How to adapt a game for Game Park!
 
-Welcome, developer! This documentation will guide you if you would like to adapt a board game on Game Park.
+Welcome, developer! This documentation will guide you if you would like to adapt a game for [Game Park](https://game-park.com/).
 
 First, make sure you have an agreement with us about the game you are going to adapt.
 
 Then, let's code 🙂
 
-## 1. Git repository
-You must install Git on your computer, and create an account on Github if you do not have one.
+## 1. Create a new project
+You must install [Git](https://git-scm.com/) on your computer, and create an account on [Github](https://github.com/) if you do not have one.
 
-Then, you need a repository for you game. You can either wait for us to create one, or follow this documentation: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/duplicating-a-repository
+Then, you need a repository for you game. You can either wait for us to create one, or use [our template on Github](https://github.com/gamepark/board-game-template) to [create a new repository](https://docs.github.com/fr/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template)
 
-## 2. Run the project
-Use VSCode, Webstorm or any IDE you like to open the code on you computer.
+We recommend to use this syntax to name the repository: "name-of-your-game"
 
-You must also install Node.js (https://nodejs.org/) and Yarn (https://yarnpkg.com/)
+## 2. Start the game
+Use [Visual Studio Code](https://code.visualstudio.com/), [Webstorm](https://www.jetbrains.com/fr-fr/webstorm/) or any IDE you like to open the code on you computer.
 
-Now you can install all the dependencies of the project using Yarn. Run this command in the project's folder:
+You must also install [Node.js](https://nodejs.org/) and [Yarn](https://yarnpkg.com/)
+
+The project has dependencies, which you can find inside [/app/package.json](/app/package.json) and [/rules/package.json](/rules/package.json).
+
+You must install the dependencies using Yarn. Run this command line in the project's folder: `yarn install`
+
+Now, you should be able to start the game on your computer: `yarn start`
+
+It should open a browser window on http://localhost:3000 and display the first version of your game. It is a debug session: if you change something in the code, it will automatically apply the changes!
+
+This version does not interact with Game Park servers. It is 100% local. Inside the console of this browser window, you can run those commands:
+
+- Start a new game with X players: `game.new(X)` (default is 2)
+- Have the other players play automatically random moves: `game.monkeyOpponents(true)`
+- Undo the last move: `game.undo()`
+
+## 3. The code
+
+Every game on Game Park has 2 parts: ["rules"](/rules) and ["app"](/app).
+
+The rules part contains the code that will run on Game Park servers once the game is deployed. Here we enforce the rules and the lifecycle of the game.
+
+The app part contains a [React](https://react.dev/) application, that will create static files and call the Game Park API to interact with other players in real-time.
+
+### 3.0 Rename the default values in the template
+
+Search and replace in **every file**:
+- `Game Template` => `Name of your Game`
+- `GameTemplate` => `NameOfYourGame`
+- `game-template` => `name-of-your-game`
+
+### 3.1 The Material
+
+Board game have Material, made of cards, boards, tokens...
+
+The file [MaterialType.ts](/rules/src/material/MaterialType.ts) lists the types of Material in the game.
+
+_Tips: add you material types one by one. If you have different kinds of boards, cards or token that never mix together, use a different type for each of them._
+
+Example:
 ```
-yarn install
+export enum MaterialType {
+  Card = 1
+}
 ```
-Then you should be able to start the game on your computer:
+
+When you add a new MaterialType in the rules, you have to describe how it looks like in the app, inside [Material.tsx](/app/src/material/Material.ts).
+
+Example:
 ```
-yarn start
+import back from '../images/cards/back.jpg'
+import card1 from '../images/cards/card-1.jpg'
+import card2 from '../images/cards/card-2.jpg'
+import card3 from '../images/cards/card-3.jpg'
+
+export const Material: Record<MaterialType, MaterialDescription> = {
+  [MaterialType.Card]: CardsDescription,
+}
+
+export const CardsDescription: CardMaterialDescription = {
+  type: MaterialComponentType.Card,
+  props: {
+    height: 8.8,
+    ratio: 5 / 7,
+    back: {
+      image: back
+    },
+    front: {
+      image: {
+        [TheCardEnumId.SomeId1]: card1,
+        [TheCardEnumId.SomeId2]: card2,
+        [TheCardEnumId.SomeId3]: card3
+      }
+    }
+  }
+}
 ```
-It should open a browser window on http://localhost:3000 and display the first version of your game!
 
-The project is divided into 2 parts: the rules (/rules), and the application (/app)
+### 3.2 The Locations
 
-The rules describe how the game works.
-This code will be used both by Game Park server, and the player's browsers.
+In a board game, most material move around different places: the table, the player hand...
 
-The app is how the game is displayed, it will only run in the player's browsers.
+This concept is name "Location".
 
-## 3. Design the user experience
+The file [LocationType.ts](/rules/src/material/LocationType.ts) lists the types of locations in the game.
 
-### Layout the game material
+_Tips: add you location types one by one. Locations are used to position the Material on the screen._
 
-#### The letterbox scale mode
+When you add a new LocationType in the rules, you have to create a new "Locator" in the app, inside [Locators.tsx](/app/src/locator/Locators.tsx).
 
-The game must work for computers, tablets and mobile phone.
+Example:
+```
+export const Locators: Record<LocationType, ItemLocator<PlayerColor, MaterialType, LocationType>> = {
+  [LocationType.Hand]: new PlayerHandLocator(),
+}
 
-The easier way is the ["letterbox scale mode"](https://felgo.com/doc/felgo-different-screen-sizes/)
+export class PlayerHandLocator extends HandLocator<PlayerColor, MaterialType, LocationType> {
+  getCoordinates() {
+    return { x: 0, y: 20, z: 10 }
+  }
+}
+```
 
-This is already implemented in this file `/app/src/GameDisplay.tsx`: see the "Letterbox" component here.
+### 3.3 The setup
 
-With this in mind, you can imagine a layout that will display all the game material inside a 16:9 zone,
-that will scale from a mobile display up to a computer screen.
+Once you have one Material type and one Location type, you can start to setup a new game in [AwimbaweRules.ts](/rules/src/AwimbaweRules.ts)
 
-Everything must be big enough to read on a mobile phone, or have some way to "zoom-in" later on!
+You can easily create and manipulate the material in the setup:
 
-*Feel free to remove the letterbox approach for something else if you think there is something better to do for your game ☺*
+```
+  setup() {
+    this.setupMaterial(MaterialType.Card).createItems([
+      {id: TheCardEnumId.SomeId1, location: { type: LocationType.Hand }},
+      {id: TheCardEnumId.SomeId2, location: { type: LocationType.Hand }},
+      {id: TheCardEnumId.SomeId3, location: { type: LocationType.Hand }},
+    ])
+  }
+```
 
-#### Use percentage everywhere
-For the content to scale up and down inside the letterbox, you should only use `%` and `em` units in your CSS code.
+Now, you can run `yarn start`, then `game.new()` in the browser console, and you should see the 3 cards in you hand!
 
-### Use numbers sparingly
-An interface full of numbers can frighten a novice player! Try to use number only when you have no other choice,
-or when the player have more than 4 or 5 similar items, for example.
+### 3.4 The Rules Parts
 
-When there is a victory points track, it can be replaced by a number to save some space however!
+Example in [ExpeditionRules](https://github.com/gamepark/expedition/blob/master/rules/src/ExpeditionRules.ts#L34): `get rules()`
 
-### Animations
-Do not worry too much about the animations: they can be added later on.
+### 3.5 Automatically order the Material
 
-One advice though: it is much easier to animate the elements if they all are a direct child of the letterbox component!
+Example in [ExpeditionRules](https://github.com/gamepark/expedition/blob/master/rules/src/ExpeditionRules.ts#L54): `get locationsStrategies()`
 
-## 4. Display the initial state
-**Your game always has a state, and the React application always displays the game state.**
+### 3.6 Hiding stuff to players
 
-The state of the game is a Javascript object. The specifications for this object must be written here: `/rules/src/GameState.ts`
+Example in [ExpeditionRules](https://github.com/gamepark/expedition/blob/master/rules/src/ExpeditionRules.ts#L45): `get hidingStrategies()`
 
-If you change the specification, it will probably break the game setup here: `/rules/src/AwimbaweRules.ts`.
-In this file, you can rename "AwimbaweRules" with the real name of your game, and in the constructor when you have no arguments,
-you must set up a new game with the properties matching your specifications.
+## 4. Deploy on Game Park
 
-**Everytime you change GameState, you must open the browser console and run `game.new()` to replace the old obsolete game state with a fresh new game.**
+The rules part will always be deployed by Game Park team (contact us for any new version)
 
-Once you have a satisfying initial game state, you can go back into `/app/src/GameDisplay.tsx` and write components to display the game state the way you want.
-
-## 42. Deploy on Game Park
-**First, the rules must be deployed by Game Park (contact us for any new version).**
-
-To deploy the application, first you must configure rclone (https://rclone.org/).
+You can however deploy the React application, using [rclone](https://rclone.org/)
 
 Download rclone, and make it executable (add rclone.exe in the PATH env variable on Windows)
 
-We will provide you with an access_key_id and a secret_access_key (keep it absolutely safe!)
+We will provide you with an **access_key_id** and a **secret_access_key** (keep it absolutely safe!)
 
 Then, run:
 
@@ -94,7 +165,7 @@ Then, run:
 rclone config
 > n (For "New remote)
 name> awimbawe
-Storage> 4 (Amazon S3 Compliant Storage Provider)
+Storage> s3 (Amazon S3 Compliant Storage Provider)
 provider> Other
 env_auth> false
 access_key_id> [Enter your access key id here - Never commit that on Git!]
@@ -107,11 +178,9 @@ Edit advanced config> n
 ```
 
 This configuration is only required once.
-Now, to deploy a new version of the board game, you have 2 command lines to run:
+
+Now you can deploy a new version of the react application with this command:
 
 ```
-yarn build
-rclone sync app/build awimbawe:awimbawe.game-park.com --progress --s3-acl=public-read
+yarn deploy
 ```
-
-More details about this deployment method here: https://www.clever-cloud.com/blog/engineering/2020/06/24/deploy-cellar-s3-static-site/
