@@ -9,7 +9,7 @@ import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-export const EagleHeader = () => {
+export const EndOfTurnHeader = () => {
   const { t } = useTranslation()
   const game = useGame<MaterialGame<Heir, MaterialType, LocationType>>()!
   const player = usePlayerId()

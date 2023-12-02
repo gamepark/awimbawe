@@ -4,9 +4,13 @@ import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialHeader, Materi
 import { GameDisplay } from './GameDisplay'
 import { MaterialGame } from '@gamepark/rules-api'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
+import { ChooseCardHeader } from './header/ChooseCardHeader'
 import { ChooseStartPlayerHeader } from './header/ChooseStartPlayerHeader'
 import { CheetahHeader } from './header/CheetahHeader'
 import { EagleHeader } from './header/EagleHeader'
+import { EndOfTurnHeader } from './header/EndOfTurnHeader'
+import { RhinocerosHeader } from './header/RhinocerosHeader'
+import { SnakeHeader } from './header/SnakeHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -30,11 +34,13 @@ export default function App() {
 }
 
 const RulesHeaders: Record<any, any> = {
-  [RuleId.ChooseCard]: () => <>ChooseCard</>,
+  [RuleId.ChooseCard]: ChooseCardHeader,
   [RuleId.SolveTrick]: () => <>SolveTrick</>,
-  [RuleId.EndOfTurn]: () => <>EndOfTurn</>,
+  [RuleId.EndOfTurn]: EndOfTurnHeader,
   [RuleId.PrepareNewRound]: () => <>PrepareNewRound</>,
   [RuleId.ChoosePlayer]: ChooseStartPlayerHeader,
   [RuleId.Cheetah]: CheetahHeader,
-  [RuleId.Eagle]: EagleHeader
+  [RuleId.Eagle]: EagleHeader,
+  [RuleId.Rhinoceros]: RhinocerosHeader,
+  [RuleId.Snake]: SnakeHeader
 }

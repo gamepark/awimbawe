@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Trans, useTranslation } from 'react-i18next'
-import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { CustomMove, isCustomMove, MaterialGame } from '@gamepark/rules-api'
+import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark/rules-api'
 import { useState } from 'react'
 import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
@@ -12,38 +12,35 @@ export const CheetahHeader = () => {
   const { t } = useTranslation()
   const game = useGame<MaterialGame<Heir, MaterialType, LocationType>>()!
   const player = usePlayerId()
+  const rules = useRules<MaterialRules>()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const playerName = usePlayerName(game.rule!.player!)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
 
-  if (!legalMoves.length) {
-    return <>{t('header.cheetah', { player: playerName })}</>
-  }
-
-  return (
-    <>
-      <Trans defaults="<0>header.cheetah.me</0>"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
+  if (player && rules?.isTurnToPlay(player)) {
+    return <>
+      <Trans defaults="header.cheetah.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
         <div css={rulesCss}>
-          <h2><Trans defaults="Choose the next player"><span/></Trans></h2>
-          <p>
-            <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
-              {t('Choose me as next player')}
-            </PlayMoveButton>
-          </p>
-          {legalMoves.filter(move => move.data !== player).map(move =>
-            <p key={move.data}><ChoosePlayerButton move={move}/></p>
-          )}
+          <h2><Trans defaults="header.cheetah.me"><span/></Trans></h2>
+          <div>
+            <p>
+              <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
+                {t('header.cheetah.choose.me')}
+              </PlayMoveButton>
+            </p>
+            <p>
+              <PlayMoveButton move={legalMoves.find(move => move.data !== player)}>
+                {t('header.cheetah.choose.other')}
+              </PlayMoveButton>
+            </p>
+          </div>
         </div>
       </RulesDialog>
-    </>
-  )
-}
-
-const ChoosePlayerButton = ({ move }: { move: CustomMove }) => {
-  const { t } = useTranslation()
-  const playerName = usePlayerName(move.data)
-  return <PlayMoveButton move={move}>{t('Choose {player} as next player', { player: playerName })}</PlayMoveButton>
+      </>
+  } else {
+    return <>{t('header.cheetah', { player: playerName })}</>
+  }
 }
 
 const rulesCss = css`

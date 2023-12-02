@@ -28,7 +28,7 @@ ReactDOM.render(
       theme={{
         root: {
           background: {
-            overlay: 'rgba(0, 0, 0, 0.3)'
+            overlay: 'rgba(0, 0, 0, 0.5)'
           }
         }
       }}

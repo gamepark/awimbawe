@@ -10,10 +10,14 @@ export class PlayerHandLocator extends HandLocator {
     return { x: -7, y: -15, z: 0 }
   }
 
+  getRotateZ(item: MaterialItem<number, number>, context: ItemContext): number {
+    const { player, rules } = context
+    const multiplicator = item.location.player === (player ?? rules.players[0])? 1: -1
+    return item.location.rotation?.z === 1? multiplicator * 90: super.getRotateZ(item, context)
+  }
+
   getBaseAngle(item: MaterialItem, { player, rules }: ItemContext): number {
-    const baseRotation = item.location.player === (player ?? rules.players[0]) ? 0 : -180
-    const zRotation = item.location.rotation?.z === 1? 90: 0
-    return baseRotation + zRotation
+    return item.location.player === (player ?? rules.players[0]) ? 0 : -180
   }
 }
 
