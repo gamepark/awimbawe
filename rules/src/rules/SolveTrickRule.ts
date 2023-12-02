@@ -1,11 +1,11 @@
-import { MaterialItem, MaterialMove, MaterialRulesPart, RuleMove } from '@gamepark/rules-api'
-import { MaterialType } from '../material/MaterialType'
-import { LocationType } from '../material/LocationType'
-import Heir from '../material/Heir'
+import { Material, MaterialMove, MaterialRulesPart, RuleMove } from '@gamepark/rules-api'
 import Animal, { getAnimalPower, isEagle, isElephant, isHyena, isMouse, sameSuit } from '../material/Animal'
-import { RuleId } from './RuleId'
-import { Memory } from './Memory'
+import Heir from '../material/Heir'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
 import { EagleChoice } from './CustomMoveType'
+import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
 export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, LocationType> {
 
@@ -18,17 +18,20 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
 
     const winnerAnimal = this.getWinnerAnimal(leadCard.id, opponentCard.id)
     const winner = winnerAnimal === leadCard.id ? lead : opponent
-    const moves: MaterialMove[] = this
+    const cards = this
       .material(MaterialType.AnimalCard)
       .location(LocationType.PlayArea)
-      .moveItems((item) => {
+    const moves: MaterialMove[] = cards
+      .getIndexes()
+      .flatMap((index) => {
+        const card = cards.index(index)
         if (this.hasRanAway) {
           this.memorize(Memory.Lead, lead)
-          return this.runaway(item, lead, opponent)
+          return this.runaway(card, lead, opponent)
         }
 
         this.memorize(Memory.Lead, winner)
-        return this.solve(item, winner)
+        return this.solve(card, winner)
       })
 
     moves.push(this.rules().startRule(RuleId.EndOfTurn))
@@ -36,30 +39,46 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     return moves
   }
 
-  runaway(item: MaterialItem, lead: Heir, opponent: Heir) {
+  runaway(card: Material, lead: Heir, opponent: Heir) {
+    const item = card.getItem()!
     if (opponent === item.location.player) {
-      return {
+      return card.moveItems({
         type: LocationType.PlayerTrickStack,
         player: item.location.player
-      }
+      })
     }
 
-    return this.solve(item, lead)
+    return this.solve(card, lead)
   }
 
-  solve(item: MaterialItem, winner: Heir) {
-    if (isHyena(item.id)) {
-      return {
+  solve(card: Material, winner: Heir) {
+    const item = card.getItem()!
+    const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
+    const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(opponent)
+    const hyenasInTrick = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).player(opponent)
+    if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length) {
+      return card.moveItems({
         type: LocationType.PlayerHyena,
         player: winner
-      }
+      })
     }
 
-
-    return {
-      type: LocationType.PlayerTrickStack,
-      player: winner
+    const moves: MaterialMove[] = []
+    if (isHyena(item.id) && hyenasInDeck.length) {
+      moves.push(
+        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent }),
+        ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({ type: LocationType.PlayerTrickStack, player: winner })
+      )
     }
+
+    moves.push(
+      ...card.moveItems({
+        type: LocationType.PlayerTrickStack,
+        player: winner
+      })
+    )
+
+    return moves
   }
 
   get hasRanAway() {

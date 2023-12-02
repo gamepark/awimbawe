@@ -30,10 +30,5 @@ export const AwimbaweOptionsSpec: OptionsSpec<AwimbaweOptions> = {
 }
 
 export function getPlayerName(playerId: Heir, t: TFunction) {
-  switch (playerId) {
-    case Heir.WhiteTiger:
-      return t('White Tiger')
-    case Heir.BlackPanther:
-      return t('Black Panther')
-  }
+  return t(`player.${playerId}`)
 }
