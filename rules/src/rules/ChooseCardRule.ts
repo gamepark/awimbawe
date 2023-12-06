@@ -75,11 +75,13 @@ export class ChooseCardRule extends PlayerTurnRule {
         const item = this.material(MaterialType.AnimalCard).getItem(move.itemIndex)!
         
         const player = this.player
-        if (player !== this.lead && isEagle(item.id)) {
+        const opponent = this.game.players.find((p) => p !== this.player)
+        const opponentCard = this.material(MaterialType.AnimalCard).location(LocationType.PlayArea).player(opponent).getItem()
+        const followsPlayer = opponentCard && isEagle(opponentCard.id)
+        if (player !== this.lead && !followsPlayer && isEagle(item.id)) {
             return RuleId.Eagle
         }
 
-        const opponent = this.game.players.find((p) => p !== this.player)
         const opponentCards = this.material(MaterialType.AnimalCard)
             .location((location) => location.type === LocationType.PlayerColumns || location.type === LocationType.Hand)
             .player(opponent)
