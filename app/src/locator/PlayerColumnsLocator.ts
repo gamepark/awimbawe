@@ -9,16 +9,16 @@ export class PlayerColumnsLocator extends LineLocator {
     locationDescription = new PlayerColumnsDescription()
 
     getDelta(item: MaterialItem, { rules, player }: ItemContext<number, number, number>): Partial<Coordinates> {
-        const selected = !!item.selected? 1: 0
         if (item.location.player === (player ?? rules.players[0])) {
-            return { x: 0, y: 2 - selected, z: 0.05 }
+            return { x: 0, y: 2, z: 0.05 }
         }
 
 
-        return { x: 0, y: -2 - selected, z: 0.05 }
+        return { x: 0, y: -2, z: 0.05 }
     }
 
     getCoordinates(item: MaterialItem, { rules, player }: ItemContext): Coordinates {
+        const selected = !!item.selected? 1: 0
         const count = rules
             .material(MaterialType.AnimalCard)
             .location(item.location.type)
@@ -27,14 +27,14 @@ export class PlayerColumnsLocator extends LineLocator {
         if (item.location.player === (player ?? rules.players[0])) {
             return {
                 x: 15 + (item.location.id - 1) * (animalCardDescription.width + 1.5),
-                y: 15 -  Math.max((count - 2), 0) * 2,
+                y: 15 -  Math.max((count - 2), 0) * 2 - selected,
                 z: 0
             }
         }
 
         return {
             x: 38.7 - (item.location.id - 1) * (animalCardDescription.width + 1.5),
-            y: -15 + Math.max((count - 2), 0) * 2,
+            y: -15 + Math.max((count - 2), 0) * 2 + selected,
             z: 0
         }
     }

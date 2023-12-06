@@ -3,9 +3,9 @@ import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { Location } from '@gamepark/rules-api'
 import { animalCardDescription } from '../../material/AnimalCardDescription'
+import { PlayerColumnHelp } from './PlayerColumnsHelp'
 
 export class PlayerColumnsDescription extends LocationDescription {
-  alwaysVisible = true
   width = animalCardDescription.width
   ratio = animalCardDescription.ratio
 
@@ -32,4 +32,6 @@ export class PlayerColumnsDescription extends LocationDescription {
       z: -1
     }
   }
+
+  help = PlayerColumnHelp
 }
