@@ -20,7 +20,7 @@ import { SnakeRule } from './rules/card/SnakeRule'
 import { ChooseCardRule } from './rules/ChooseCardRule'
 import { ChooseStartPlayerRule } from './rules/ChooseStartPlayerRule'
 import { EndOfTurnRule } from './rules/EndOfTurnRule'
-import { PrepareNewRound } from './rules/PrepareNewRound'
+import { PrepareNewRoundRule } from './rules/PrepareNewRoundRule'
 import { RuleId } from './rules/RuleId'
 import { SolveTrickRule } from './rules/SolveTrickRule'
 
@@ -63,7 +63,7 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
     [RuleId.ChooseCard]: ChooseCardRule,
     [RuleId.SolveTrick]: SolveTrickRule,
     [RuleId.EndOfTurn]: EndOfTurnRule,
-    [RuleId.PrepareNewRound]: PrepareNewRound,
+    [RuleId.PrepareNewRound]: PrepareNewRoundRule,
     [RuleId.ChoosePlayer]: ChooseStartPlayerRule,
     [RuleId.Rhinoceros]: RhinocerosRule,
     [RuleId.Snake]: SnakeRule,

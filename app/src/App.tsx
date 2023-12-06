@@ -9,8 +9,10 @@ import { ChooseStartPlayerHeader } from './header/ChooseStartPlayerHeader'
 import { CheetahHeader } from './header/CheetahHeader'
 import { EagleHeader } from './header/EagleHeader'
 import { EndOfTurnHeader } from './header/EndOfTurnHeader'
+import { PrepareNewRoundHeader } from './header/PrepareNewRoundHeader'
 import { RhinocerosHeader } from './header/RhinocerosHeader'
 import { SnakeHeader } from './header/SnakeHeader'
+import { SolveTrickHeader } from './header/SolveTrickHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -35,9 +37,9 @@ export default function App() {
 
 const RulesHeaders: Record<any, any> = {
   [RuleId.ChooseCard]: ChooseCardHeader,
-  [RuleId.SolveTrick]: () => <>SolveTrick</>,
+  [RuleId.SolveTrick]: SolveTrickHeader,
   [RuleId.EndOfTurn]: EndOfTurnHeader,
-  [RuleId.PrepareNewRound]: () => <>PrepareNewRound</>,
+  [RuleId.PrepareNewRound]: PrepareNewRoundHeader,
   [RuleId.ChoosePlayer]: ChooseStartPlayerHeader,
   [RuleId.Cheetah]: CheetahHeader,
   [RuleId.Eagle]: EagleHeader,

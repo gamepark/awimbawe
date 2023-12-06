@@ -5,11 +5,11 @@ import { MaterialType } from '../material/MaterialType'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
-export class PrepareNewRound extends MaterialRulesPart {
+export class PrepareNewRoundRule extends MaterialRulesPart {
   onRuleStart() {
     const roundWinnerCard = this
       .material(MaterialType.HeirCard)
-      .id(this.getWinner())
+      .id(this.winner)
 
     if (roundWinnerCard.getItem()?.location?.rotation) {
       return [this.rules().endGame()]
@@ -31,7 +31,7 @@ export class PrepareNewRound extends MaterialRulesPart {
   afterItemMove(move: MoveItem) {
     if (isShuffleItemType(MaterialType.AnimalCard)(move)) {
       const moves = this.fillHandAndColumnMoves
-      const looser = this.game.players.find((p) => p !== this.getWinner())!
+      const looser = this.game.players.find((p) => p !== this.winner)!
       moves.push(this.rules().startPlayerTurn(RuleId.ChoosePlayer, looser))
       return moves
     }
@@ -59,11 +59,12 @@ export class PrepareNewRound extends MaterialRulesPart {
     return moves
   }
 
-  getWinner() {
+  get winner() {
     return this.remind(Memory.Winner)
   }
 
-  getLead() {
-    return this.remind(Memory.Lead)
+  onRuleEnd() {
+    this.forget(Memory.Winner)
+    return []
   }
 }
