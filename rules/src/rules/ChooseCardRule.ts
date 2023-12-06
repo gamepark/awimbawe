@@ -1,4 +1,4 @@
-import { ItemMove, MaterialMove, MoveItem, PlayerTurnRule, isMoveItemType } from "@gamepark/rules-api"
+import { ItemMove, MaterialMove, MoveItem, PlayerTurnRule, isMoveItemType, Material } from '@gamepark/rules-api'
 import { MaterialType } from "../material/MaterialType"
 import { LocationType } from "../material/LocationType"
 import { RuleId } from "./RuleId"
@@ -88,7 +88,7 @@ export class ChooseCardRule extends PlayerTurnRule {
             .player(opponent)
 
         const opponentCardCount = opponentCards.length
-        if (opponentCardCount >= 2 && isSnake(item.id)) {
+        if (opponentCardCount >= 2 && !this.allCardsInSameColumn(opponentCards) && isSnake(item.id)) {
             return RuleId.Snake
         }
 
@@ -118,6 +118,14 @@ export class ChooseCardRule extends PlayerTurnRule {
         } else {
             return true
         }
+    }
+
+    allCardsInSameColumn = (opponentCards: Material): boolean => {
+        const item = opponentCards.getItem()!
+        if (item.location.type !== LocationType.PlayerColumns) return false
+        const column = item.location.id
+        const cardInSameColumn = opponentCards.filter((item) => LocationType.PlayerColumns === item.location.type && item.location.id === column)
+        return opponentCards.length === cardInSameColumn.length
     }
 
     get lead() {
