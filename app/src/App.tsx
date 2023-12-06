@@ -25,7 +25,7 @@ export default function App() {
   return (
     <>
       <GameDisplay/>
-      <LoadingScreen display={loading} author="Mathieu Roussel" artist="Aubane Rittano" publisher="Explor8" developer="Teddy Campagne"/>
+      <LoadingScreen display={loading} author="Mathieu Roussel" artist="Aubane Rittano" publisher="Explor8" developer="Game Park"/>
       <MaterialHeader GameOver={() => <>GameOver</>} rulesStepsHeaders={RulesHeaders} loading={loading}/>
       <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)}/>
       <Menu/>

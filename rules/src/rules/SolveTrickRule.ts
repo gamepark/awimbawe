@@ -56,7 +56,6 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
     const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
     const hyenasInTrick = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).id(isHyena).player(opponent)
-    isHyena(item.id) && console.log(isHyena(item.id), opponent, hyenasInDeck.length, hyenasInTrick.length)
     if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length) {
       return card.moveItems({
         type: LocationType.PlayerHyena,
