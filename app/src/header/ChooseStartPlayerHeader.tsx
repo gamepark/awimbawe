@@ -13,6 +13,8 @@ export const ChooseStartPlayerHeader = () => {
   const game = useGame<MaterialGame<Heir, MaterialType, LocationType>>()!
   const player = usePlayerId()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
+  const chooseOther = legalMoves.find(move => move.data !== player)!
+  const otherName = usePlayerName(chooseOther.data)
   const playerName = usePlayerName(game.rule!.player!)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
 
@@ -25,25 +27,23 @@ export const ChooseStartPlayerHeader = () => {
       <Trans defaults="header.choose-start.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
         <div css={rulesCss}>
-          <h2><Trans defaults="Choose start player"><span/></Trans></h2>
-          <p>
-            <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
-              {t('Choose me as first player')}
-            </PlayMoveButton>
-          </p>
-          {legalMoves.filter(move => move.data !== player).map(move =>
-            <p key={move.data}><ChoosePlayerButton move={move}/></p>
-          )}
+          <h2><Trans defaults="header.choose-start.me"><span/></Trans></h2>
+          <div>
+            <p>
+              <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
+                {t('header.choose-start.choose.me')}
+              </PlayMoveButton>
+            </p>
+            <p>
+              <PlayMoveButton move={chooseOther}>
+                {t('header.choose-start.choose.other', {player: otherName})}
+              </PlayMoveButton>
+            </p>
+          </div>
         </div>
       </RulesDialog>
     </>
   )
-}
-
-const ChoosePlayerButton = ({ move }: { move: CustomMove }) => {
-  const { t } = useTranslation()
-  const playerName = usePlayerName(move.data)
-  return <PlayMoveButton move={move}>{t('Choose {player} as start player', { player: playerName })}</PlayMoveButton>
 }
 
 const rulesCss = css`
