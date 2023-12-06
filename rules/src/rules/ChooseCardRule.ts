@@ -25,11 +25,11 @@ export class ChooseCardRule extends PlayerTurnRule {
             .material(MaterialType.AnimalCard)
             .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
             .player(this.player)
-            .rotation((rotation: Record<string, any>) => !rotation?.y && !rotation?.z)
 
         return allPlayerCards
             .filter((item) => {
                 if (item.location.type === LocationType.Hand) return true
+                if (item.location?.rotation?.y || item.location?.rotation?.z) return false
 
                 const hasAnItemOnTop = allPlayerCards.getItems().some((other) => 
                     other.location.type === item.location.type &&
@@ -97,7 +97,10 @@ export class ChooseCardRule extends PlayerTurnRule {
             return RuleId.Rhinoceros
         }
 
-        if (opponentCardCount > 1 && isCheetah(item.id)) {
+        const myCards = this.material(MaterialType.AnimalCard)
+          .location((location) => location.type === LocationType.PlayerColumns || location.type === LocationType.Hand)
+          .player(this.player)
+        if ((opponentCardCount > 1  || (opponentCardCount === 1 && myCards.length === 1))  && isCheetah(item.id)) {
             return RuleId.Cheetah
         }
 

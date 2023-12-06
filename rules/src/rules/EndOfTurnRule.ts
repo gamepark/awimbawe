@@ -40,7 +40,10 @@ export class EndOfTurnRule extends MaterialRulesPart {
 
             if (!cardOnTop) {
                 moves.push(
-                    ...cardsOnTable.index(index).rotateItems(false)
+                    ...cardsOnTable.index(index).rotateItems((item) => {
+                        const { y, ...rotation } =  item.location.rotation
+                        return item.location.rotation.z ? { ...rotation }: false
+                    })
                 )
             }
         }

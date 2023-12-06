@@ -4,6 +4,7 @@ import { MaterialItem } from '@gamepark/rules-api'
 
 export class PlayerTrickStack extends PileLocator {
   maxAngle = 10
+  limit = 60
     
   getCoordinates(item: MaterialItem, context: ItemContext) {
     const { rules, player, material, type } = context
