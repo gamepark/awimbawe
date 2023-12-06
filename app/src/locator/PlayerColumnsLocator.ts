@@ -9,12 +9,13 @@ export class PlayerColumnsLocator extends LineLocator {
     locationDescription = new PlayerColumnsDescription()
 
     getDelta(item: MaterialItem, { rules, player }: ItemContext<number, number, number>): Partial<Coordinates> {
+        const selected = !!item.selected? 1: 0
         if (item.location.player === (player ?? rules.players[0])) {
-            return { x: 0, y: 2, z: 0.05 }
+            return { x: 0, y: 2 - selected, z: 0.05 }
         }
 
 
-        return { x: 0, y: -2, z: 0.05 }
+        return { x: 0, y: -2 - selected, z: 0.05 }
     }
 
     getCoordinates(item: MaterialItem, { rules, player }: ItemContext): Coordinates {
