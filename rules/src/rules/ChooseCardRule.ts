@@ -28,8 +28,9 @@ export class ChooseCardRule extends PlayerTurnRule {
 
         return allPlayerCards
             .filter((item) => {
+                if (item.location?.rotation?.z) return false
                 if (item.location.type === LocationType.Hand) return true
-                if (item.location?.rotation?.y || item.location?.rotation?.z) return false
+                if (item.location?.rotation?.y) return false
 
                 const hasAnItemOnTop = allPlayerCards.getItems().some((other) => 
                     other.location.type === item.location.type &&
