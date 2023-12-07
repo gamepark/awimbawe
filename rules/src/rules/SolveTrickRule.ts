@@ -64,19 +64,18 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     }
 
     const moves: MaterialMove[] = []
-    if (isHyena(item.id) && hyenasInDeck.length) {
-      moves.push(
-        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent }),
-        ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({ type: LocationType.PlayerTrickStack, player: winner })
-      )
-    }
-
     moves.push(
       ...card.moveItems({
         type: LocationType.PlayerTrickStack,
         player: winner
       })
     )
+    if (isHyena(item.id) && hyenasInDeck.length) {
+      moves.push(
+        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent }),
+        ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({ type: LocationType.PlayerTrickStack, player: winner })
+      )
+    }
 
     return moves
   }

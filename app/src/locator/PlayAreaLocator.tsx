@@ -9,7 +9,7 @@ export class PlayerAreaLocator extends LineLocator {
     coordinates = { 
         x: this.locationDescription.coordinates.x - ((animalCardDescription.width + 1) / 2), 
         y: this.locationDescription.coordinates.y, 
-        z: 0
+        z: 1
     }
 }
 
