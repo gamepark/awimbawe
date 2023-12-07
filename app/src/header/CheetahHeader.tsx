@@ -15,11 +15,11 @@ export const CheetahHeader = () => {
   const rules = useRules<MaterialRules>()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const playerName = usePlayerName(game.rule!.player!)
-  const chooseOther = legalMoves.find(move => move.data !== player)!
-  const otherName = usePlayerName(chooseOther.data)
+  const opponentName = usePlayerName(player? game.players.find((p) => p !== player): game.players[0])
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
 
   if (player && rules?.isTurnToPlay(player)) {
+    const chooseOther = legalMoves.find(move => move.data !== player)
     return <>
       <Trans defaults="header.cheetah.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
@@ -33,7 +33,7 @@ export const CheetahHeader = () => {
             </p>
             <p>
               <PlayMoveButton move={chooseOther}>
-                {t('header.cheetah.choose.other', {player: otherName})}
+                {t('header.cheetah.choose.other', {player: opponentName})}
               </PlayMoveButton>
             </p>
           </div>
