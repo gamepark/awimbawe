@@ -1,6 +1,6 @@
 {
   "name": "@gamepark/awimbawe",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Awimbawé rules for Game Park",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
