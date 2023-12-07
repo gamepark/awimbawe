@@ -41,7 +41,7 @@ export const AnimalCardHelp: FC<MaterialHelpProps> = (props) => {
         )
       }
       <Actions {...props} />
-      { item?.location?.rotation?.z && (
+      { item?.location?.rotation?.z === 1 && (
         <>
           <p css={[italic, red]}>
             {t('help.card.blocked')}
