@@ -11,6 +11,7 @@ import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
 import { Locators } from './locator/Locators'
 import { material } from './material/Material'
 import { AwimbaweAnimations } from './animation/AwimbaweAnimations'
+import { Tutorial } from './tutorial/Tutorial'
 
 setupTranslation(translations, { debug: false })
 addStylesheetUrl('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap')
@@ -25,6 +26,7 @@ ReactDOM.render(
       material={material}
       locators={Locators}
       animations={new AwimbaweAnimations()}
+      tutorial={new Tutorial()}
       theme={{
         root: {
           background: {
