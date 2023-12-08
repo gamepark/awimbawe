@@ -164,7 +164,7 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
         text: () => <Trans defaults="tuto.snake"><strong/><em/></Trans>,
         position: {
           x: -25,
-          y: 30
+          y: 0
         }
       },
       focus: (game) => [
@@ -272,8 +272,8 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.cheetah"><strong/><em/></Trans>,
         position: {
-          x: 30,
-          y: 28
+          x: -25,
+          y: 0
         }
       },
       focus: (game) => [
@@ -308,8 +308,8 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.eagle.me"><strong/><em/></Trans>,
         position: {
-          x: -35,
-          y: 30
+          x: -25,
+          y: 0
         }
       },
       focus: (game) => [
@@ -341,8 +341,8 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.green-mouse"><strong/><em/></Trans>,
         position: {
-          x: -40,
-          y: 28
+          x: -25,
+          y: 0
         }
       },
       focus: (game) => [
@@ -356,8 +356,15 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.discard"><strong/><em/></Trans>
-      }
+        text: () => <Trans defaults="tuto.discard"><strong/><em/></Trans>,
+        position: {
+          x: 0,
+          y: 25
+        }
+      },
+      focus: (game) => [
+        this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandMouse)
+      ],
     },
     {
       move: {
