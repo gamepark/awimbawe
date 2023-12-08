@@ -163,7 +163,7 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.snake"><strong/><em/></Trans>,
         position: {
-          x: -25,
+          x: -8,
           y: 0
         }
       },
@@ -272,7 +272,7 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.cheetah"><strong/><em/></Trans>,
         position: {
-          x: -25,
+          x: -5,
           y: 0
         }
       },
@@ -308,7 +308,7 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.eagle.me"><strong/><em/></Trans>,
         position: {
-          x: -25,
+          x: -5,
           y: 0
         }
       },
@@ -341,7 +341,7 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       popup: {
         text: () => <Trans defaults="tuto.green-mouse"><strong/><em/></Trans>,
         position: {
-          x: -25,
+          x: -5,
           y: 0
         }
       },
