@@ -13,6 +13,7 @@ import { PrepareNewRoundHeader } from './header/PrepareNewRoundHeader'
 import { RhinocerosHeader } from './header/RhinocerosHeader'
 import { SnakeHeader } from './header/SnakeHeader'
 import { SolveTrickHeader } from './header/SolveTrickHeader'
+import { css, Global } from '@emotion/react'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -31,6 +32,7 @@ export default function App() {
       <Menu/>
       <FailuresDialog/>
       <FullscreenDialog/>
+      <Global styles={globalStyle} />
     </>
   )
 }
@@ -46,3 +48,9 @@ const RulesHeaders: Record<any, any> = {
   [RuleId.Rhinoceros]: RhinocerosHeader,
   [RuleId.Snake]: SnakeHeader
 }
+
+const globalStyle = css`
+  #root {
+    touch-action: none;
+  }
+`
