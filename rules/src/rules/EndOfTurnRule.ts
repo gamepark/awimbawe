@@ -48,7 +48,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
             }
         }
         
-        const nextStartPlayer = this.getNextStartPlayer()
+        const nextStartPlayer = this.nextStartPlayer
         if (nextStartPlayer) {
             this.memorize(Memory.Lead, nextStartPlayer)    
         }
@@ -58,7 +58,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
         return moves
     }
 
-    getNextStartPlayer() {
+    get nextStartPlayer() {
         return this.remind(Memory.StartPlayer)
     }
     

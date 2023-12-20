@@ -2,6 +2,7 @@
 import { pointerWithin } from '@dnd-kit/core'
 import { GameTable } from '@gamepark/react-game'
 import { PlayerPanels } from './panels/PlayerPanels'
+import { NewRoundDialog } from './NewRoundDialog'
 
 export const GameDisplay = () => {
   return <>
@@ -14,5 +15,6 @@ export const GameDisplay = () => {
       //css={css`background-color: rgba(255, 255, 255, 0.47)`}
       />
     <PlayerPanels/>
+    <NewRoundDialog />
   </>
 }

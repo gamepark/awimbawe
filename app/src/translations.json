@@ -66,6 +66,14 @@
       "help.heir.win-round": "{player}'s Heir card is on its gold side for winning a round",
       "help.heir.title": "Heir card ({type})",
       "tuto.welcome": "Welcome to <0>Awimbawe</0>'s tutorial!",
+      "round-summary.dialog.title": "Round summary",
+      "round-summary.dialog.win.me": "You win the round!",
+      "round-summary.dialog.win": "{winner} wins the round!",
+      "round-summary.dialog.win.hyena": "Reason: {looser} has 4 Hyenas",
+      "round-summary.dialog.win.hyena.me.loose": "Reason: You have 4 Hyenas",
+      "round-summary.dialog.win.crowns.me": "Reason: You have {winner} <0/> and {looserName} has {looser} <0/> ",
+      "round-summary.dialog.win.crowns": "Reason: {winnerName} has {winner} <0/> and {looserName} has {looser} <0/> ",
+      "rules.start.choose.me": "I'll lead the next trick",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Validate",
@@ -173,7 +181,8 @@
       "time.wait.total": "Total down time",
       "time.wait.max": "Maximum down time",
       "time.awaited": "Made others wait (average)",
-      "tuto.over": "Congratulations, you've completed the tutorial!\r\nReady to play with other players?"
+      "tuto.over": "Congratulations, you've completed the tutorial!\r\nReady to play with other players?",
+      "quantity.tooltip": "Quantity: {n}"
     }
   },
   "fr": {
@@ -273,6 +282,14 @@
       "tuto.discard.hyena": "Votre adversaire a défaussé cette <0>Hyène</0>.",
       "tuto.hyena.loose": "Les Hyènes rapportent plus de couronne, mais <0>attention : si vous ramassez les 4, vous perdez immédiatement la manche !</0>.\nPour cette raison, les cartes Hyènes restent visibles dans les plis.",
       "tuto.reminder": "À tout moment, vous pouvez cliquer sur une carte pour un rappel des règles.\nÀ vous de jouer à présent, bonne chance !",
+      "round-summary.dialog.title": "Récapitulatif de la manche",
+      "round-summary.dialog.win.me": "Vous remportez la manche !",
+      "round-summary.dialog.win": "{winner} remporte la manche !",
+      "round-summary.dialog.win.hyena": "Raison: {looser} possède 4 Hyènes",
+      "round-summary.dialog.win.hyena.me.loose": "Raison: Vous possésez 4 Hyènes",
+      "round-summary.dialog.win.crowns.me": "Reason: Vous possédez {winner} <0/> et {looserName} possède {looser} <0/>",
+      "round-summary.dialog.win.crowns": "Reason: {winnerName} possède {winner} <0/> et {looserName} possède {looser} <0/>",
+      "rules.start.choose.me": "J'entamerai le prochain pli",
       "Menu": "Menu",
       "OK": "OK",
       "Validate": "Valider",
@@ -380,7 +397,8 @@
       "time.wait.total": "Temps d’attente total",
       "time.wait.max": "Temps d’attente maximum",
       "time.awaited": "A fait attendre les autres (moyenne)",
-      "tuto.over": "Félicitations, vous avez terminé le tutoriel !\nPrêt à jouer avec d’autres joueurs ?"
+      "tuto.over": "Félicitations, vous avez terminé le tutoriel !\nPrêt à jouer avec d’autres joueurs ?",
+      "quantity.tooltip": "Quantité : {n}"
     }
   },
   "de": {
