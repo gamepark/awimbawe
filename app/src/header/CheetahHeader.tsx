@@ -3,8 +3,8 @@ import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { CustomMove, isCustomMove, MaterialGame } from '@gamepark/rules-api'
+import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark/rules-api'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -16,7 +16,10 @@ export const CheetahHeader = () => {
   const playerName = usePlayerName(game.rule!.player!)
   const opponentName = usePlayerName(player? game.players.find((p) => p !== player): game.players[0])
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
-  const me = player && legalMoves.length
+
+  const rules = useRules<MaterialRules>()!
+  const activePlayer = rules.getActivePlayer()
+  const me = player && player === activePlayer
 
   if (me) {
     return <>

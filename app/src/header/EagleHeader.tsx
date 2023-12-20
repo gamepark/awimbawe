@@ -4,8 +4,8 @@ import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
-import { PlayMoveButton, RulesDialog, useGame, useLegalMoves, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { CustomMove, isCustomMove, MaterialGame } from '@gamepark/rules-api'
+import { PlayMoveButton, RulesDialog, useGame, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark/rules-api'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -16,7 +16,10 @@ export const EagleHeader = () => {
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const playerName = usePlayerName(game.rule!.player!)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
-  const me = player && legalMoves.length
+  const rules = useRules<MaterialRules>()!
+  const activePlayer = rules.getActivePlayer()
+  const me = player && player === activePlayer
+
   if (me) {
     return <>
       <Trans defaults="header.eagle.me">
