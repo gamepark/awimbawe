@@ -32,11 +32,11 @@ export class TutorialSetup extends AwimbaweSetup {
         .filter((a) => !opponentHand.includes(a) && !opponentColumns.some((c) => c.includes(a)))
     )
 
-    const shuffledPlayer1 = shuffle([...shuffledAnimal.splice(0, 3), ...meHand])
+    const shuffledPlayer1 = shuffle([...shuffledAnimal.splice(0, 2), ...meHand])
     const player1Items = shuffledPlayer1.map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: me } }))
     this.material(MaterialType.AnimalCard).createItems(player1Items)
 
-    const shuffledPlayer2 = shuffle([...shuffledAnimal.splice(0, 3), ...opponentHand])
+    const shuffledPlayer2 = shuffle([...shuffledAnimal.splice(0, 4), ...opponentHand])
     const player2Items = shuffledPlayer2.map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: opponent } }))
     this.material(MaterialType.AnimalCard).createItems(player2Items)
 
