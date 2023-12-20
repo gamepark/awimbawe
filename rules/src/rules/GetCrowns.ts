@@ -6,13 +6,19 @@ import { MaterialType } from "../material/MaterialType"
 import { LocationType } from "../material/LocationType"
 import { getCrowns } from "../material/Animal"
 
+
+export const getTotalCrowns = (rules: AwimbaweRules, player: Heir) => {
+  if (rules.game.rule?.id === RuleId.PrepareNewRound) return 0
+  const cards = rules
+    .material(MaterialType.AnimalCard)
+    .location(LocationType.PlayerTrickStack)
+    .player(player)
+    .getItems()
+
+  return sumBy(cards, (card) => getCrowns(card.id))
+}
+
 export const getPlayerCrowns = (rules: AwimbaweRules, player: Heir) => {
     if (rules.game.rule?.id === RuleId.PrepareNewRound) return 0
-    const cards = rules
-        .material(MaterialType.AnimalCard)
-        .location(LocationType.PlayerTrickStack)
-        .player(player)
-        .getItems()
-
-    return sumBy(cards, (card) => getCrowns(card.id))
+    return getTotalCrowns(rules, player)
 }

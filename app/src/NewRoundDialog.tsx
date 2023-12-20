@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { FC, useEffect, useState } from 'react'
-import { RulesDialog, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { useTranslation } from 'react-i18next'
-import { Memory } from '@gamepark/awimbawe/rules/Memory'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
-import Heir from '@gamepark/awimbawe/material/Heir'
-import { getPlayerCrowns } from '@gamepark/awimbawe/rules/GetCrowns'
-import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
-import { helpDialogContentCss } from '@gamepark/react-game/dist/components/dialogs/RulesDialog/RulesHelpDialogContent'
 import { css } from '@emotion/react'
+import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import Heir from '@gamepark/awimbawe/material/Heir'
+import { LocationType } from '@gamepark/awimbawe/material/LocationType'
+import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+import { Memory } from '@gamepark/awimbawe/rules/Memory'
+import { RulesDialog, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { helpDialogContentCss } from '@gamepark/react-game/dist/components/dialogs/RulesDialog/RulesHelpDialogContent'
+import { FC, useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import Crown from './images/crown.jpg'
 
 
 export const NewRoundDialog:  FC = () => {
@@ -37,10 +37,9 @@ export const NewRoundDialog:  FC = () => {
       .length
 
     setWinByHyenas(hyenas === 4)
-    console.log(rules.game.rule?.id, getPlayerCrowns(rules, Heir.BlackPanther),  getPlayerCrowns(rules, Heir.WhiteTiger))
     setCrowns({
-      [Heir.BlackPanther]: getPlayerCrowns(rules, Heir.BlackPanther),
-      [Heir.WhiteTiger]: getPlayerCrowns(rules, Heir.WhiteTiger),
+      [Heir.BlackPanther]: rules.getPlayerCrowns(Heir.BlackPanther),
+      [Heir.WhiteTiger]: rules.getPlayerCrowns(Heir.WhiteTiger)
     })
 
     setOpened(true)
@@ -58,14 +57,27 @@ export const NewRoundDialog:  FC = () => {
             <>
               <p>{t('round-summary.dialog.win.me')}</p>
               { hasWinByHyenas && <p>{t('round-summary.dialog.win.hyena', { looser: looserName })}</p> }
-              { !hasWinByHyenas && <p>{t('round-summary.dialog.win.crowns.me', { winner: crowns[winner!] ?? 0, looser: crowns[looser!] ?? 0, looserName: looserName })} </p>}
+              { !hasWinByHyenas && (
+                <p css={alignIconText}>
+                  <Trans defaults="round-summary.dialog.win.crowns.me" values={{ winner: crowns[winner!] ?? 0, looser: crowns[looser!] ?? 0, looserName: looserName }}>
+                    <span css={crownStyle}/>
+                  </Trans>
+                </p>
+              )}
             </>
           ): (
             <>
               <p>{t('round-summary.dialog.win', { winner: winnerName })}</p>
               { hasWinByHyenas && !playerId && <p>{t('round-summary.dialog.win.hyena', { winner: winnerName })}</p> }
               { hasWinByHyenas && playerId && <p>{t('round-summary.dialog.win.hyena.me.loose', { winner: winnerName })}</p> }
-              { !hasWinByHyenas && <p>{t('round-summary.dialog.win.crowns', { winner: crowns[winner!] ?? 0, winnerName: winnerName, looser: crowns[looser!] ?? 0, looserName: looserName })} </p>}
+              { !hasWinByHyenas && (
+                <p css={alignIconText}>
+
+                  <Trans defaults="round-summary.dialog.win.crowns" values={{ winner: crowns[winner!] ?? 0, winnerName: winnerName, looser: crowns[looser!] ?? 0, looserName: looserName }}>
+                    <span css={crownStyle}/>
+                  </Trans>
+                </p>
+              )}
             </>
           )}
         </div>
@@ -80,4 +92,31 @@ const helpDialogCss = css`
   padding: 3em;
   max-width: inherit;
   max-height: inherit;
+`
+
+export const alignIconText = css`
+  > * {
+    vertical-align: top;
+  }
+
+  picture, img {
+    vertical-align: top;
+    margin-right: 0.1em;
+  }
+`
+
+export const crownStyle = css`
+  flex: 1;
+  align-self: center;
+  background-image: url(${Crown});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0.05em solid black;
+  border-radius: 0.2em;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.2em;
+  box-shadow: 0.1em 0.1em 0.2em gray;
+  display:inline-block;
 `
