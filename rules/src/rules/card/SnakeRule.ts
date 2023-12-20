@@ -1,18 +1,19 @@
 import { MaterialType } from "../../material/MaterialType"
 import { LocationType } from "../../material/LocationType"
 import { CardRule } from "./CardRule"
+import { MaterialMove } from "@gamepark/rules-api"
 
 export class SnakeRule extends CardRule {
     getPlayerMoves() {
 
-        // TODO: chercher les cartes du joueur et utiliser le .moveItems({ rotation: { z: 1 }})
-        // On verra après les limitations pour l'utilisation des cartes en question
-
-        const moves = this
+        const moves: MaterialMove[] = this.afterEffectPlayed()
+        moves.push(
+          ...this
             .material(MaterialType.AnimalCard)
             .location(LocationType.Hand)
             .player((p) => this.player !== p)
             .moveItems({ rotation: { z: 1 }})
+        )
 
         for (let column = 1; column <= 4; column++) {
             const rotateColumnCard = this

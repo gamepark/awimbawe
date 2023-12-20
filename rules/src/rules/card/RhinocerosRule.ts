@@ -5,7 +5,7 @@ import { ItemMove, MaterialMove } from "@gamepark/rules-api"
 
 export class RhinocerosRule extends CardRule {
     getPlayerMoves() {
-        const moves: MaterialMove[] = []
+        const moves: MaterialMove[] = this.afterEffectPlayed()
 
         for (let column = 1; column <= 4; column++) {
             const columnCard = this

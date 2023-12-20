@@ -2,9 +2,9 @@
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { useGame, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { MaterialGame, MaterialRules } from '@gamepark/rules-api'
-import { useTranslation } from 'react-i18next'
+import { PlayMoveButton, useGame, useLegalMove, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { isStartPlayerTurn, isStartRule, MaterialGame, MaterialRules } from '@gamepark/rules-api'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const RhinocerosHeader = () => {
   const { t } = useTranslation()
@@ -12,9 +12,14 @@ export const RhinocerosHeader = () => {
   const player = usePlayerId()
   const rules = useRules<MaterialRules>()
   const playerName = usePlayerName(game.rule!.player!)
+  const passMove = useLegalMove((move) => isStartRule(move) || isStartPlayerTurn(move))
 
   if (player && rules?.isTurnToPlay(player)) {
-    return <>{t('header.rhinoceros.me')}</>
+    return (
+      <Trans defaults="header.rhinoceros.me">
+        <PlayMoveButton move={passMove} />
+      </Trans>
+    )
   } else {
     return <>{t('header.rhinoceros', { player: playerName })}</>
   }
