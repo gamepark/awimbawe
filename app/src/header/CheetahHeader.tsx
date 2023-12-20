@@ -5,7 +5,7 @@ import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark/rules-api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 export const CheetahHeader = () => {
@@ -14,8 +14,11 @@ export const CheetahHeader = () => {
   const player = usePlayerId()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const playerName = usePlayerName(game.rule!.player!)
-  const opponentName = usePlayerName(player? game.players.find((p) => p !== player): game.players[0])
+  const opponentName = usePlayerName(player ? game.players.find((p) => p !== player) : game.players[0])
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
+  useEffect(() => {
+    setDialogOpen(legalMoves.length > 0)
+  }, [legalMoves.length])
 
   const rules = useRules<MaterialRules>()!
   const activePlayer = rules.getActivePlayer()
@@ -23,7 +26,9 @@ export const CheetahHeader = () => {
 
   if (me) {
     return <>
-      <Trans defaults="header.cheetah.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
+      <Trans defaults="header.cheetah.me">
+        {legalMoves.length > 0 ? <ThemeButton onClick={() => setDialogOpen(true)}/> : <></>}
+      </Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
         <div css={rulesCss}>
           <h2><Trans defaults="header.cheetah.me"><span/></Trans></h2>
@@ -35,13 +40,13 @@ export const CheetahHeader = () => {
             </p>
             <p>
               <PlayMoveButton move={legalMoves.find(move => move.data !== player)}>
-                {t('header.cheetah.choose.other', {player: opponentName})}
+                {t('header.cheetah.choose.other', { player: opponentName })}
               </PlayMoveButton>
             </p>
           </div>
         </div>
       </RulesDialog>
-      </>
+    </>
   } else {
     return <>{t('header.cheetah', { player: playerName })}</>
   }
