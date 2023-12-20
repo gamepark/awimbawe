@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { FC } from 'react'
-import { PlayerPanel, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { css } from '@emotion/react'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { getCrowns } from '@gamepark/awimbawe/material/Animal'
 import Heir from '@gamepark/awimbawe/material/Heir'
-import sumBy from 'lodash/sumBy'
+import { LocationType } from '@gamepark/awimbawe/material/LocationType'
+import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
+import { PlayerPanel, SpeechBubble, SpeechBubbleDirection, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
+import sumBy from 'lodash/sumBy'
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const PlayerPanels: FC<any> = () => {
   const playerId = usePlayerId() ?? 1
@@ -31,9 +33,21 @@ export const PlayerPanels: FC<any> = () => {
       {players.map((player) => (
         <PlayerPanel key={player.id} playerId={player.id} css={[panelPosition, player.id === playerId? bottomPosition: topPosition ]}>
           <div css={crowns}>{getPlayerCrowns(player.id)}</div>
+          <StartPlayerChoice player={player.id} />
         </PlayerPanel>
       ))}
     </>
+  )
+}
+
+const StartPlayerChoice = ({ player }: { player: number }) => {
+  const { t } = useTranslation()
+  const startPlayer = useRules<AwimbaweRules>()?.remind(Memory.StartPlayer)
+  if (!startPlayer || startPlayer !== player) return null
+  return (
+    <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT} css={css`bottom: 69%`}>
+      {t('rules.start.choose.me')}
+    </SpeechBubble>
   )
 }
 
