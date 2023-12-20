@@ -17,6 +17,11 @@ export class EndOfTurnRule extends MaterialRulesPart {
         
         if (!cards.length || this.someoneHasFourHyenas()) {
             this.memorize(Memory.Winner, this.winner)
+            moves.push(this
+              .material(MaterialType.AnimalCard)
+              .location(LocationType.PlayerTrickStack)
+              .rotation(true)
+              .moveItemsAtOnce({ rotation: false }))
             moves.push(this.rules().startRule(RuleId.PrepareNewRound))
             return moves;
         }

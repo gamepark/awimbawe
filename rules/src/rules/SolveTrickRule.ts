@@ -21,7 +21,13 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     const cards = this
       .material(MaterialType.AnimalCard)
       .location(LocationType.PlayArea)
-    const moves: MaterialMove[] = cards
+    const moves: MaterialMove[] = []
+
+    moves.push(...this.flipTrickCards())
+    moves.push(...this.placeHyenasInTrick(cards, winner))
+
+    moves.push(
+      ...cards
       .getIndexes()
       .flatMap((index) => {
         const card = cards.index(index)
@@ -33,8 +39,32 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
         this.memorize(Memory.Lead, winner)
         return this.solve(card, winner)
       })
+    )
 
     moves.push(this.rules().startRule(RuleId.EndOfTurn))
+
+    return moves
+  }
+
+  private flipTrickCards() {
+    const visibleCardsInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).rotation((r) => !r).sort((item) => -item.location.x!)
+    return visibleCardsInDeck.moveItems({ rotation: true })
+  }
+
+  private placeHyenasInTrick(cards: Material, winner: Heir) {
+    const moves: MaterialMove[] = []
+    const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
+    const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
+    if (cards.filter((item) => isHyena(item.id)).length && hyenasInDeck.length) {
+      moves.push(
+        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent, rotation: true }),
+        ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({
+          type: LocationType.PlayerTrickStack,
+          player: winner,
+          rotation: true
+        })
+      )
+    }
 
     return moves
   }
@@ -54,26 +84,23 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
   solve(card: Material, winner: Heir) {
     const item = card.getItem()!
     const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
-    const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
     const hyenasInTrick = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).id(isHyena).player(opponent)
-    if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length) {
-      return card.moveItems({
-        type: LocationType.PlayerHyena,
-        player: winner
-      })
-    }
-
+    const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
     const moves: MaterialMove[] = []
-    moves.push(
-      ...card.moveItems({
-        type: LocationType.PlayerTrickStack,
-        player: winner
-      })
-    )
-    if (isHyena(item.id) && hyenasInDeck.length) {
+
+    if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length) {
       moves.push(
-        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent }),
-        ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({ type: LocationType.PlayerTrickStack, player: winner })
+        ...card.moveItems({
+          type: LocationType.PlayerHyena,
+          player: winner
+        })
+      )
+    } else {
+      moves.push(
+        ...card.moveItems({
+          type: LocationType.PlayerTrickStack,
+          player: winner
+        })
       )
     }
 
