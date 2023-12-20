@@ -1,25 +1,24 @@
 /** @jsxImportSource @emotion/react */
-import { Trans, useTranslation } from 'react-i18next'
-import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { CustomMove, isCustomMove, MaterialGame, MaterialRules } from '@gamepark/rules-api'
-import { useState } from 'react'
 import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
+import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+import { PlayMoveButton, RulesDialog, ThemeButton, useGame, useLegalMoves, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { CustomMove, isCustomMove, MaterialGame } from '@gamepark/rules-api'
+import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const CheetahHeader = () => {
   const { t } = useTranslation()
   const game = useGame<MaterialGame<Heir, MaterialType, LocationType>>()!
   const player = usePlayerId()
-  const rules = useRules<MaterialRules>()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const playerName = usePlayerName(game.rule!.player!)
   const opponentName = usePlayerName(player? game.players.find((p) => p !== player): game.players[0])
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
+  const me = player && legalMoves.length
 
-  if (player && rules?.isTurnToPlay(player)) {
-    const chooseOther = legalMoves.find(move => move.data !== player)
+  if (me) {
     return <>
       <Trans defaults="header.cheetah.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
       <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
@@ -32,7 +31,7 @@ export const CheetahHeader = () => {
               </PlayMoveButton>
             </p>
             <p>
-              <PlayMoveButton move={chooseOther}>
+              <PlayMoveButton move={legalMoves.find(move => move.data !== player)}>
                 {t('header.cheetah.choose.other', {player: opponentName})}
               </PlayMoveButton>
             </p>
