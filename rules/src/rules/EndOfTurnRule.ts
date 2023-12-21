@@ -1,11 +1,9 @@
-import { MaterialRulesPart } from "@gamepark/rules-api";
-import { RuleId } from "./RuleId";
-import { MaterialType } from "../material/MaterialType";
-import { LocationType } from "../material/LocationType";
-import { Memory } from "./Memory";
-import sample from 'lodash/sample'
-import Heir, { heirs } from "../material/Heir";
-import { getCrowns } from "../material/Animal";
+import { MaterialRulesPart } from '@gamepark/rules-api'
+import Heir from '../material/Heir'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
+import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
 export class EndOfTurnRule extends MaterialRulesPart {
     onRuleStart() {
@@ -16,7 +14,6 @@ export class EndOfTurnRule extends MaterialRulesPart {
             .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
         
         if (!cards.length || this.someoneHasFourHyenas()) {
-            this.memorize(Memory.Winner, this.winner)
             moves.push(this
               .material(MaterialType.AnimalCard)
               .location(LocationType.PlayerTrickStack)
@@ -93,48 +90,6 @@ export class EndOfTurnRule extends MaterialRulesPart {
 
     get lead() {
         return this.remind(Memory.Lead)
-    }
-
-
-    get winner() {
-        if (this.hasFourHyenas(Heir.BlackPanther)) {
-            return Heir.WhiteTiger
-        }
-        
-        if (this.hasFourHyenas(Heir.WhiteTiger)) {
-            return Heir.BlackPanther
-        }
-
-        const pantherCrowns  = this.getPlayerCrowns(Heir.BlackPanther)
-        const tigerCrowns  = this.getPlayerCrowns(Heir.WhiteTiger)
-        
-        let lead = undefined
-        if (pantherCrowns === tigerCrowns) {
-            lead = sample(heirs)
-        } else if (pantherCrowns < tigerCrowns) {
-            lead = Heir.WhiteTiger
-        } else {
-            lead = Heir.BlackPanther
-        }
-
-        return lead
-    }
-
-    getPlayerCrowns(player: Heir) {
-      // Rechercher les MaterialType.AnimalCard dans LocationType.PlayerColumns
-      const items = this
-        .material(MaterialType.AnimalCard)
-        .location(LocationType.PlayerTrickStack)
-        .player(player)
-        .getItems()
-  
-      // Parcourir les cartes, et pour chaque animal, additionner les couronnes
-      let count = 0
-      for (const item of items) {
-        count = count + getCrowns(item.id)
-      }
-  
-      return count
     }
 
     onRuleEnd() {
