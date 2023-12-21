@@ -65,6 +65,7 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
 
   onRuleEnd() {
     this.forget(Memory.Winner)
+    this.forget(Memory.HyenaInTricks)
     return []
   }
 

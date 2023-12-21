@@ -56,6 +56,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
     const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
     if (cards.filter((item) => isHyena(item.id)).length && hyenasInDeck.length) {
+      this.memorize(Memory.HyenaInTricks, 1)
       moves.push(
         ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent, rotation: true }),
         ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({
@@ -88,7 +89,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
     const moves: MaterialMove[] = []
 
-    if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length) {
+    if (isHyena(item.id) && !hyenasInDeck.length && !hyenasInTrick.length && !this.hyenaInTrick) {
       moves.push(
         ...card.moveItems({
           type: LocationType.PlayerHyena,
@@ -105,6 +106,10 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     }
 
     return moves
+  }
+
+  get hyenaInTrick() {
+    return this.remind(Memory.HyenaInTricks) === 1
   }
 
   get hasRanAway() {
