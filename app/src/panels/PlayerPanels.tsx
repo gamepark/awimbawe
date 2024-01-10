@@ -7,13 +7,13 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const PlayerPanels: FC<any> = () => {
-  const playerId = usePlayerId() ?? 1
+  const playerId = usePlayerId()
   const players = usePlayers({ sortFromMe: true })
-
+  const rules = useRules<AwimbaweRules>()!
   return (
     <>
       {players.map((player) => (
-        <PlayerPanel key={player.id} playerId={player.id} css={[panelPosition, player.id === playerId? bottomPosition: topPosition ]}>
+        <PlayerPanel key={player.id} playerId={player.id} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
           <StartPlayerChoice player={player.id} />
         </PlayerPanel>
       ))}
