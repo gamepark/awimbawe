@@ -1,6 +1,7 @@
 export enum CustomMoveType {
     ChoosePlayer = 1,
-    EagleChoice
+    EagleChoice,
+    SamplePlayer
 }
 
 export enum EagleChoice {

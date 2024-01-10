@@ -67,8 +67,8 @@ export class EndOfTurnRule extends MaterialRulesPart {
     someoneHasFourHyenas() {
         const players = this.game.players
         for(const player of players) {
-            const hasFourHienas = this.hasFourHyenas(player)
-            if (hasFourHienas) return true
+            const hasFourHyenas = this.hasFourHyenas(player)
+            if (hasFourHyenas) return true
         }
 
       return false

@@ -1,7 +1,9 @@
 import {
   CompetitiveRank,
   hideItemId,
-  hideItemIdToOthers, HidingStrategy,
+  hideItemIdToOthers,
+  HidingStrategy,
+  isCustomMoveType,
   MaterialGame,
   MaterialItem,
   MaterialMove,
@@ -9,21 +11,22 @@ import {
   SecretMaterialRules
 } from '@gamepark/rules-api'
 import sumBy from 'lodash/sumBy'
-import { getCrowns } from './material/Animal'
-import Heir from './material/Heir'
-import { LocationType } from './material/LocationType'
-import { MaterialType } from './material/MaterialType'
-import { CheetahRule } from './rules/card/CheetahRule'
-import { EagleRule } from './rules/card/EagleRule'
-import { RhinocerosRule } from './rules/card/RhinocerosRule'
-import { SnakeRule } from './rules/card/SnakeRule'
-import { ChooseCardRule } from './rules/ChooseCardRule'
-import { ChooseStartPlayerRule } from './rules/ChooseStartPlayerRule'
-import { EndOfTurnRule } from './rules/EndOfTurnRule'
-import { PrepareNewRoundRule } from './rules/PrepareNewRoundRule'
-import { RuleId } from './rules/RuleId'
-import { SolveTrickRule } from './rules/SolveTrickRule'
-
+import {getCrowns} from './material/Animal'
+import Heir, {heirs} from './material/Heir'
+import {LocationType} from './material/LocationType'
+import {MaterialType} from './material/MaterialType'
+import {CheetahRule} from './rules/card/CheetahRule'
+import {EagleRule} from './rules/card/EagleRule'
+import {RhinocerosRule} from './rules/card/RhinocerosRule'
+import {SnakeRule} from './rules/card/SnakeRule'
+import {ChooseCardRule} from './rules/ChooseCardRule'
+import {ChooseStartPlayerRule} from './rules/ChooseStartPlayerRule'
+import {EndOfTurnRule} from './rules/EndOfTurnRule'
+import {PrepareNewRoundRule} from './rules/PrepareNewRoundRule'
+import {RuleId} from './rules/RuleId'
+import {SolveTrickRule} from './rules/SolveTrickRule'
+import {CustomMoveType} from "./rules/CustomMoveType";
+import sample from "lodash/sample";
 
 
 export const hideIdWhenRotated: HidingStrategy = (
@@ -58,6 +61,14 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
 
 
     return sumBy(cards, (card) => getCrowns(card.id))
+  }
+
+  randomize(move: MaterialMove) {
+    if (isCustomMoveType(CustomMoveType.SamplePlayer)(move)) {
+      return {...move, data: sample(heirs) }
+    }
+
+    return super.randomize(move);
   }
 
   rules = {

@@ -48,8 +48,18 @@ export const NewRoundDialog:  FC = () => {
 
   const iWin = playerId && playerId === winner
 
+  const closeModal = () => {
+    setWinner(undefined)
+    setWinByHyenas(false)
+    setCrowns({
+      [Heir.BlackPanther]: 0,
+      [Heir.WhiteTiger]: 0
+    })
+    setOpened(false)
+  }
+
   return (
-    <RulesDialog open close={() => setOpened(false)}>
+    <RulesDialog open close={closeModal}>
       <div css={helpDialogCss}>
         <div css={helpDialogContentCss}>
           <h2>{t('round-summary.dialog.title')}</h2>

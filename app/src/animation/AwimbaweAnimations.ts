@@ -1,23 +1,18 @@
-import { isMoveItemType, isShuffleItemType, MaterialMove } from '@gamepark/rules-api'
-import { AnimationStep } from '@gamepark/react-client'
-import { MaterialAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+import {isMoveItemType, isShuffleItemType} from '@gamepark/rules-api'
+import {MaterialGameAnimations} from '@gamepark/react-game'
+import {LocationType} from '@gamepark/awimbawe/material/LocationType'
+import {MaterialType} from '@gamepark/awimbawe/material/MaterialType'
 
-export class AwimbaweAnimations extends MaterialGameAnimations {
+export const awimbaweAnimations = new MaterialGameAnimations()
 
-  override getDuration(move: MaterialMove, context: MaterialAnimationContext): number {
-    if (isMoveItemType(MaterialType.AnimalCard)(move)
-      && move.location?.type === LocationType.Deck
-      && context.step === AnimationStep.BEFORE_MOVE
-    ) return 0.2
+awimbaweAnimations.when()
+    .move((move) => isMoveItemType(MaterialType.AnimalCard)(move) && move.location.type === LocationType.Deck)
+    .duration(0.2)
 
-    if (isMoveItemType(MaterialType.AnimalCard)(move)
-      && context.game.items[move.itemType]![move.itemIndex].location.type === LocationType.Deck
-      && context.step === AnimationStep.BEFORE_MOVE
-    ) return 0.2
+awimbaweAnimations.when()
+    .move((move, context) => isMoveItemType(MaterialType.AnimalCard)(move) && context.rules.game.items[move.itemType]![move.itemIndex].location.type === LocationType.Deck)
+    .duration(0.2)
 
-    if (isShuffleItemType(MaterialType.AnimalCard)(move)) return 0
-    return super.getDuration(move, context);
-  }
-}
+awimbaweAnimations.when()
+    .move(isShuffleItemType(MaterialType.AnimalCard))
+    .none()
