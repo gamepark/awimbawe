@@ -3,7 +3,7 @@ import Animal, { animals } from '@gamepark/awimbawe/material/Animal'
 import Heir, { heirs } from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { MaterialItem } from '@gamepark/rules-api/dist/material/items/MaterialItem'
+import { MaterialItem } from '@gamepark/rules-api'
 import shuffle from 'lodash/shuffle'
 
 const _ = undefined

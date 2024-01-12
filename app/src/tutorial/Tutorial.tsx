@@ -1,14 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import Animal from '@gamepark/awimbawe/material/Animal'
 import Heir from '@gamepark/awimbawe/material/Heir'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { CustomMoveType, EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
-import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
-import { isCustomMoveType } from '@gamepark/rules-api/dist/material/moves/CustomMove'
-import { isMoveItemType } from '@gamepark/rules-api/dist/material/moves/items/MoveItem'
-import { Trans } from 'react-i18next'
-import { TutorialSetup } from './TutorialSetup'
+import {LocationType} from '@gamepark/awimbawe/material/LocationType'
+import {MaterialType} from '@gamepark/awimbawe/material/MaterialType'
+import {CustomMoveType, EagleChoice} from '@gamepark/awimbawe/rules/CustomMoveType'
+import {MaterialTutorial, TutorialStep} from '@gamepark/react-game'
+import {isCustomMoveType, isMoveItemType} from '@gamepark/rules-api'
+import {Trans} from 'react-i18next'
+import {TutorialSetup} from './TutorialSetup'
 
 const me = Heir.WhiteTiger
 const opponent = Heir.BlackPanther
