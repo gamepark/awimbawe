@@ -1,4 +1,5 @@
 export enum MaterialType {
   AnimalCard = 1,
-  HeirCard
+  HeirCard,
+  HelpCard
 }

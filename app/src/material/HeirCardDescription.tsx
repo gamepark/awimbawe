@@ -2,7 +2,7 @@ import { CardDescription } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import Images from '../images/Images'
 import Heir from '@gamepark/awimbawe/material/Heir'
-import { HeirCardHelp } from './HeirCardHelp'
+import { HeirCardHelp } from './help/HeirCardHelp'
 
 export class HeirCardDescription extends CardDescription {
 

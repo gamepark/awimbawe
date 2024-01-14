@@ -3,12 +3,13 @@ import { css } from '@emotion/react'
 import Animal, { getCrowns } from '@gamepark/awimbawe/material/Animal'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialHelpProps, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { isMoveItemType, MaterialItem } from '@gamepark/rules-api'
 import range from 'lodash/range'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import Crown from '../images/crown.jpg'
-import MinusCrown from '../images/minus-crown.jpg'
+import Crown from '../../images/crown.jpg'
+import MinusCrown from '../../images/minus-crown.jpg'
+import {isMoveItemType} from "@gamepark/rules-api";
+import {MaterialItem} from "@gamepark/rules-api";
 
 export const AnimalCardHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props

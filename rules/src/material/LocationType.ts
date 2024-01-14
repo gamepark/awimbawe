@@ -5,5 +5,6 @@ export enum LocationType {
   PlayerTrickStack,
   PlayerColumns,
   Deck,
-  PlayerHyena
+  PlayerHyena,
+  HelpCard,
 }

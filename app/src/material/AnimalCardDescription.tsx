@@ -1,7 +1,7 @@
 import { CardDescription } from '@gamepark/react-game'
 import Images from '../images/Images'
 import Animal from '@gamepark/awimbawe/material/Animal'
-import { AnimalCardHelp } from './AnimalCardHelp'
+import { AnimalCardHelp } from './help/AnimalCardHelp'
 
 export class AnimalCardDescription extends CardDescription {
   width = 6.35

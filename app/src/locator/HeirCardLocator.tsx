@@ -7,7 +7,7 @@ export class HeirCardLocator extends ItemLocator {
             return { x: 51, y: 10.5, z: 0}
         }
 
-        return { x: 51, y: -10, z: 0}
+        return { x: 51, y: -14, z: 0}
     }
 }
 
