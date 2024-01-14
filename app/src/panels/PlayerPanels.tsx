@@ -13,7 +13,7 @@ export const PlayerPanels: FC<any> = () => {
   return (
     <>
       {players.map((player) => (
-        <PlayerPanel key={player.id} playerId={player.id} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
+        <PlayerPanel activeRing key={player.id} playerId={player.id} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
           <StartPlayerChoice player={player.id} />
         </PlayerPanel>
       ))}
