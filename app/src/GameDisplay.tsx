@@ -13,7 +13,7 @@ export const GameDisplay = () => {
       xMax={60} 
       yMin={-24}
       yMax={24} margin={{ top: 7, left: 0, right: 0, bottom: 0 }}
-      css={css`background-color: rgba(255, 255, 255, 0.47)`}
+      //css={css`background-color: rgba(255, 255, 255, 0.47)`}
     >
       <GameTableNavigation css={navigationPosition} />
     </GameTable>
