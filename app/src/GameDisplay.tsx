@@ -30,6 +30,7 @@ const navigationPosition = css`
   height: 14em;
   flex-direction: column;
   > button {
+    padding: 0;
     filter: drop-shadow(0.1em 0.1em 0.05em black);
   }
 `
