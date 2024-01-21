@@ -8,25 +8,26 @@ import {
   MaterialItem,
   MaterialMove,
   PositiveSequenceStrategy,
-  SecretMaterialRules
+  SecretMaterialRules,
+  TimeLimit
 } from '@gamepark/rules-api'
+import sample from 'lodash/sample'
 import sumBy from 'lodash/sumBy'
-import {getCrowns} from './material/Animal'
-import Heir, {heirs} from './material/Heir'
-import {LocationType} from './material/LocationType'
-import {MaterialType} from './material/MaterialType'
-import {CheetahRule} from './rules/card/CheetahRule'
-import {EagleRule} from './rules/card/EagleRule'
-import {RhinocerosRule} from './rules/card/RhinocerosRule'
-import {SnakeRule} from './rules/card/SnakeRule'
-import {ChooseCardRule} from './rules/ChooseCardRule'
-import {ChooseStartPlayerRule} from './rules/ChooseStartPlayerRule'
-import {EndOfTurnRule} from './rules/EndOfTurnRule'
-import {PrepareNewRoundRule} from './rules/PrepareNewRoundRule'
-import {RuleId} from './rules/RuleId'
-import {SolveTrickRule} from './rules/SolveTrickRule'
-import {CustomMoveType} from "./rules/CustomMoveType";
-import sample from "lodash/sample";
+import { getCrowns } from './material/Animal'
+import Heir, { heirs } from './material/Heir'
+import { LocationType } from './material/LocationType'
+import { MaterialType } from './material/MaterialType'
+import { CheetahRule } from './rules/card/CheetahRule'
+import { EagleRule } from './rules/card/EagleRule'
+import { RhinocerosRule } from './rules/card/RhinocerosRule'
+import { SnakeRule } from './rules/card/SnakeRule'
+import { ChooseCardRule } from './rules/ChooseCardRule'
+import { ChooseStartPlayerRule } from './rules/ChooseStartPlayerRule'
+import { CustomMoveType } from './rules/CustomMoveType'
+import { EndOfTurnRule } from './rules/EndOfTurnRule'
+import { PrepareNewRoundRule } from './rules/PrepareNewRoundRule'
+import { RuleId } from './rules/RuleId'
+import { SolveTrickRule } from './rules/SolveTrickRule'
 
 
 export const hideIdWhenRotated: HidingStrategy = (
@@ -36,14 +37,15 @@ export const hideIdWhenRotated: HidingStrategy = (
 }
 
 export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType>
-  implements CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>  {
+  implements CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>,
+    TimeLimit<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir> {
   rankPlayers(playerA: Heir, playerB: Heir) {
     const crownsPlayerA = this.getPlayerCrowns(playerA)
     const crownsPlayerB = this.getPlayerCrowns(playerB)
     const heirCardA = this.material(MaterialType.HeirCard).id(playerA).getItem()
     const hyenasPlayerA = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(playerA).length
     const hyenasPlayerB = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(playerB).length
-    
+
     if (hyenasPlayerB === 4) return -1
     if (hyenasPlayerA === 4) return 1
     if (crownsPlayerA > crownsPlayerB && heirCardA?.location?.rotation) {
@@ -65,10 +67,10 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
 
   randomize(move: MaterialMove) {
     if (isCustomMoveType(CustomMoveType.SamplePlayer)(move)) {
-      return {...move, data: sample(heirs) }
+      return { ...move, data: sample(heirs) }
     }
 
-    return super.randomize(move);
+    return super.randomize(move)
   }
 
   rules = {
@@ -86,7 +88,7 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
   hidingStrategies = {
     [MaterialType.AnimalCard]: {
       [LocationType.Hand]: hideItemIdToOthers,
-      [LocationType.PlayerColumns]: (item: MaterialItem) => item.location?.rotation?.y === 1? ['id']: [],
+      [LocationType.PlayerColumns]: (item: MaterialItem) => item.location?.rotation?.y === 1 ? ['id'] : [],
       [LocationType.Deck]: hideItemId,
       [LocationType.PlayerTrickStack]: hideIdWhenRotated
     }
@@ -100,5 +102,9 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
       [LocationType.Deck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerHyena]: new PositiveSequenceStrategy()
     }
+  }
+
+  giveTime(): number {
+    return 30
   }
 }
