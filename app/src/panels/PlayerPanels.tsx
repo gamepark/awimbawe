@@ -36,7 +36,7 @@ const panelPosition = css`
   position: absolute;
   right: 1em;
   width: 28em;
-  height: 6.7em;
+  height: 8.3em;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -48,5 +48,5 @@ const topPosition = css`
 `
 
 const bottomPosition = css`
-  top: 92em;
+  top: 90em;
 `
