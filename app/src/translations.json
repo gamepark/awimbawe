@@ -275,7 +275,7 @@
       "help.card.move.play": "Jouer cette carte",
       "header.choose-start": "{player} doit choisir qui entamera la prochaine manche",
       "header.choose-start.me": "Vous devez <0>choisir</0> qui commencera la prochaine manche",
-      "header.choose-start.choose.me": "Je commencer la prochaine manche",
+      "header.choose-start.choose.me": "Je commence la prochaine manche",
       "header.choose-start.choose.other": "Je laisse {player} commencer la prochaine manche",
       "help.column.title": "Pile de {player}",
       "help.column": "En jouant un Rhinocéros, vous avez la possibilité de déplacer une carte ici.",
