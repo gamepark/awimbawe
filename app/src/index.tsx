@@ -31,6 +31,9 @@ ReactDOM.render(
           background: {
             overlay: 'rgba(0, 0, 0, 0.5)'
           }
+        },
+        dropArea: {
+          backgroundColor: 'rgba(116, 127, 201, 0.5)'
         }
       }}
     >
