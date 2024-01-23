@@ -33,7 +33,7 @@ ReactDOM.render(
           }
         },
         dropArea: {
-          backgroundColor: 'rgba(116, 127, 201, 0.5)'
+          backgroundColor: 'rgba(116, 127, 201, 0.7)'
         }
       }}
     >
