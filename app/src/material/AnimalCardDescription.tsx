@@ -1,6 +1,9 @@
-import { CardDescription } from '@gamepark/react-game'
-import Images from '../images/Images'
 import Animal from '@gamepark/awimbawe/material/Animal'
+import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { isMoveItemType } from '@gamepark/rules-api/dist/material/moves/items/MoveItem'
+import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import Images from '../images/Images'
 import { AnimalCardHelp } from './help/AnimalCardHelp'
 
 export class AnimalCardDescription extends CardDescription {
@@ -39,7 +42,10 @@ export class AnimalCardDescription extends CardDescription {
     [Animal.PlainSnake]: Images.PlainSnake,
     [Animal.PlainElephant]: Images.PlainElephant,
   }
-  
+
+  canShortClick(move: MaterialMove, context: ItemContext): boolean {
+    return super.canShortClick(move, context) || (isMoveItemType(MaterialType.AnimalCard)(move) && move.itemIndex === context.index && move.location.rotation?.z === 1)
+  }
 
   help = AnimalCardHelp
 }
