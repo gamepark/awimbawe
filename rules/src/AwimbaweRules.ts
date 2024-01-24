@@ -3,7 +3,6 @@ import {
   hideItemId,
   hideItemIdToOthers,
   HidingStrategy,
-  isCustomMoveType,
   MaterialGame,
   MaterialItem,
   MaterialMove,
@@ -11,10 +10,9 @@ import {
   SecretMaterialRules,
   TimeLimit
 } from '@gamepark/rules-api'
-import sample from 'lodash/sample'
 import sumBy from 'lodash/sumBy'
 import { getCrowns } from './material/Animal'
-import Heir, { heirs } from './material/Heir'
+import Heir from './material/Heir'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { CheetahRule } from './rules/card/CheetahRule'
@@ -23,7 +21,6 @@ import { RhinocerosRule } from './rules/card/RhinocerosRule'
 import { SnakeRule } from './rules/card/SnakeRule'
 import { ChooseCardRule } from './rules/ChooseCardRule'
 import { ChooseStartPlayerRule } from './rules/ChooseStartPlayerRule'
-import { CustomMoveType } from './rules/CustomMoveType'
 import { EndOfTurnRule } from './rules/EndOfTurnRule'
 import { PrepareNewRoundRule } from './rules/PrepareNewRoundRule'
 import { RuleId } from './rules/RuleId'
@@ -63,14 +60,6 @@ export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialTyp
 
 
     return sumBy(cards, (card) => getCrowns(card.id))
-  }
-
-  randomize(move: MaterialMove) {
-    if (isCustomMoveType(CustomMoveType.SamplePlayer)(move)) {
-      return { ...move, data: sample(heirs) }
-    }
-
-    return super.randomize(move)
   }
 
   rules = {

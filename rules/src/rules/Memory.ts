@@ -1,3 +1,5 @@
+import Heir from '../material/Heir'
+
 export enum Memory {
   Lead = 1,
   Winner,
@@ -5,5 +7,17 @@ export enum Memory {
   Eagle,
   HyenaInTricks,
   EaglePlayer,
-  CheetahPlayer
+  CheetahPlayer,
+  RoundSummary
+}
+
+export enum WinType {
+  Crowns = 1,
+  Hyena
+}
+
+export type RoundSummary = {
+  winner: Heir,
+  type: WinType
+  crowns?: Record<Heir, number>
 }
