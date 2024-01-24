@@ -117,7 +117,6 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
       summaries.push(summary)
       return summaries
     })
-    console.log("???", this.remind(Memory.RoundSummary))
   }
 
   hasFourHyenas(player: Heir) {

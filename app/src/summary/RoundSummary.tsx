@@ -23,12 +23,13 @@ export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
   const winnerName = usePlayerName(summary?.winner)
   const looser = summary?.winner && rules?.players.find((p) => p !== summary?.winner)
   const looserName = usePlayerName(looser)
+  console.log(looserName)
   return (
     <div css={summaryContainer} {...rest}>
     { iWin? (
         <>
           <div css={marginBottom}>{t('round-summary.dialog.win.me')}</div>
-          { summary.type === WinType.Hyena && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looser: looserName })}</div> }
+          { summary.type === WinType.Hyena && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looserName: looserName })}</div> }
           { summary.type === WinType.Crowns && (
             <div css={[alignIconText, italic]}>
               <Trans defaults="round-summary.dialog.win.crowns.me" values={{ winner: summary.crowns?.[winner!] ?? 0, looser: summary.crowns?.[looser!] ?? 0, looserName: looserName }}>
@@ -40,7 +41,7 @@ export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
       ): (
         <>
           <div css={marginBottom}>{t('round-summary.dialog.win', { winner: winnerName })}</div>
-          { summary.type === WinType.Hyena && !playerId && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { winner: winnerName })}</div> }
+          { summary.type === WinType.Hyena && !playerId && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looserName: looserName })}</div> }
           { summary.type === WinType.Hyena && playerId && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena.me.loose', { winner: winnerName })}</div> }
           { summary.type === WinType.Crowns &&  (
             <div css={[alignIconText, italic]}>
