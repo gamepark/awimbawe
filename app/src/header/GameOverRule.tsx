@@ -15,7 +15,7 @@ export const GameOverRule = () => {
   const playerId = usePlayerId()
   const summaries = rules.remind<RoundSummary[]>(Memory.RoundSummary)
   const winner = useMemo(() => {
-    const [panther, tiger] = partition(summaries, (s) => s.winner)
+    const [panther, tiger] = partition(summaries, (s) => s.winner == Heir.BlackPanther)
     return panther.length > tiger.length? Heir.BlackPanther: Heir.WhiteTiger
   }, [summaries])
 

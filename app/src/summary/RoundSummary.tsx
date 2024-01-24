@@ -23,7 +23,7 @@ export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
   const winnerName = usePlayerName(summary?.winner)
   const looser = summary?.winner && rules?.players.find((p) => p !== summary?.winner)
   const looserName = usePlayerName(looser)
-  console.log(looserName)
+
   return (
     <div css={summaryContainer} {...rest}>
     { iWin? (
