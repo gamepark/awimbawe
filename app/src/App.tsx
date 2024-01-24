@@ -9,6 +9,7 @@ import { ChooseStartPlayerHeader } from './header/ChooseStartPlayerHeader'
 import { CheetahHeader } from './header/CheetahHeader'
 import { EagleHeader } from './header/EagleHeader'
 import { EndOfTurnHeader } from './header/EndOfTurnHeader'
+import { GameOverRule } from './header/GameOverRule'
 import { PrepareNewRoundHeader } from './header/PrepareNewRoundHeader'
 import { RhinocerosHeader } from './header/RhinocerosHeader'
 import { SnakeHeader } from './header/SnakeHeader'
@@ -27,7 +28,7 @@ export default function App() {
     <>
       <GameDisplay/>
       <LoadingScreen display={loading} author="Mathieu Roussel" artist="Aubane Rittano" publisher="Explor8" developer="Game Park"/>
-      <MaterialHeader rulesStepsHeaders={RulesHeaders} loading={loading}/>
+      <MaterialHeader rulesStepsHeaders={RulesHeaders} GameOverRule={GameOverRule} loading={loading}/>
       <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)}/>
       <Menu/>
       <FailuresDialog/>

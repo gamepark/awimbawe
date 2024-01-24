@@ -46,6 +46,7 @@ const helpDialogCss = css`
   padding: 3em;
   max-width: inherit;
   max-height: inherit;
+  flex-direction: column;
   
   > div > h2 {
     margin-bottom: 0.7em;
