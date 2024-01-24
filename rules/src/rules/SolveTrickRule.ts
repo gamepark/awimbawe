@@ -141,6 +141,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
 
   onRuleEnd() {
     this.forget(Memory.Eagle)
+    this.forget(Memory.EaglePlayer)
     return []
   }
 

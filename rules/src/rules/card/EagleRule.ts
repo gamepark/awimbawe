@@ -12,10 +12,8 @@ export class EagleRule extends CardRule {
     }
 
     onCustomMove(move: CustomMove) {
-        if (EagleChoice.Runaway === move.data) {
-            this.memorize(Memory.Eagle, move.data)
-        }
-
+        this.memorize(Memory.Eagle, move.data)
+        this.memorize(Memory.EaglePlayer, this.player)
         return this.afterEffectPlayed()
     }
 }

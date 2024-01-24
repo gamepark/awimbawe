@@ -27,7 +27,7 @@ awimbaweAnimations.when()
 
 awimbaweAnimations.when()
   .move((move, context) => isMoveItemType(MaterialType.AnimalCard)(move) && ((context.rules.game.items[move.itemType]![move.itemIndex].location?.rotation?.z === 1 && !move.location?.rotation?.z) || move.location?.rotation?.z === 1))
-  .duration(0.5)
+  .duration(0.8)
 
 awimbaweAnimations.when()
     .move(isShuffleItemType(MaterialType.AnimalCard))

@@ -3,5 +3,7 @@ export enum Memory {
   Winner,
   StartPlayer,
   Eagle,
-  HyenaInTricks
+  HyenaInTricks,
+  EaglePlayer,
+  CheetahPlayer
 }

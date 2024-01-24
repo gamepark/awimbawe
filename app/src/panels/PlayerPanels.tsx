@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import { EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { PlayerPanel, SpeechBubble, SpeechBubbleDirection, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
 import { FC } from 'react'
@@ -15,6 +16,7 @@ export const PlayerPanels: FC<any> = () => {
       {players.map((player) => (
         <PlayerPanel activeRing key={player.id} playerId={player.id} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
           <StartPlayerChoice player={player.id} />
+          <EaglePlayerChoice player={player.id} />
         </PlayerPanel>
       ))}
     </>
@@ -23,11 +25,27 @@ export const PlayerPanels: FC<any> = () => {
 
 const StartPlayerChoice = ({ player }: { player: number }) => {
   const { t } = useTranslation()
-  const startPlayer = useRules<AwimbaweRules>()?.remind(Memory.StartPlayer)
-  if (!startPlayer || startPlayer !== player) return null
+  const rules = useRules<AwimbaweRules>()!
+  const startPlayer = rules?.remind(Memory.StartPlayer)
+  const actionPlayer = rules?.remind(Memory.CheetahPlayer)
+  const isPlayerTurn = !actionPlayer || startPlayer === actionPlayer
+    if (!startPlayer || player !== (actionPlayer ?? startPlayer)) return null
   return (
     <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
-      {t('rules.start.choose.me')}
+      {t(isPlayerTurn? 'rules.start.choose.me': 'rules.start.choose.you')}
+    </SpeechBubble>
+  )
+}
+
+const EaglePlayerChoice = ({ player }: { player: number }) => {
+  const { t } = useTranslation()
+  const rules = useRules<AwimbaweRules>()!
+  const choice = rules.remind(Memory.Eagle)
+  const actionPlayer = rules?.remind(Memory.EaglePlayer)
+  if (choice === undefined || player !== actionPlayer) return null
+  return (
+    <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
+      {t(choice === EagleChoice.Attack? 'rules.eagle.attack': 'rules.eagle.runaway')}
     </SpeechBubble>
   )
 }

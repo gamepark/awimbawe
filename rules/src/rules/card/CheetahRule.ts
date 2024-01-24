@@ -14,6 +14,7 @@ export class CheetahRule extends CardRule {
 
     onCustomMove(move: CustomMove) {
         this.memorize(Memory.StartPlayer, move.data)
+        this.memorize(Memory.CheetahPlayer, this.player)
         return this.afterEffectPlayed()
     }
 }

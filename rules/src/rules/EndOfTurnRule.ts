@@ -94,6 +94,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
 
     onRuleEnd() {
         this.forget(Memory.StartPlayer)
+        this.forget(Memory.CheetahPlayer)
         return []
     }
 }
