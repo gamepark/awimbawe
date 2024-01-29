@@ -9,6 +9,10 @@ export class HeirCardLocator extends ItemLocator {
 
         return { x: 51, y: -14, z: 0}
     }
+
+    getRotateZ(item: MaterialItem, { rules, player }: ItemContext) {
+        return item.id === (player ?? rules.players[0]) ? 0 : -180
+    }
 }
 
 export const heirCardLocator = new HeirCardLocator()
