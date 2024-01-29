@@ -14,7 +14,6 @@ export class EndOfTurnRule extends MaterialRulesPart {
       .material(MaterialType.AnimalCard)
       .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
 
-    console.log(cards.length, cards.getItems())
     if (!cards.length || this.someoneHasFourHyenas) {
       moves.push(this
         .material(MaterialType.AnimalCard)
