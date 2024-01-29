@@ -2,6 +2,7 @@
 import { css } from '@emotion/react'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
 import { Memory, RoundSummary } from '@gamepark/awimbawe/rules/Memory'
+import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { RulesDialog, useRules } from '@gamepark/react-game'
 import { helpDialogContentCss } from '@gamepark/react-game/dist/components/dialogs/RulesDialog/RulesHelpDialogContent'
 import { FC, useEffect, useState } from 'react'
@@ -16,8 +17,10 @@ export const NewRoundDialog:  FC = () => {
   const [opened, setOpened] = useState<boolean>(false)
   const [summary, setSummary] = useState<RoundSummary | undefined>(undefined)
   const summaries = rules?.remind<RoundSummary[]>(Memory.RoundSummary)
+
   useEffect(() => {
     if (opened || !summaries?.length || !rules) return
+    if (rules.game.rule && rules.game.rule.id !== RuleId.PrepareNewRound) return
     setSummary(summaries[summaries.length - 1])
     setOpened(true)
   }, [summaries])
