@@ -1,6 +1,6 @@
 import { isShuffleItemType, Location, MaterialMove, MaterialRulesPart, MoveItem } from '@gamepark/rules-api'
 import { START_HAND } from '../AwimbaweSetup'
-import { getCrowns } from '../material/Animal'
+import Animal, { getCrowns, isHyena } from '../material/Animal'
 import Heir from '../material/Heir'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -79,6 +79,7 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
     const pantherCrowns = this.getPlayerCrowns(Heir.BlackPanther)
     const tigerCrowns = this.getPlayerCrowns(Heir.WhiteTiger)
 
+
     if (this.hasFourHyenas(Heir.BlackPanther)) {
       this.saveRoundSummary(Heir.WhiteTiger, WinType.Hyena)
       return Heir.WhiteTiger
@@ -122,15 +123,11 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
   hasFourHyenas(player: Heir) {
     const hyenas = this
       .material(MaterialType.AnimalCard)
-      .location(LocationType.PlayerHyena)
+      .location((l) => l.type === LocationType.PlayerHyena || l.type === LocationType.PlayerTrickStack)
       .player(player)
+      .id((id: Animal) => isHyena(id))
       .length
-
-    if (hyenas === 4) {
-      return true
-    }
-
-    return false
+    return hyenas === 4;
   }
 
   getPlayerCrowns(player: Heir) {
