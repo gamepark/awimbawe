@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { ItemContext, LineLocator } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api/dist/material/items/MaterialItem'
-import { Coordinates } from '@gamepark/rules-api/dist/material/location/Location'
+import { Coordinates, MaterialItem } from '@gamepark/rules-api'
 import { animalCardDescription } from '../material/AnimalCardDescription'
 import { PlayerAreaDescription } from './description/PlayAreaDescription'
 

@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
 import { Memory, RoundSummary } from '@gamepark/awimbawe/rules/Memory'
-import { useRules } from '@gamepark/react-game/dist/hooks/useRules'
+import { useRules } from '@gamepark/react-game'
 import { FC, HTMLAttributes } from 'react'
 import { Trans } from 'react-i18next'
 import { RoundSummaryDetail } from '../../summary/RoundSummary'

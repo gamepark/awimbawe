@@ -1,8 +1,7 @@
 import Animal from '@gamepark/awimbawe/material/Animal'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
-import { isMoveItemType } from '@gamepark/rules-api/dist/material/moves/items/MoveItem'
-import { MaterialMove } from '@gamepark/rules-api/dist/material/moves/MaterialMove'
+import { isMoveItemType, MaterialMove } from '@gamepark/rules-api'
 import Images from '../images/Images'
 import { AnimalCardHelp } from './help/AnimalCardHelp'
 
