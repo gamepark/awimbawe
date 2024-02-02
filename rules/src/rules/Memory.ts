@@ -8,7 +8,8 @@ export enum Memory {
   HyenaInTricks,
   EaglePlayer,
   CheetahPlayer,
-  RoundSummary
+  RoundSummary,
+  Round
 }
 
 export enum WinType {

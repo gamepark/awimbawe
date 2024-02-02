@@ -10,6 +10,7 @@ import Crown from '../../images/crown.jpg'
 import MinusCrown from '../../images/minus-crown.jpg'
 import {isMoveItemType} from "@gamepark/rules-api";
 import {MaterialItem} from "@gamepark/rules-api";
+import { getAnimalTitle } from '../animal-types'
 
 export const AnimalCardHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props
@@ -106,26 +107,6 @@ const getLocationText = (item: Partial<MaterialItem>, me: boolean) => {
       return me? 'help.card.location.columns.me': 'help.card.location.columns'
     case LocationType.PlayerHyena:
       return me? 'help.card.location.hyena.me': 'help.card.location.hyena'
-  }
-
-  return ''
-}
-
-const getAnimalTitle = (animal: Animal) => {
-  if (animal <= 10) return 'help.card.eagle.title'
-  switch (animal % 10) {
-    case 1:
-      return 'help.card.mouse.title'
-    case 2:
-      return 'help.card.rhino.title'
-    case 3:
-      return 'help.card.cheetah.title'
-    case 4:
-      return 'help.card.hyena.title'
-    case 5:
-      return 'help.card.snake.title'
-    case 6:
-      return 'help.card.elephant.title'
   }
 
   return ''

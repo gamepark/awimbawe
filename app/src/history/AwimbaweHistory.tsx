@@ -1,26 +1,46 @@
-import Heir from '@gamepark/awimbawe/material/Heir'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react'
+import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { HistoryDescription, HistoryEntryOptions } from '@gamepark/react-client'
-import { isMoveItem, isShuffle, isStartPlayerTurn, isStartRule, MaterialGame, MaterialMove } from '@gamepark/rules-api'
-import { Trans } from 'react-i18next'
-
+import { isStartPlayerTurn, MaterialGame, MaterialMove, MoveKind, RuleMoveType } from '@gamepark/rules-api'
+import { getChooseCardEntry } from './entry/ChooseCardHistory'
+import { getRhinoEntry } from './entry/RhinoHistory'
+import { getRoundEndHistory } from './entry/RoundEndHistory'
+import { getSnakeEntry } from './entry/SnakeHistory'
+import { getSolveTrickEntry } from './entry/SolveTrickHistory'
 
 export class AwimbaweHistory implements HistoryDescription<MaterialGame, MaterialMove> {
-    getHistoryEntry(move: MaterialMove<number, number, number>, options: HistoryEntryOptions<MaterialGame<Heir, MaterialType, LocationType>>) {
-        if (isStartRule(move) || isStartPlayerTurn(move)) {
-            return <Trans defaults={options.action.played + "La règle à changé 🤔"} />
+    getHistoryEntry(move: MaterialMove, options: HistoryEntryOptions) {
+        const game = options.getGameBefore()
+
+        if (isStartPlayerTurn(move) && move.id === RuleId.ChooseCard && game.rule?.id === RuleId.EndOfTurn) {
+            return <div css={css`font-weight: bold`}>New ROUND</div>
         }
 
-        if (isMoveItem(move)) {
-            return <Trans defaults="Quelquechose vient de bouger 😱" />
+        if (game.rule?.id === RuleId.ChooseCard) {
+            return getChooseCardEntry(move, game, options)
         }
 
-        if (isShuffle(move)) {
-            return <Trans defaults="Je ne comprends pas, tout est mélangé 🤪" />
+        if (game.rule?.id === RuleId.Snake) {
+            return getSnakeEntry(move, game, options)
         }
 
-        return <>{JSON.stringify(move)}</>
+        if (game.rule?.id === RuleId.Rhinoceros) {
+            return getRhinoEntry(move, game, options)
+        }
+
+        if (game.rule?.id === RuleId.SolveTrick) {
+            return getSolveTrickEntry(move, game, options)
+        }
+
+        if (game.rule?.id === RuleId.EndOfTurn) {
+            return getRoundEndHistory(move, game, options)
+        }
+
+        if (move.kind === MoveKind.RulesMove && move.type === RuleMoveType.EndGame) {
+            return <div css={css`color: grey; text-align: center; font-style: italic`}>End of the game</div>
+        }
+
+        return undefined
     }
-
 }

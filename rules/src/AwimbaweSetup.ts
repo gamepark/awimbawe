@@ -64,7 +64,8 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
     } else {
       lead = Heir.WhiteTiger
     }
-    
+
+    this.memorize(Memory.Round, 1)
     this.memorize(Memory.Lead, lead)
     return this.startPlayerTurn(RuleId.ChooseCard, lead!)
   }

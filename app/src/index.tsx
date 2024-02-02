@@ -3,6 +3,7 @@ import {addStylesheetUrl, GameProvider, setupTranslation} from '@gamepark/react-
 import {StrictMode} from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import { AwimbaweHistory } from './history/AwimbaweHistory'
 import translations from './translations.json'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
 import {AwimbaweSetup} from '@gamepark/awimbawe/AwimbaweSetup'
@@ -25,6 +26,7 @@ ReactDOM.render(
       material={material}
       locators={Locators}
       animations={awimbaweAnimations}
+      history={new AwimbaweHistory()}
       tutorial={new Tutorial()}
       theme={{
         root: {
