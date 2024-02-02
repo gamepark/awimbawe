@@ -71,5 +71,4 @@ export const SnakeHistory: FC<SnakeHistoryProps> = (props) => {
       <>{t(itsMe? 'history.snake.paralyze.column.me': 'history.snake.paralyze.column', { column: item.location.id, opponent: opponentName, player: playerName })}</>
     </PlayerActionHistory>
   )
-  return <>{t(itsMe? 'history.snake.paralyze.column.me': 'history.snake.paralyze.column', { column: item.location.id, opponent: opponentName, player: playerName })}</>
 }
