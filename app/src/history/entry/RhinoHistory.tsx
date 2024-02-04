@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { HistoryEntryOptions } from '@gamepark/react-client'
-import { PlayerActionHistory, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
+import { PlayerActionHistory, PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { displayMaterialHelp, isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
 import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
+import { getHistoryCard } from '../../material/animal-types'
+import { placeStyle, rulesLinkButton } from './ChooseCardHistory'
 
 
 export type RhinoHistoryProps = {
@@ -51,12 +53,28 @@ export const RhinoHistory: FC<RhinoHistoryProps> = (props) => {
   const playerId = usePlayerId()
   const actionPlayer = options.action.playerId
   const playerName = usePlayerName(actionPlayer)
-  const opponentName = usePlayerName(game.players.filter((p) => p !== actionPlayer))
+  const opponent = game.players.find((p) => p !== actionPlayer)
+  const opponentName = usePlayerName(opponent)
   const itsMe = playerId && actionPlayer === playerId
+  const item = game.items[MaterialType.AnimalCard]![move.itemIndex]
+  const itemId = item.id ?? move.reveal?.id
+  const card = t(getHistoryCard(itemId))
+
+  if (playerId && opponent === playerId) {
+    return (
+      <PlayerActionHistory options={options}>
+        <Trans css={placeStyle} defaults="history.rhino.move.other.me" values={{ card: card, player: playerName }}>
+          <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
+        </Trans>
+      </PlayerActionHistory>
+    )
+  }
 
   return (
     <PlayerActionHistory options={options}>
-      <>{t(itsMe? 'history.rhino.move.me': 'history.rhino.move', { column: move.location.id, opponent: opponentName, player: playerName })}</>
+      <Trans css={placeStyle} defaults={itsMe? 'history.rhino.move.me': 'history.rhino.move'} values={{ card: card, player: playerName, opponent: opponentName }}>
+        <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
+      </Trans>
     </PlayerActionHistory>
   )
 }

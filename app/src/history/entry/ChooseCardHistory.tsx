@@ -32,7 +32,7 @@ export const ChooseCardHistory: FC<ChooseCardHistoryProps> = (props) => {
   const playerName = usePlayerName(actionPlayer)
   const item = game.items[MaterialType.AnimalCard]![move.itemIndex]
   const itsMe = playerId && actionPlayer === playerId
-  const itemId = item.id ?? move.reveal!.id
+  const itemId = item.id ?? move.reveal?.id
   const lastRound = currentGame.memory[Memory.Round]
 
   if (lastRound && lastRound === game.memory[Memory.Round]) {
@@ -46,7 +46,7 @@ export const ChooseCardHistory: FC<ChooseCardHistoryProps> = (props) => {
   return (
     <PlayerActionHistory options={options}>
       <Trans css={placeStyle} defaults={itsMe? 'history.place.me': 'history.place'} values={{ card: t(getHistoryCard(itemId), { color: t(getAnimalColor(itemId))}), player: playerName, value: getAnimalPower(itemId) }}>
-        <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: item.id ?? move.reveal?.id})} local/>
+        <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId })} local/>
       </Trans>
     </PlayerActionHistory>
   )

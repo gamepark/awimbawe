@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 
 export const getRoundEndHistory = (move: MaterialMove, game: MaterialGame, options: HistoryEntryOptions) => {
   if (!isStartRule(move) || move.id !== RuleId.PrepareNewRound) return
-  return <RoundWinnerHistory move={move} game={game} options={options} />
+  return <RoundWinnerHistory move={move} game={game} options={options}/>
 }
 
 export type RoundWinnerHistoryProps = {
@@ -29,5 +29,12 @@ export const RoundWinnerHistory: FC<RoundWinnerHistoryProps> = (props) => {
   const lead = game.memory[Memory.Winner]
   const winnerName = usePlayerName(lead)
 
-  return <div css={css`color: green; font-style: italic; text-align: center; font-weight: bold`}>{t(itsMe ? 'history.win.me' : 'history.win', { player: winnerName })}</div>
+  return <div css={winStyle}>{t(itsMe ? 'history.win.me' : 'history.win', { player: winnerName })}</div>
 }
+
+const winStyle = css`
+  color: green;
+  font-style: italic;
+  text-align: center;
+  font-weight: bold
+`
