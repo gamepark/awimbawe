@@ -24,9 +24,8 @@ export const RoundWinnerHistory: FC<RoundWinnerHistoryProps> = (props) => {
   const { options, game } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const actionPlayer = options.action.playerId
-  const itsMe = playerId && actionPlayer === playerId
   const lead = game.memory[Memory.Winner]
+  const itsMe = playerId && lead === playerId
   const winnerName = usePlayerName(lead)
 
   return <div css={winStyle}>{t(itsMe ? 'history.win.me' : 'history.win', { player: winnerName })}</div>
