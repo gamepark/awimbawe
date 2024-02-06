@@ -21,10 +21,10 @@ export type RoundWinnerHistoryProps = {
 }
 
 export const RoundWinnerHistory: FC<RoundWinnerHistoryProps> = (props) => {
-  const { options, game } = props
+  const { game } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const lead = game.memory[Memory.Winner]
+  const lead = game.memory[Memory.Lead]
   const itsMe = playerId && lead === playerId
   const winnerName = usePlayerName(lead)
 
