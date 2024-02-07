@@ -26,7 +26,7 @@ ReactDOM.render(
       material={material}
       locators={Locators}
       animations={awimbaweAnimations}
-      history={new AwimbaweHistory()}
+      MaterialHistory={AwimbaweHistory}
       tutorial={new Tutorial()}
       theme={{
         root: {

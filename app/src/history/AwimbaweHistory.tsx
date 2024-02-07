@@ -1,47 +1,52 @@
 /** @jsxImportSource @emotion/react */
+import Heir from '@gamepark/awimbawe/material/Heir'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
-import { HistoryDescription, HistoryEntryOptions } from '@gamepark/react-client'
+import { MaterialHistoryProps } from '@gamepark/react-game'
 import { isStartPlayerTurn, MaterialGame, MaterialMove, MoveKind, RuleMoveType } from '@gamepark/rules-api'
-import { getChooseCardEntry } from './entry/ChooseCardHistory'
+import { FC } from 'react'
+import { ChooseCardRuleHistory } from './entry/ChooseCardHistory'
 import { EndGameHistory } from './entry/EndGameHistory'
+import { EndOfTurnRuleHistory } from './entry/EndOfTurnRuleHistory'
 import { NewRoundHistory } from './entry/NewRoundHistory'
-import { getRhinoEntry } from './entry/RhinoHistory'
-import { getRoundEndHistory } from './entry/RoundEndHistory'
-import { getSnakeEntry } from './entry/SnakeHistory'
-import { getSolveTrickEntry } from './entry/SolveTrickHistory'
+import { RhinocerosRuleHistory } from './entry/RhinocerosRuleHistory'
+import { SnakeRuleHistory } from './entry/SnakeRuleHistory'
+import { SolveTrickRuleHistory } from './entry/SolveTrickHistory'
 
-export class AwimbaweHistory implements HistoryDescription<MaterialGame, MaterialMove> {
-  getHistoryEntry(move: MaterialMove, options: HistoryEntryOptions) {
-    const game = options.getGameBefore()
+export type AwimbaweHistoryEntryProps = {
+  game: MaterialGame
+} & MaterialHistoryProps
 
-    if (isStartPlayerTurn(move) && move.id === RuleId.ChooseCard && game.rule?.id === RuleId.EndOfTurn) {
-      return <NewRoundHistory />
-    }
+export const AwimbaweHistory: FC<MaterialHistoryProps<MaterialGame, MaterialMove, Heir>> = (props) => {
+  const { move, context } = props;
+  const game = context.game
 
-    if (game.rule?.id === RuleId.ChooseCard) {
-      return getChooseCardEntry(move, game, options)
-    }
-
-    if (game.rule?.id === RuleId.Snake) {
-      return getSnakeEntry(move, game, options)
-    }
-
-    if (game.rule?.id === RuleId.Rhinoceros) {
-      return getRhinoEntry(move, game, options)
-    }
-
-    if (game.rule?.id === RuleId.SolveTrick) {
-      return getSolveTrickEntry(move, game, options)
-    }
-
-    if (game.rule?.id === RuleId.EndOfTurn) {
-      return getRoundEndHistory(move, game, options)
-    }
-
-    if (move.kind === MoveKind.RulesMove && move.type === RuleMoveType.EndGame) {
-      return <EndGameHistory />
-    }
-
-    return undefined
+  if (isStartPlayerTurn(move) && move.id === RuleId.ChooseCard && game.rule?.id === RuleId.EndOfTurn) {
+    return <NewRoundHistory />
   }
+
+  if (game.rule?.id === RuleId.ChooseCard) {
+    return <ChooseCardRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (game.rule?.id === RuleId.Snake) {
+    return <SnakeRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (game.rule?.id === RuleId.Rhinoceros) {
+    return <RhinocerosRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (game.rule?.id === RuleId.SolveTrick) {
+    return <SolveTrickRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (game.rule?.id === RuleId.EndOfTurn) {
+    return <EndOfTurnRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (move.kind === MoveKind.RulesMove && move.type === RuleMoveType.EndGame) {
+    return <EndGameHistory />
+  }
+
+  return <></>
 }

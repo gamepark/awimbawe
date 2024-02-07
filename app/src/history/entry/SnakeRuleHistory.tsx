@@ -2,67 +2,59 @@
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { HistoryEntryOptions } from '@gamepark/react-client'
-import { PlayerActionHistory, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MaterialMove, MoveItem, RuleMove } from '@gamepark/rules-api'
+import { PlayerHistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
 
-
-export const getSnakeEntry = (move: MaterialMove, game: MaterialGame, options: HistoryEntryOptions) => {
+export const SnakeRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
+  const { move, game, context } = props
   if (isMoveItemType(MaterialType.AnimalCard)(move)) {
     if (move.location?.rotation?.z === 1) {
-      return <SnakeHistory game={game} move={move} options={options} />
+      return <SnakeHistory game={game} move={move} context={context} />
     }
   }
 
-  if (options.consequenceIndex === undefined && (isStartRule(move) || isStartPlayerTurn(move))) {
-    return <SnakePassHistory game={game} move={move} options={options} />
+  if (context.consequenceIndex === undefined && (isStartRule(move) || isStartPlayerTurn(move))) {
+    return <SnakePassHistory game={game} context={context} />
   }
-  return undefined
+  return null
 }
 
-export type SnakePassHistoryProps = {
-  move: RuleMove
+export type SnakeHistoryProps = {
   game: MaterialGame
-  options: HistoryEntryOptions
-}
+  move?: MoveItem
+} & Omit<AwimbaweHistoryEntryProps, 'move'>
 
-export const SnakePassHistory: FC<SnakePassHistoryProps> = (props) => {
-  const { options } = props
+export const SnakePassHistory: FC<SnakeHistoryProps> = (props) => {
+  const { context } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const actionPlayer = options.action.playerId
+  const actionPlayer = context.action.playerId
   const itsMe = playerId && actionPlayer === playerId
   const name = usePlayerName(actionPlayer)
   return (
-    <PlayerActionHistory options={options}>
+    <PlayerHistoryEntry context={context}>
       {t(itsMe? 'history.snake.pass.me': 'history.snake.pass', { player: name })}
-    </PlayerActionHistory>
+    </PlayerHistoryEntry>
   )
 }
 
-
-export type SnakeHistoryProps = {
-  move: MoveItem
-  game: MaterialGame
-  options: HistoryEntryOptions
-}
-
 export const SnakeHistory: FC<SnakeHistoryProps> = (props) => {
-  const { move, game, options } = props
-  const actionPlayer = options.action.playerId
+  const { move, game, context } = props
+  const actionPlayer = context.action.playerId
   const opponent = game.players.find((p) => p !== actionPlayer)!
-  const item = game.items[MaterialType.AnimalCard]![move.itemIndex]
+  const item = game.items[MaterialType.AnimalCard]![move!.itemIndex]
 
   if (item.location.type === LocationType.Hand) {
     return (
-      <SnakeHandHistory move={move} game={game} options={options} player={actionPlayer} opponent={opponent} />
+      <SnakeHandHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent} />
     )
   }
 
   return (
-    <SnakeColumnHistory move={move} game={game} options={options} player={actionPlayer} opponent={opponent} />
+    <SnakeColumnHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent} />
   )
 }
 
@@ -71,45 +63,45 @@ type SnakeDetailHistoryProps = SnakeHistoryProps & { player: Heir, opponent: Hei
 export const SnakeColumnHistory: FC<SnakeDetailHistoryProps> = (props) => {
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const { options, player, opponent } = props
+  const { context, player, opponent } = props
   const itsMe = playerId && player === playerId
   const opponentName = usePlayerName(opponent)
   const playerName = usePlayerName(player)
 
   if (playerId && opponent === playerId) {
     return (
-      <PlayerActionHistory options={options}>
+      <PlayerHistoryEntry border context={context}>
         {t('history.snake.paralize.column.other.me', { player: playerName })}
-      </PlayerActionHistory>
+      </PlayerHistoryEntry>
     )
   }
 
   return (
-    <PlayerActionHistory options={options}>
+    <PlayerHistoryEntry border context={context}>
       <>{t(itsMe? 'history.snake.paralize.column.me': 'history.snake.paralize.column', { opponent: opponentName, player: playerName })}</>
-    </PlayerActionHistory>
+    </PlayerHistoryEntry>
   )
 }
 
 export const SnakeHandHistory: FC<SnakeDetailHistoryProps> = (props) => {
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const { options, player, opponent } = props
+  const { context, player, opponent } = props
   const itsMe = playerId && player === playerId
   const opponentName = usePlayerName(opponent)
   const playerName = usePlayerName(player)
 
   if (playerId && opponent === playerId) {
     return (
-      <PlayerActionHistory options={options}>
+      <PlayerHistoryEntry border context={context}>
         {t('history.snake.paralize.hand.other.me', { player: playerName })}
-      </PlayerActionHistory>
+      </PlayerHistoryEntry>
     )
   }
 
   return (
-    <PlayerActionHistory options={options}>
+    <PlayerHistoryEntry border context={context}>
       <>{t(itsMe? 'history.snake.paralize.hand.me': 'history.snake.paralize.hand', { opponent: opponentName, player: playerName })}</>
-    </PlayerActionHistory>
+    </PlayerHistoryEntry>
   )
 }
