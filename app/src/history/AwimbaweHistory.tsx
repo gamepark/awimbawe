@@ -4,6 +4,7 @@ import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { MaterialHistoryProps } from '@gamepark/react-game'
 import { isStartPlayerTurn, MaterialGame, MaterialMove, MoveKind, RuleMoveType } from '@gamepark/rules-api'
 import { FC } from 'react'
+import { CheetahRuleHistory } from './entry/CheetahRuleHistory'
 import { ChooseCardRuleHistory } from './entry/ChooseCardHistory'
 import { EndGameHistory } from './entry/EndGameHistory'
 import { EndOfTurnRuleHistory } from './entry/EndOfTurnRuleHistory'
@@ -38,6 +39,10 @@ export const AwimbaweHistory: FC<MaterialHistoryProps<MaterialGame, MaterialMove
 
   if (game.rule?.id === RuleId.SolveTrick) {
     return <SolveTrickRuleHistory game={game} move={move} context={context} />
+  }
+
+  if (game.rule?.id === RuleId.Cheetah) {
+    return <CheetahRuleHistory game={game} move={move} context={context} />
   }
 
   if (game.rule?.id === RuleId.EndOfTurn) {
