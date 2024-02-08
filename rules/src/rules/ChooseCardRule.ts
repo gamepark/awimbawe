@@ -96,7 +96,7 @@ export class ChooseCardRule extends PlayerTurnRule {
             .location(LocationType.PlayerColumns)
             .length
 
-        if (cardsInOpponentColumn > 1 && isRhinoceros(item.id)) {
+        if (cardsInOpponentColumn >= 2 && !this.allCardsInSameColumn(opponentCards) && isRhinoceros(item.id)) {
             return RuleId.Rhinoceros
         }
 
