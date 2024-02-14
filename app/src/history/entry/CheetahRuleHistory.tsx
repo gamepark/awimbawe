@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { CustomMoveType } from '@gamepark/awimbawe/rules/CustomMoveType'
-import { PlayerHistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { CustomMove, isCustomMoveType, MaterialGame } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
+import { ActionHistory } from './ActionHistory'
 
 
 export const CheetahRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
@@ -29,23 +30,23 @@ export const CheetahStartsHistory: FC<CheetahStartsHistoryProps> = (props) => {
 
   if (move?.data === playerId) {
     return (
-      <PlayerHistoryEntry border context={context}>
+      <ActionHistory consequence context={context}>
         <>{t(itsMe? 'history.cheetah.istart.me': 'history.cheetah.other.me', { player: name })}</>
-      </PlayerHistoryEntry>
+      </ActionHistory>
     )
   }
 
   if (move?.data === actionPlayer) {
     return (
-      <PlayerHistoryEntry border context={context}>
+      <ActionHistory consequence context={context}>
         <>{t('history.cheetah.other.itself', { player: name })}</>
-      </PlayerHistoryEntry>
+      </ActionHistory>
     )
   }
 
   return (
-    <PlayerHistoryEntry border context={context}>
+    <ActionHistory consequence context={context}>
       <>{t(itsMe? 'history.cheetah.istart': 'history.cheetah.other', { player: name, opponent: opponent })}</>
-    </PlayerHistoryEntry>
+    </ActionHistory>
   )
 }

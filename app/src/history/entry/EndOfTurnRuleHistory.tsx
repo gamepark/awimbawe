@@ -33,5 +33,7 @@ const winStyle = css`
   color: green;
   font-style: italic;
   text-align: center;
-  font-weight: bold
+  font-weight: bold;
+  padding-top: 1em;
+  padding-bottom: 1em;
 `

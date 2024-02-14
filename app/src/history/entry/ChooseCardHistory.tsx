@@ -3,12 +3,13 @@ import { css } from '@emotion/react'
 import { getAnimalPower } from '@gamepark/awimbawe/material/Animal'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
-import { linkButtonCss, PlayerHistoryEntry, PlayMoveButton, useGame, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { linkButtonCss, PlayMoveButton, useGame, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { displayMaterialHelp, isMoveItemType, MaterialGame, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { getAnimalColor, getHistoryCard } from '../../material/animal-types'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
+import { ActionHistory } from './ActionHistory'
 
 
 export const ChooseCardRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
@@ -37,18 +38,18 @@ export const PlayerChooseCardHistory: FC<ChooseCardHistoryProps> = (props) => {
 
   if (currentGame.rule !== undefined && lastRound && lastRound <= game.memory[Memory.Round]) {
     return (
-      <PlayerHistoryEntry border context={context}>
+      <ActionHistory context={context}>
         {t(itsMe? 'history.place.hidden.me': 'history.place.hidden', { card: t(getHistoryCard(itemId)), player: playerName })}
-      </PlayerHistoryEntry>
+      </ActionHistory>
     )
   }
 
   return (
-    <PlayerHistoryEntry border context={context}>
+    <ActionHistory context={context}>
       <Trans css={placeStyle} defaults={itsMe? 'history.place.me': 'history.place'} values={{ card: t(getHistoryCard(itemId), { color: t(getAnimalColor(itemId))}), player: playerName, value: getAnimalPower(itemId) }}>
         <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId })} local/>
       </Trans>
-    </PlayerHistoryEntry>
+    </ActionHistory>
   )
 }
 export const rulesLinkButton = [linkButtonCss, css`

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 export const EndGameHistory: FC = () => {
   const { t } = useTranslation()
   return (
-    <HistoryEntry border css={endOfGameStyle}>{t('history.game.end')}</HistoryEntry>
+    <HistoryEntry css={endOfGameStyle}>{t('history.game.end')}</HistoryEntry>
   )
 }
 

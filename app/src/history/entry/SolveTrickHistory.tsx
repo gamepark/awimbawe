@@ -8,9 +8,10 @@ import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { isMoveItemType, isStartRule, MoveItem } from '@gamepark/rules-api'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
+import { ActionHistory } from './ActionHistory'
 
 
 export const SolveTrickRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
@@ -32,11 +33,12 @@ export const WinTrickHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const { move, context } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
-  const actionPlayer = context.action.playerId
-  const itsMe = playerId && actionPlayer === playerId
   const rules = new AwimbaweRules(context.game)
-  rules.play(move)
+  useEffect(() => {
+    rules.play(move)
+  }, [])
   const lead = context.game.memory[Memory.Lead]
+  const itsMe = playerId && lead === playerId
   const winnerName = usePlayerName(lead)
 
   return (
@@ -52,7 +54,7 @@ type WinHyenaHistoryProps = {
 } & Omit<AwimbaweHistoryEntryProps, 'move'>
 
 export const WinHyenaHistory: FC<WinHyenaHistoryProps> = (props) => {
-  const { move } = props
+  const { move, context } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
   const actionPlayer = move.location.player
@@ -60,7 +62,7 @@ export const WinHyenaHistory: FC<WinHyenaHistoryProps> = (props) => {
   const playerName = usePlayerName(actionPlayer)
 
   return (
-    <HistoryEntry border>{t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}</HistoryEntry>
+    <ActionHistory consequence context={context}>{t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}</ActionHistory>
   )
 }
 

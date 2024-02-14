@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { PlayerHistoryEntry, PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { displayMaterialHelp, isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { getHistoryCard } from '../../material/animal-types'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
+import { ActionHistory } from './ActionHistory'
 import { placeStyle, rulesLinkButton } from './ChooseCardHistory'
 
 
@@ -35,9 +36,9 @@ export const RhinoPassHistory: FC<RhinocerosHistoryProps> = (props) => {
   const itsMe = playerId && actionPlayer === playerId
   const name = usePlayerName(actionPlayer)
   return (
-    <PlayerHistoryEntry border context={context}>
+    <ActionHistory context={context}>
       <>{t(itsMe? 'history.rhino.pass.me': 'history.rhino.pass', { player: name })}</>
-    </PlayerHistoryEntry>
+    </ActionHistory>
   )
 }
 
@@ -56,19 +57,19 @@ export const RhinocerosHistory: FC<RhinocerosHistoryProps> = (props) => {
 
   if (playerId && opponent === playerId) {
     return (
-      <PlayerHistoryEntry border context={context}>
+      <ActionHistory consequence context={context}>
         <Trans css={placeStyle} defaults="history.rhino.move.other.me" values={{ card: card, player: playerName }}>
           <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
         </Trans>
-      </PlayerHistoryEntry>
+      </ActionHistory>
     )
   }
 
   return (
-    <PlayerHistoryEntry border context={context}>
+    <ActionHistory consequence context={context}>
       <Trans css={placeStyle} defaults={itsMe? 'history.rhino.move.me': 'history.rhino.move'} values={{ card: card, player: playerName, opponent: opponentName }}>
         <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
       </Trans>
-    </PlayerHistoryEntry>
+    </ActionHistory>
   )
 }
