@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import {addStylesheetUrl, GameProvider, setupTranslation} from '@gamepark/react-game'
-import {StrictMode} from 'react'
+import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
+import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
+import { addStylesheetUrl, GameProvider, setupTranslation } from '@gamepark/react-game'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
+import { awimbaweAnimations } from './animation/AwimbaweAnimations'
 import App from './App'
 import { AwimbaweHistory } from './history/AwimbaweHistory'
+import { Locators } from './locator/Locators'
+import { material } from './material/Material'
 import translations from './translations.json'
-import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
-import {AwimbaweSetup} from '@gamepark/awimbawe/AwimbaweSetup'
-import {AwimbaweOptionsSpec} from '@gamepark/awimbawe/AwimbaweOptions'
-import {Locators} from './locator/Locators'
-import {material} from './material/Material'
-import {awimbaweAnimations} from './animation/AwimbaweAnimations'
-import {Tutorial} from './tutorial/Tutorial'
+import { Tutorial } from './tutorial/Tutorial'
 
 setupTranslation(translations, { debug: false })
 addStylesheetUrl('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap')

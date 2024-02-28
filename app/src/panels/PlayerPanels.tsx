@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import Heir from '@gamepark/awimbawe/material/Heir'
 import { EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { PlayerPanel, SpeechBubble, SpeechBubbleDirection, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
@@ -14,7 +15,7 @@ export const PlayerPanels: FC<any> = () => {
   return (
     <>
       {players.map((player) => (
-        <PlayerPanel activeRing key={player.id} playerId={player.id} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
+        <PlayerPanel activeRing key={player.id} playerId={player.id} color={playerColor[player.id]} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
           <StartPlayerChoice player={player.id} />
           <EaglePlayerChoice player={player.id} />
         </PlayerPanel>
@@ -68,3 +69,9 @@ const topPosition = css`
 const bottomPosition = css`
   top: 90em;
 `
+
+
+export const playerColor = {
+  [Heir.BlackPanther]: '#272c70',
+  [Heir.WhiteTiger]: '#f3ddaa'
+}
