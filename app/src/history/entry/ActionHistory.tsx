@@ -15,4 +15,4 @@ export const ActionHistory: FC<ActionHistoryEntryProps> = (props) => {
 }
 
 
-export const getColor = (heir: Heir) => playerColor[heir]
+export const getColor = (heir: Heir) => playerColor[heir] + '20'
