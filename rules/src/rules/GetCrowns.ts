@@ -1,4 +1,4 @@
-import AwimbaweRules from "../AwimbaweRules"
+import { AwimbaweRules } from "../AwimbaweRules"
 import sumBy from 'lodash/sumBy'
 import { RuleId } from "./RuleId"
 import Heir from "../material/Heir"

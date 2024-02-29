@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
+import { AwimbaweRules, AwimbaweSetup } from '@gamepark/awimbawe'
 import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
-import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
-import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
 import { addStylesheetUrl, GameProvider, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import { AwimbaweRules } from '@gamepark/awimbawe'
 import { isHyena } from '@gamepark/awimbawe/material/Animal'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'

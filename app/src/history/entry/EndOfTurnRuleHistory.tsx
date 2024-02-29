@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import AwimbaweRules from '@gamepark/awimbawe/AwimbaweRules'
+import { AwimbaweRules } from '@gamepark/awimbawe'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
