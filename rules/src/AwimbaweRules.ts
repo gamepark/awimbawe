@@ -33,7 +33,7 @@ export const hideIdWhenRotated: HidingStrategy = (
   return !item.location.rotation ? [] : ['id']
 }
 
-export default class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType>
+export class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType>
   implements CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>,
     TimeLimit<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir> {
   rankPlayers(playerA: Heir, playerB: Heir) {
