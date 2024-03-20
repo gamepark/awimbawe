@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { AwimbaweRules } from '@gamepark/awimbawe'
+import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { isHyena } from '@gamepark/awimbawe/material/Animal'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
@@ -10,8 +10,8 @@ import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { isMoveItemType, isStartRule, MoveItem } from '@gamepark/rules-api'
 import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { playerColor } from '../../panels/PlayerPanels'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
-import { ActionHistory } from './ActionHistory'
 
 
 export const SolveTrickRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
@@ -42,7 +42,7 @@ export const WinTrickHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const winnerName = usePlayerName(lead)
 
   return (
-    <HistoryEntry border css={winTrick}>
+    <HistoryEntry borderBottom css={winTrick}>
       {t(itsMe ? 'history.solve.me' : 'history.solve', { player: winnerName })}
     </HistoryEntry>
   )
@@ -62,7 +62,9 @@ export const WinHyenaHistory: FC<WinHyenaHistoryProps> = (props) => {
   const playerName = usePlayerName(actionPlayer)
 
   return (
-    <ActionHistory consequence context={context}>{t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}</ActionHistory>
+    <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
+      {t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}
+    </HistoryEntry>
   )
 }
 

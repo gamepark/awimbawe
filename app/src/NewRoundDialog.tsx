@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { AwimbaweRules } from '@gamepark/awimbawe'
+import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { Memory, RoundSummary } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { RulesDialog, useRules } from '@gamepark/react-game'
@@ -11,7 +11,7 @@ import Crown from './images/crown.jpg'
 import { RoundSummaryDetail } from './summary/RoundSummary'
 
 
-export const NewRoundDialog:  FC = () => {
+export const NewRoundDialog: FC = () => {
   const { t } = useTranslation()
   const rules = useRules<AwimbaweRules>()
   const [opened, setOpened] = useState<boolean>(false)
@@ -36,7 +36,7 @@ export const NewRoundDialog:  FC = () => {
       <div css={helpDialogCss}>
         <div css={helpDialogContentCss}>
           <h2>{t('round-summary.dialog.title')}</h2>
-          <RoundSummaryDetail summary={summary} />
+          <RoundSummaryDetail summary={summary}/>
         </div>
       </div>
     </RulesDialog>
@@ -50,7 +50,7 @@ const helpDialogCss = css`
   max-width: inherit;
   max-height: inherit;
   flex-direction: column;
-  
+
   > div > h2 {
     margin-bottom: 0.7em;
   }
@@ -80,5 +80,5 @@ export const crownStyle = css`
   height: 1.2em;
   margin-right: 0.2em;
   box-shadow: 0.1em 0.1em 0.2em gray;
-  display:inline-block;
+  display: inline-block;
 `

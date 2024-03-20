@@ -1,23 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { HistoryEntry, PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { displayMaterialHelp, isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { getHistoryCard } from '../../material/animal-types'
+import { playerColor } from '../../panels/PlayerPanels'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
-import { ActionHistory } from './ActionHistory'
 import { placeStyle, rulesLinkButton } from './ChooseCardHistory'
 
 
 export const RhinocerosRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const { move, game, context } = props
   if (isMoveItemType(MaterialType.AnimalCard)(move)) {
-    return <RhinocerosHistory game={game} move={move} context={context} />
+    return <RhinocerosHistory game={game} move={move} context={context}/>
   }
 
   if (context.consequenceIndex === undefined && (isStartRule(move) || isStartPlayerTurn(move))) {
-    return <RhinoPassHistory game={game} context={context} />
+    return <RhinoPassHistory game={game} context={context}/>
   }
 
   return null
@@ -36,9 +36,9 @@ export const RhinoPassHistory: FC<RhinocerosHistoryProps> = (props) => {
   const itsMe = playerId && actionPlayer === playerId
   const name = usePlayerName(actionPlayer)
   return (
-    <ActionHistory context={context}>
-      <>{t(itsMe? 'history.rhino.pass.me': 'history.rhino.pass', { player: name })}</>
-    </ActionHistory>
+    <HistoryEntry player={actionPlayer} backgroundColor={playerColor[actionPlayer] + '20'}>
+      <>{t(itsMe ? 'history.rhino.pass.me' : 'history.rhino.pass', { player: name })}</>
+    </HistoryEntry>
   )
 }
 
@@ -52,24 +52,25 @@ export const RhinocerosHistory: FC<RhinocerosHistoryProps> = (props) => {
   const opponentName = usePlayerName(opponent)
   const itsMe = playerId && actionPlayer === playerId
   const item = game.items[MaterialType.AnimalCard]![move!.itemIndex]
-  const itemId = item.id ?? move!.reveal?.id
+  const itemId = move!.reveal?.id ?? item.id
   const card = t(getHistoryCard(itemId))
 
   if (playerId && opponent === playerId) {
     return (
-      <ActionHistory consequence context={context}>
+      <HistoryEntry depth={1} backgroundColor={playerColor[actionPlayer] + '20'}>
         <Trans css={placeStyle} defaults="history.rhino.move.other.me" values={{ card: card, player: playerName }}>
-          <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
+          <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId })} local/>
         </Trans>
-      </ActionHistory>
+      </HistoryEntry>
     )
   }
 
   return (
-    <ActionHistory consequence context={context}>
-      <Trans css={placeStyle} defaults={itsMe? 'history.rhino.move.me': 'history.rhino.move'} values={{ card: card, player: playerName, opponent: opponentName }}>
-        <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId})} local/>
+    <HistoryEntry depth={1} backgroundColor={playerColor[actionPlayer] + '20'}>
+      <Trans css={placeStyle} defaults={itsMe ? 'history.rhino.move.me' : 'history.rhino.move'}
+             values={{ card: card, player: playerName, opponent: opponentName }}>
+        <PlayMoveButton css={rulesLinkButton} move={displayMaterialHelp(MaterialType.AnimalCard, { id: itemId })} local/>
       </Trans>
-    </ActionHistory>
+    </HistoryEntry>
   )
 }

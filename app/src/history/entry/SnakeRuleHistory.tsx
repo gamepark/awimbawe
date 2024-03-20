@@ -2,23 +2,23 @@
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
-import { usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
 import { isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
+import { playerColor } from '../../panels/PlayerPanels'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
-import { ActionHistory } from './ActionHistory'
 
 export const SnakeRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const { move, game, context } = props
   if (isMoveItemType(MaterialType.AnimalCard)(move)) {
     if (move.location?.rotation?.z === 1) {
-      return <SnakeHistory game={game} move={move} context={context} />
+      return <SnakeHistory game={game} move={move} context={context}/>
     }
   }
 
   if (context.consequenceIndex === undefined && (isStartRule(move) || isStartPlayerTurn(move))) {
-    return <SnakePassHistory game={game} context={context} />
+    return <SnakePassHistory game={game} context={context}/>
   }
   return null
 }
@@ -36,9 +36,9 @@ export const SnakePassHistory: FC<SnakeHistoryProps> = (props) => {
   const itsMe = playerId && actionPlayer === playerId
   const name = usePlayerName(actionPlayer)
   return (
-    <ActionHistory context={context}>
-      {t(itsMe? 'history.snake.pass.me': 'history.snake.pass', { player: name })}
-    </ActionHistory>
+    <HistoryEntry player={actionPlayer} backgroundColor={playerColor[actionPlayer] + '20'}>
+      {t(itsMe ? 'history.snake.pass.me' : 'history.snake.pass', { player: name })}
+    </HistoryEntry>
   )
 }
 
@@ -50,16 +50,16 @@ export const SnakeHistory: FC<SnakeHistoryProps> = (props) => {
 
   if (item.location.type === LocationType.Hand) {
     return (
-      <SnakeHandHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent} />
+      <SnakeHandHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent}/>
     )
   }
 
   return (
-    <SnakeColumnHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent} />
+    <SnakeColumnHistory move={move} game={game} context={context} player={actionPlayer} opponent={opponent}/>
   )
 }
 
-type SnakeDetailHistoryProps = SnakeHistoryProps & { player: Heir, opponent: Heir  }
+type SnakeDetailHistoryProps = SnakeHistoryProps & { player: Heir, opponent: Heir }
 
 export const SnakeColumnHistory: FC<SnakeDetailHistoryProps> = (props) => {
   const { t } = useTranslation()
@@ -71,16 +71,16 @@ export const SnakeColumnHistory: FC<SnakeDetailHistoryProps> = (props) => {
 
   if (playerId && opponent === playerId) {
     return (
-      <ActionHistory consequence context={context}>
+      <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
         {t('history.snake.paralize.column.other.me', { player: playerName })}
-      </ActionHistory>
+      </HistoryEntry>
     )
   }
 
   return (
-    <ActionHistory consequence context={context}>
-      <>{t(itsMe? 'history.snake.paralize.column.me': 'history.snake.paralize.column', { opponent: opponentName, player: playerName })}</>
-    </ActionHistory>
+    <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
+      <>{t(itsMe ? 'history.snake.paralize.column.me' : 'history.snake.paralize.column', { opponent: opponentName, player: playerName })}</>
+    </HistoryEntry>
   )
 }
 
@@ -94,15 +94,15 @@ export const SnakeHandHistory: FC<SnakeDetailHistoryProps> = (props) => {
 
   if (playerId && opponent === playerId) {
     return (
-      <ActionHistory consequence context={context}>
+      <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
         {t('history.snake.paralize.hand.other.me', { player: playerName })}
-      </ActionHistory>
+      </HistoryEntry>
     )
   }
 
   return (
-    <ActionHistory consequence context={context}>
-      <>{t(itsMe? 'history.snake.paralize.hand.me': 'history.snake.paralize.hand', { opponent: opponentName, player: playerName })}</>
-    </ActionHistory>
+    <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
+      <>{t(itsMe ? 'history.snake.paralize.hand.me' : 'history.snake.paralize.hand', { opponent: opponentName, player: playerName })}</>
+    </HistoryEntry>
   )
 }

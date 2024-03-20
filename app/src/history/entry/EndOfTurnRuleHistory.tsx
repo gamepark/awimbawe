@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { AwimbaweRules } from '@gamepark/awimbawe'
+import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
@@ -26,7 +26,7 @@ export const RoundWinnerHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const winner = roundSummary[roundSummary.length - 1].winner
   const itsMe = playerId && winner === playerId
   const winnerName = usePlayerName(winner)
-  return <HistoryEntry border css={winStyle}>{t(itsMe ? 'history.win.me' : 'history.win', { player: winnerName })}</HistoryEntry>
+  return <HistoryEntry borderBottom css={winStyle}>{t(itsMe ? 'history.win.me' : 'history.win', { player: winnerName })}</HistoryEntry>
 }
 
 const winStyle = css`

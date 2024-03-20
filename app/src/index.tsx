@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { AwimbaweRules, AwimbaweSetup } from '@gamepark/awimbawe'
 import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
+import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
+import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
 import { addStylesheetUrl, GameProvider, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
@@ -17,7 +18,7 @@ addStylesheetUrl('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&displ
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider 
+    <GameProvider
       game="awimbawe"
       GameSetup={AwimbaweSetup}
       Rules={AwimbaweRules}

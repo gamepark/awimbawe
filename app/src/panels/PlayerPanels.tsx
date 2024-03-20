@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { AwimbaweRules } from '@gamepark/awimbawe'
+import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
@@ -15,9 +15,10 @@ export const PlayerPanels: FC<any> = () => {
   return (
     <>
       {players.map((player) => (
-        <PlayerPanel activeRing key={player.id} playerId={player.id} color={playerColor[player.id]} css={[panelPosition, player.id === (playerId ?? rules.players[0])? bottomPosition: topPosition ]}>
-          <StartPlayerChoice player={player.id} />
-          <EaglePlayerChoice player={player.id} />
+        <PlayerPanel activeRing key={player.id} playerId={player.id} color={playerColor[player.id]}
+                     css={[panelPosition, player.id === (playerId ?? rules.players[0]) ? bottomPosition : topPosition]}>
+          <StartPlayerChoice player={player.id}/>
+          <EaglePlayerChoice player={player.id}/>
         </PlayerPanel>
       ))}
     </>
@@ -30,10 +31,10 @@ const StartPlayerChoice = ({ player }: { player: number }) => {
   const startPlayer = rules?.remind(Memory.StartPlayer)
   const actionPlayer = rules?.remind(Memory.CheetahPlayer)
   const isPlayerTurn = !actionPlayer || startPlayer === actionPlayer
-    if (!startPlayer || player !== (actionPlayer ?? startPlayer)) return null
+  if (!startPlayer || player !== (actionPlayer ?? startPlayer)) return null
   return (
     <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
-      {t(isPlayerTurn? 'rules.start.choose.me': 'rules.start.choose.you')}
+      {t(isPlayerTurn ? 'rules.start.choose.me' : 'rules.start.choose.you')}
     </SpeechBubble>
   )
 }
@@ -46,7 +47,7 @@ const EaglePlayerChoice = ({ player }: { player: number }) => {
   if (choice === undefined || player !== actionPlayer) return null
   return (
     <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
-      {t(choice === EagleChoice.Attack? 'rules.eagle.attack': 'rules.eagle.runaway')}
+      {t(choice === EagleChoice.Attack ? 'rules.eagle.attack' : 'rules.eagle.runaway')}
     </SpeechBubble>
   )
 }
