@@ -44,9 +44,5 @@ export const AwimbaweHistory: FC<MaterialHistoryProps<MaterialGame, MaterialMove
     return <EndOfTurnRuleHistory game={game} move={move} context={context} />
   }
 
-  if (move.kind === MoveKind.RulesMove && move.type === RuleMoveType.EndGame) {
-    return <EndGameHistory />
-  }
-
   return <></>
 }
