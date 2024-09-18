@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { HistoryEntry, PlayMoveButton, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { displayMaterialHelp, isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MoveItem } from '@gamepark/rules-api'
+import { isMoveItemType, isStartPlayerTurn, isStartRule, MaterialGame, MaterialMoveBuilder, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { getHistoryCard } from '../../material/animal-types'
 import { playerColor } from '../../panels/PlayerPanels'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
 import { placeStyle, rulesLinkButton } from './ChooseCardHistory'
-
+import displayMaterialHelp = MaterialMoveBuilder.displayMaterialHelp
 
 export const RhinocerosRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const { move, game, context } = props

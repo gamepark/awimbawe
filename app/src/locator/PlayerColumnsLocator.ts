@@ -1,50 +1,48 @@
-import { ItemContext, LineLocator } from "@gamepark/react-game";
-import { MaterialItem, Coordinates } from "@gamepark/rules-api";
-import { animalCardDescription } from "../material/AnimalCardDescription";
-import { PlayerColumnsDescription } from "./description/PlayerColumnsDescription";
-import { MaterialType } from "@gamepark/awimbawe/material/MaterialType";
+import { css } from '@emotion/react'
+import { DropAreaDescription, ListLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
+import { Location } from '@gamepark/rules-api'
+import { animalCardDescription } from '../material/AnimalCardDescription'
 
-export class PlayerColumnsLocator extends LineLocator {
+class PlayerColumnsLocator extends ListLocator {
+  locationDescription = new PlayerColumnsDescription()
 
-    locationDescription = new PlayerColumnsDescription()
+  getGap = (location: Location, { rules, player = rules.players[0] }: MaterialContext) => ({ y: location.player === player ? 2 : -2 })
+  maxCount = 3
 
-    getDelta(item: MaterialItem, { rules, player }: ItemContext<number, number, number>): Partial<Coordinates> {
-        if (item.location.player === (player ?? rules.players[0])) {
-            return { x: 0, y: 2, z: 0.05 }
-        }
-
-
-        return { x: 0, y: -2, z: 0.05 }
+  getCoordinates(location: Location, { rules, player = rules.players[0] }: MaterialContext) {
+    return {
+      x: 15 + (location.id - 1) * (animalCardDescription.width + 1.5),
+      y: location.player === player ? 15 : -15
     }
+  }
 
-    getCoordinates(item: MaterialItem, { rules, player }: ItemContext): Coordinates {
-        const selected = !!item.selected? 1: 0
-        const count = rules
-            .material(MaterialType.AnimalCard)
-            .location(item.location.type)
-            .locationId(item.location.id)
-            .player(item.location.player).length
-        if (item.location.player === (player ?? rules.players[0])) {
-            return {
-                x: 15 + (item.location.id - 1) * (animalCardDescription.width + 1.5),
-                y: 15 -  Math.max((count - 2), 0) * 2 - selected,
-                z: 0
-            }
-        }
+  placeLocation(location: Location, context: LocationContext) {
+    const { x = 0, y = 0, z = 0 } = this.getLocationCoordinates(location, context)
+    return [`translate3d(${x}em, ${y + 6}em, ${z}em)`]
+  }
 
-        return {
-            x: 38.7 - (item.location.id - 1) * (animalCardDescription.width + 1.5),
-            y: -15 + Math.max((count - 2), 0) * 2 + selected,
-            z: 0
-        }
+  getRotateZ(location: Location, { rules, player = rules.players[0] }: MaterialContext) {
+    const baseRotation = location.player === player ? 0 : 180
+    const zRotation = location.rotation?.z === 1 ? 90 : 0
+    return baseRotation + zRotation
+  }
+}
+
+class PlayerColumnsDescription extends DropAreaDescription {
+  width = 6.3
+  height = 6.3
+  borderRadius = 0.4
+  extraCss = css`
+    &:before {
+      position: absolute;
+      content: "↑";
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3em;
+      font-weight: bold;
     }
-
-    getRotateZ(item: MaterialItem<number, number>, { rules, player }: ItemContext<number, number, number>): number {
-        const baseRotation = item.location.player === (player ?? rules.players[0]) ? 0 : -180
-        const zRotation = item.location.rotation?.z === 1? 90: 0
-        return baseRotation + zRotation
-    }
-
+  `
 }
 
 export const playerColumnsLocator = new PlayerColumnsLocator()

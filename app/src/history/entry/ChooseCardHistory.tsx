@@ -4,13 +4,13 @@ import { getAnimalPower } from '@gamepark/awimbawe/material/Animal'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { HistoryEntry, linkButtonCss, PlayMoveButton, useGame, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { displayMaterialHelp, isMoveItemType, MaterialGame, MoveItem } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialGame, MaterialMoveBuilder, MoveItem } from '@gamepark/rules-api'
 import { FC } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { getAnimalColor, getHistoryCard } from '../../material/animal-types'
 import { playerColor } from '../../panels/PlayerPanels'
 import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
-
+import displayMaterialHelp = MaterialMoveBuilder.displayMaterialHelp
 
 export const ChooseCardRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const { game, move, context } = props

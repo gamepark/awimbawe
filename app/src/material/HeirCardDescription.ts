@@ -17,9 +17,7 @@ export class HeirCardDescription extends CardDescription {
   }
 
 
-  isFlipped(item: MaterialItem) {
-    return item.location.rotation
-  }
+  isFlipped = (item: MaterialItem) => item.location.rotation
 
   help = HeirCardHelp
 }

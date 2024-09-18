@@ -13,7 +13,7 @@ const me = Heir.WhiteTiger
 const opponent = Heir.BlackPanther
 
 export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType> {
-  version = 4
+  version = 5
   options = { players: 2 }
   setup = new TutorialSetup()
 

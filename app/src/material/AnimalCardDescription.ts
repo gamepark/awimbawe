@@ -6,8 +6,6 @@ import Images from '../images/Images'
 import { AnimalCardHelp } from './help/AnimalCardHelp'
 
 export class AnimalCardDescription extends CardDescription {
-  width = 6.35
-  height = 8.89
 
   backImage = Images.cardBack
 
