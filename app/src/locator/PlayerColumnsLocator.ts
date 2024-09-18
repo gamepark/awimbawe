@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
-import { DropAreaDescription, ListLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { DropAreaDescription, ItemContext, ListLocator, LocationContext, MaterialContext } from '@gamepark/react-game'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 import { animalCardDescription } from '../material/AnimalCardDescription'
 
 class PlayerColumnsLocator extends ListLocator {
@@ -25,6 +25,15 @@ class PlayerColumnsLocator extends ListLocator {
     const baseRotation = location.player === player ? 0 : 180
     const zRotation = location.rotation?.z === 1 ? 90 : 0
     return baseRotation + zRotation
+  }
+
+  getHoverTransform(item: MaterialItem, { rules, player = rules.players[0] }: ItemContext) {
+    if (item.id === undefined) return []
+    const transform = ['translateY(-3em)', 'translateZ(10em)', 'scale(2)']
+    if (item.location.player !== player) {
+      transform.push('rotateZ(-180deg)')
+    }
+    return transform
   }
 }
 
