@@ -20,7 +20,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
         .location(LocationType.PlayerTrickStack)
         .rotation(true)
         .moveItemsAtOnce({ rotation: false }))
-      moves.push(this.rules().startRule(RuleId.PrepareNewRound))
+      moves.push(this.startRule(RuleId.PrepareNewRound))
       return moves
     }
 
@@ -34,7 +34,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
       .getIndexes()
 
     for (const index of hiddenCards) {
-      const item = cardsOnTable.getItem(index)!
+      const item = cardsOnTable.getItem(index)
       const cardOnTop = cardsOnTable
         .locationId(item.location.id)
         .player(item.location.player)
@@ -56,7 +56,7 @@ export class EndOfTurnRule extends MaterialRulesPart {
       this.memorize(Memory.Lead, nextStartPlayer)
     }
 
-    moves.push(this.rules().startPlayerTurn(RuleId.ChooseCard, this.lead))
+    moves.push(this.startPlayerTurn(RuleId.ChooseCard, this.lead))
 
     return moves
   }

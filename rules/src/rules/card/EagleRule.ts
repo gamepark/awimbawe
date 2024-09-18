@@ -6,8 +6,8 @@ import { Memory } from "../Memory"
 export class EagleRule extends CardRule {
     getPlayerMoves() {
         return [
-            this.rules().customMove(CustomMoveType.EagleChoice, EagleChoice.Runaway),
-            this.rules().customMove(CustomMoveType.EagleChoice, EagleChoice.Attack)
+            this.customMove(CustomMoveType.EagleChoice, EagleChoice.Runaway),
+            this.customMove(CustomMoveType.EagleChoice, EagleChoice.Attack)
         ]
     }
 

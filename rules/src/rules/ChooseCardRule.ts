@@ -58,22 +58,22 @@ export class ChooseCardRule extends PlayerTurnRule {
 
         const ruleId = this.getCardRule(move)
         if (ruleId) {
-            moves.push(this.rules().startRule(ruleId))
+            moves.push(this.startRule(ruleId))
             return moves
         }
 
         const player = this.player
         if (player !== this.lead) {
-            moves.push(this.rules().startRule(RuleId.SolveTrick))
+            moves.push(this.startRule(RuleId.SolveTrick))
             return moves
         }
 
-        moves.push(this.rules().startPlayerTurn(RuleId.ChooseCard, this.nextPlayer))
+        moves.push(this.startPlayerTurn(RuleId.ChooseCard, this.nextPlayer))
         return moves
     }
 
     getCardRule(move: MoveItem): RuleId | undefined {
-        const item = this.material(MaterialType.AnimalCard).getItem(move.itemIndex)!
+        const item = this.material(MaterialType.AnimalCard).getItem(move.itemIndex)
         
         const player = this.player
         const opponent = this.game.players.find((p) => p !== this.player)

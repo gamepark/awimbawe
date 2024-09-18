@@ -7,8 +7,8 @@ import Heir from '../../material/Heir'
 export class CheetahRule extends CardRule {
     getPlayerMoves() {
         return [
-            this.rules().customMove(CustomMoveType.ChoosePlayer, Heir.WhiteTiger),
-            this.rules().customMove(CustomMoveType.ChoosePlayer, Heir.BlackPanther)
+            this.customMove(CustomMoveType.ChoosePlayer, Heir.WhiteTiger),
+            this.customMove(CustomMoveType.ChoosePlayer, Heir.BlackPanther)
         ]
     }
 

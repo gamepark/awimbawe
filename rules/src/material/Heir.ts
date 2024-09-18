@@ -1,4 +1,4 @@
-import {isEnumValue} from '@gamepark/rules-api'
+import { getEnumValues } from '@gamepark/rules-api'
 
 enum Heir {
   WhiteTiger = 1, BlackPanther
@@ -6,7 +6,7 @@ enum Heir {
 
 export default Heir
 
-export const heirs = Object.values(Heir).filter(isEnumValue)
+export const heirs = getEnumValues(Heir)
 
 export function otherHeir(heir: Heir): Heir {
   switch (heir) {

@@ -10,7 +10,7 @@ export class ChooseStartPlayerRule extends PlayerTurnRule<Heir, MaterialType, Lo
     getPlayerMoves(): MaterialMove<Heir, MaterialType, LocationType>[] {
       const moves: MaterialMove[] = []
       for (const player of this.game.players) {
-        moves.push(this.rules().customMove(CustomMoveType.ChoosePlayer, player))
+        moves.push(this.customMove(CustomMoveType.ChoosePlayer, player))
       }
 
       return moves
@@ -19,7 +19,7 @@ export class ChooseStartPlayerRule extends PlayerTurnRule<Heir, MaterialType, Lo
     onCustomMove(move: CustomMove): MaterialMove<Heir, MaterialType, LocationType>[] {
       if (move.type === CustomMoveType.ChoosePlayer) {
         this.memorize(Memory.Lead, move.data)
-        return [this.rules().startPlayerTurn(RuleId.ChooseCard, move.data)]
+        return [this.startPlayerTurn(RuleId.ChooseCard, move.data)]
       }
       return []
     }

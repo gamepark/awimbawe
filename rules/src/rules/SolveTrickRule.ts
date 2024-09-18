@@ -41,7 +41,7 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
       })
     )
 
-    moves.push(this.rules().startRule(RuleId.EndOfTurn))
+    moves.push(this.startRule(RuleId.EndOfTurn))
 
     return moves
   }

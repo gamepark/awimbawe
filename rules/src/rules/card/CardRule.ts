@@ -8,10 +8,10 @@ export abstract class CardRule extends PlayerTurnRule {
     afterEffectPlayed(): MaterialMove[] {
         const player = this.player
         if (player !== this.lead) {
-            return [this.rules().startRule(RuleId.SolveTrick)]
+            return [this.startRule(RuleId.SolveTrick)]
         }
 
-        return [this.rules().startPlayerTurn(RuleId.ChooseCard, this.nextPlayer)]
+        return [this.startPlayerTurn(RuleId.ChooseCard, this.nextPlayer)]
     }
 
     get lead() {
