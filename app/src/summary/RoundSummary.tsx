@@ -1,9 +1,8 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { RoundSummary, WinType } from '@gamepark/awimbawe/rules/Memory'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { FC, HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { alignIconText, crownStyle } from '../NewRoundDialog'
 
@@ -11,7 +10,7 @@ type RoundSummaryProps = {
   summary: RoundSummary
 } & HTMLAttributes<HTMLDivElement>
 
-export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
+export const RoundSummaryDetail = (props: RoundSummaryProps) => {
   const { summary, ...rest } = props
   const { t } = useTranslation()
   const playerId = usePlayerId()
@@ -30,9 +29,15 @@ export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
           {summary.type === WinType.Hyena && <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looserName: looserName })}</div>}
           {summary.type === WinType.Crowns && (
             <div css={[alignIconText, italic]}>
-              <Trans defaults="round-summary.dialog.win.crowns.me"
-                     values={{ winner: summary.crowns?.[winner!] ?? 0, looser: summary.crowns?.[looser!] ?? 0, looserName: looserName }}>
-                <span css={crownStyle}/>
+              <Trans
+                i18nKey="round-summary.dialog.win.crowns.me"
+                values={{
+                  winner: summary.crowns?.[winner!] ?? 0,
+                  looser: summary.crowns?.[looser!] ?? 0,
+                  looserName: looserName
+                }}
+              >
+                <span css={crownStyle} />
               </Trans>
             </div>
           )}
@@ -40,16 +45,27 @@ export const RoundSummaryDetail: FC<RoundSummaryProps> = (props) => {
       ) : (
         <>
           <div css={marginBottom}>{t('round-summary.dialog.win', { winner: winnerName })}</div>
-          {summary.type === WinType.Hyena && !playerId &&
-            <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looserName: looserName })}</div>}
-          {summary.type === WinType.Hyena && playerId &&
-            <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena.me.loose', { winner: winnerName })}</div>}
+          {summary.type === WinType.Hyena && !playerId && (
+            <div css={[alignIconText, italic]}>{t('round-summary.dialog.win.hyena', { looserName: looserName })}</div>
+          )}
+          {summary.type === WinType.Hyena && playerId && (
+            <div css={[alignIconText, italic]}>
+              {t('round-summary.dialog.win.hyena.me.loose', {
+                winner: winnerName
+              })}
+            </div>
+          )}
           {summary.type === WinType.Crowns && (
             <div css={[alignIconText, italic]}>
-
-              <Trans defaults="round-summary.dialog.win.crowns.me.loose"
-                     values={{ winner: summary.crowns?.[winner!] ?? 0, winnerName: winnerName, looser: summary.crowns?.[looser!] ?? 0 }}>
-                <span css={crownStyle}/>
+              <Trans
+                i18nKey="round-summary.dialog.win.crowns.me.loose"
+                values={{
+                  winner: summary.crowns?.[winner!] ?? 0,
+                  winnerName: winnerName,
+                  looser: summary.crowns?.[looser!] ?? 0
+                }}
+              >
+                <span css={crownStyle} />
               </Trans>
             </div>
           )}

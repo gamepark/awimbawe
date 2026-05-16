@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
@@ -25,28 +24,30 @@ export const CheetahHeader = () => {
   const me = player && player === activePlayer
 
   if (me) {
-    return <>
-      <Trans defaults="header.cheetah.me">
-        {legalMoves.length > 0 ? <ThemeButton onClick={() => setDialogOpen(true)}/> : <></>}
-      </Trans>
-      <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
-        <div css={rulesCss}>
-          <h2><Trans defaults="header.cheetah.me"><span/></Trans></h2>
-          <div>
-            <p>
-              <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
-                {t('header.cheetah.choose.me')}
-              </PlayMoveButton>
-            </p>
-            <p>
-              <PlayMoveButton move={legalMoves.find(move => move.data !== player)}>
-                {t('header.cheetah.choose.other', { player: opponentName })}
-              </PlayMoveButton>
-            </p>
+    return (
+      <>
+        <Trans i18nKey="header.cheetah.me">{legalMoves.length > 0 ? <ThemeButton onClick={() => setDialogOpen(true)} /> : <></>}</Trans>
+        <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
+          <div css={rulesCss}>
+            <h2>
+              <Trans i18nKey="header.cheetah.me">
+                <span />
+              </Trans>
+            </h2>
+            <div>
+              <p>
+                <PlayMoveButton move={legalMoves.find((move) => move.data === player)}>{t('header.cheetah.choose.me')}</PlayMoveButton>
+              </p>
+              <p>
+                <PlayMoveButton move={legalMoves.find((move) => move.data !== player)}>
+                  {t('header.cheetah.choose.other', { player: opponentName })}
+                </PlayMoveButton>
+              </p>
+            </div>
           </div>
-        </div>
-      </RulesDialog>
-    </>
+        </RulesDialog>
+      </>
+    )
   } else {
     return <>{t('header.cheetah', { player: playerName })}</>
   }

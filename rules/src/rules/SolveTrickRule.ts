@@ -8,7 +8,6 @@ import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, LocationType> {
-
   onRuleStart(_move: RuleMove) {
     const lead = this.lead
     const opponent = this.lead === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
@@ -18,18 +17,14 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
 
     const winnerAnimal = this.getWinnerAnimal(leadCard.id, opponentCard.id)
     const winner = winnerAnimal === leadCard.id ? lead : opponent
-    const cards = this
-      .material(MaterialType.AnimalCard)
-      .location(LocationType.PlayArea)
+    const cards = this.material(MaterialType.AnimalCard).location(LocationType.PlayArea)
     const moves: MaterialMove[] = []
 
     moves.push(...this.flipTrickCards())
     moves.push(...this.placeHyenasInTrick(cards, winner))
 
     moves.push(
-      ...cards
-      .getIndexes()
-      .flatMap((index) => {
+      ...cards.getIndexes().flatMap((index) => {
         const card = cards.index(index)
         if (this.hasRanAway) {
           this.memorize(Memory.Lead, lead)
@@ -47,7 +42,10 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
   }
 
   private flipTrickCards() {
-    const visibleCardsInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).rotation((r) => !r).sort((item) => -item.location.x!)
+    const visibleCardsInDeck = this.material(MaterialType.AnimalCard)
+      .location(LocationType.PlayerTrickStack)
+      .rotation((r) => !r)
+      .sort((item) => -item.location.x!)
     return visibleCardsInDeck.moveItems({ rotation: true })
   }
 
@@ -55,10 +53,14 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
     const moves: MaterialMove[] = []
     const opponent = winner === Heir.BlackPanther ? Heir.WhiteTiger : Heir.BlackPanther
     const hyenasInDeck = this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).id(isHyena).player(opponent)
-    if (cards.filter((item) => isHyena(item.id)).length && hyenasInDeck.length) {
+    if (cards.filter((item) => isHyena(item.id as Animal)).length && hyenasInDeck.length) {
       this.memorize(Memory.HyenaInTricks, 1)
       moves.push(
-        ...hyenasInDeck.moveItems({ type: LocationType.PlayerTrickStack, player: opponent, rotation: true }),
+        ...hyenasInDeck.moveItems({
+          type: LocationType.PlayerTrickStack,
+          player: opponent,
+          rotation: true
+        }),
         ...this.material(MaterialType.AnimalCard).location(LocationType.PlayerHyena).player(winner).moveItems({
           type: LocationType.PlayerTrickStack,
           player: winner,
@@ -117,26 +119,20 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
   }
 
   getWinnerAnimal(animal1: Animal, animal2: Animal) {
-
     if (sameSuit(animal1, animal2)) {
       if (isMouse(animal1) && isElephant(animal2)) {
         return animal1
       } else if (isMouse(animal2) && isElephant(animal1)) {
         return animal2
       } else {
-        return getAnimalPower(animal1) > getAnimalPower(animal2)
-          ? animal1
-          : animal2
+        return getAnimalPower(animal1) > getAnimalPower(animal2) ? animal1 : animal2
       }
     } else {
       if (isEagle(animal1) || isEagle(animal2)) {
-        return getAnimalPower(animal1) > getAnimalPower(animal2)
-          ? animal1
-          : animal2
+        return getAnimalPower(animal1) > getAnimalPower(animal2) ? animal1 : animal2
       }
       return animal1
     }
-
   }
 
   onRuleEnd() {
@@ -148,5 +144,4 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
   get lead() {
     return this.remind(Memory.Lead)
   }
-
 }

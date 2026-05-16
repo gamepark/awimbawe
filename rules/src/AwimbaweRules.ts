@@ -10,7 +10,7 @@ import {
   SecretMaterialRules,
   TimeLimit
 } from '@gamepark/rules-api'
-import sumBy from 'lodash/sumBy'
+import { sumBy } from 'es-toolkit'
 import { getCrowns } from './material/Animal'
 import Heir from './material/Heir'
 import { LocationType } from './material/LocationType'
@@ -26,16 +26,16 @@ import { PrepareNewRoundRule } from './rules/PrepareNewRoundRule'
 import { RuleId } from './rules/RuleId'
 import { SolveTrickRule } from './rules/SolveTrickRule'
 
-
-export const hideIdWhenRotated: HidingStrategy = (
-  item: MaterialItem
-) => {
+export const hideIdWhenRotated: HidingStrategy = (item: MaterialItem) => {
   return !item.location.rotation ? [] : ['id']
 }
 
-export class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, LocationType>
-  implements CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>,
-    TimeLimit<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir> {
+export class AwimbaweRules
+  extends SecretMaterialRules<Heir, MaterialType, LocationType>
+  implements
+    CompetitiveRank<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>,
+    TimeLimit<MaterialGame<Heir, MaterialType, LocationType>, MaterialMove<Heir, MaterialType, LocationType>, Heir>
+{
   rankPlayers(playerA: Heir, playerB: Heir) {
     const crownsPlayerA = this.getPlayerCrowns(playerA)
     const crownsPlayerB = this.getPlayerCrowns(playerB)
@@ -53,11 +53,7 @@ export class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, Locat
   }
 
   getPlayerCrowns(player: Heir) {
-    const cards = this
-      .material(MaterialType.AnimalCard)
-      .player(player)
-      .getItems()
-
+    const cards = this.material(MaterialType.AnimalCard).player(player).getItems()
 
     return sumBy(cards, (card) => getCrowns(card.id))
   }
@@ -77,7 +73,7 @@ export class AwimbaweRules extends SecretMaterialRules<Heir, MaterialType, Locat
   hidingStrategies = {
     [MaterialType.AnimalCard]: {
       [LocationType.Hand]: hideItemIdToOthers,
-      [LocationType.PlayerColumns]: (item: MaterialItem) => item.location?.rotation?.y === 1 ? ['id'] : [],
+      [LocationType.PlayerColumns]: (item: MaterialItem) => (item.location?.rotation?.y === 1 ? ['id'] : []),
       [LocationType.Deck]: hideItemId,
       [LocationType.PlayerTrickStack]: hideIdWhenRotated
     }

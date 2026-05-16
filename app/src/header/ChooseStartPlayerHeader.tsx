@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
@@ -13,30 +12,32 @@ export const ChooseStartPlayerHeader = () => {
   const game = useGame<MaterialGame<Heir, MaterialType, LocationType>>()!
   const player = usePlayerId()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
-  const otherName = usePlayerName(player? game.players.find((p) => p !== player): game.players[0])
+  const otherName = usePlayerName(player ? game.players.find((p) => p !== player) : game.players[0])
   const playerName = usePlayerName(game.rule!.player!)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   const rules = useRules<MaterialRules>()!
   const activePlayer = rules.getActivePlayer()
   const me = player && player === activePlayer
   if (me) {
-    const chooseOther = legalMoves.find(move => move.data !== player)!
+    const chooseOther = legalMoves.find((move) => move.data !== player)!
     return (
       <>
-        <Trans defaults="header.choose-start.me"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
+        <Trans i18nKey="header.choose-start.me">
+          <ThemeButton onClick={() => setDialogOpen(true)} />
+        </Trans>
         <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
           <div css={rulesCss}>
-            <h2><Trans defaults="header.choose-start.me"><span/></Trans></h2>
+            <h2>
+              <Trans i18nKey="header.choose-start.me">
+                <span />
+              </Trans>
+            </h2>
             <div>
               <p>
-                <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
-                  {t('header.choose-start.choose.me')}
-                </PlayMoveButton>
+                <PlayMoveButton move={legalMoves.find((move) => move.data === player)}>{t('header.choose-start.choose.me')}</PlayMoveButton>
               </p>
               <p>
-                <PlayMoveButton move={chooseOther}>
-                  {t('header.choose-start.choose.other', { player: otherName })}
-                </PlayMoveButton>
+                <PlayMoveButton move={chooseOther}>{t('header.choose-start.choose.other', { player: otherName })}</PlayMoveButton>
               </p>
             </div>
           </div>

@@ -1,22 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
-import { addStylesheetUrl, GameProvider, setupTranslation } from '@gamepark/react-game'
+import { addStylesheetUrl, GameProvider } from '@gamepark/react-game'
 import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
+import { App } from './App'
 import { awimbaweAnimations } from './animation/AwimbaweAnimations'
-import App from './App'
 import { AwimbaweHistory } from './history/AwimbaweHistory'
 import { Locators } from './locator/Locators'
 import { material } from './material/Material'
-import translations from './translations.json'
 import { Tutorial } from './tutorial/Tutorial'
 
-setupTranslation(translations, { debug: false })
 addStylesheetUrl('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap')
 
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GameProvider
       game="awimbawe"
@@ -26,7 +23,7 @@ ReactDOM.render(
       material={material}
       locators={Locators}
       animations={awimbaweAnimations}
-      MaterialHistory={AwimbaweHistory}
+      logs={new AwimbaweHistory()}
       tutorial={new Tutorial()}
       theme={{
         root: {
@@ -39,8 +36,7 @@ ReactDOM.render(
         }
       }}
     >
-      <App/>
+      <App />
     </GameProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )

@@ -6,7 +6,6 @@ import Images from '../images/Images'
 import { AnimalCardHelp } from './help/AnimalCardHelp'
 
 export class AnimalCardDescription extends CardDescription {
-
   backImage = Images.cardBack
 
   images = {
@@ -37,11 +36,14 @@ export class AnimalCardDescription extends CardDescription {
     [Animal.PlainCheetah]: Images.PlainCheetah,
     [Animal.PlainHyena]: Images.PlainHyena,
     [Animal.PlainSnake]: Images.PlainSnake,
-    [Animal.PlainElephant]: Images.PlainElephant,
+    [Animal.PlainElephant]: Images.PlainElephant
   }
 
   canShortClick(move: MaterialMove, context: ItemContext): boolean {
-    return super.canShortClick(move, context) || (isMoveItemType(MaterialType.AnimalCard)(move) && move.itemIndex === context.index && move.location.rotation?.z === 1)
+    return (
+      super.canShortClick(move, context) ||
+      (isMoveItemType(MaterialType.AnimalCard)(move) && move.itemIndex === context.index && move.location.rotation?.z === 1)
+    )
   }
 
   help = AnimalCardHelp

@@ -15,9 +15,7 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
 
   afterWinnerComputed(winner: Heir) {
     this.memorize(Memory.Winner, winner)
-    const roundWinnerCard = this
-      .material(MaterialType.HeirCard)
-      .id(winner)
+    const roundWinnerCard = this.material(MaterialType.HeirCard).id(winner)
 
     if (roundWinnerCard.getItem()?.location?.rotation) {
       return [this.endGame()]
@@ -25,11 +23,10 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
 
     const moves: MaterialMove[] = roundWinnerCard.rotateItems(true)
 
-
     moves.push(
-      this
-        .material(MaterialType.AnimalCard)
-        .moveItemsAtOnce({ type: LocationType.Deck })
+      this.material(MaterialType.AnimalCard).moveItemsAtOnce({
+        type: LocationType.Deck
+      })
     )
 
     moves.push(this.material(MaterialType.AnimalCard).shuffle())
@@ -38,7 +35,6 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
     moves.push(this.startPlayerTurn(RuleId.ChoosePlayer, looser))
     return moves
   }
-
 
   afterItemMove(move: MoveItem) {
     if (isShuffleItemType(MaterialType.AnimalCard)(move)) {
@@ -56,13 +52,16 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
       moves.push(...deck.deal({ type: LocationType.Hand, player }, START_HAND))
       for (let i = 0; i < 8; i++) {
         const column = (i % 4) + 1
-        const location: Location = { type: LocationType.PlayerColumns, player, id: column }
+        const location: Location = {
+          type: LocationType.PlayerColumns,
+          player,
+          id: column
+        }
         if (i < 4) {
           location.rotation = { y: 1 }
         }
         moves.push(deck.dealOne(location))
       }
-
     }
 
     return moves
@@ -74,12 +73,9 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
     return []
   }
 
-
   computeWinner() {
-
     const pantherCrowns = this.getPlayerCrowns(Heir.BlackPanther)
     const tigerCrowns = this.getPlayerCrowns(Heir.WhiteTiger)
-
 
     if (this.hasFourHyenas(Heir.BlackPanther)) {
       this.saveRoundSummary(Heir.WhiteTiger, WinType.Hyena)
@@ -100,7 +96,7 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
     }
   }
 
-  saveRoundSummary(winner: Heir, type: WinType, pantherCrowns?: number, tigerCrowns? : number) {
+  saveRoundSummary(winner: Heir, type: WinType, pantherCrowns?: number, tigerCrowns?: number) {
     this.memorize<RoundSummary[]>(Memory.RoundSummary, (s = []) => {
       const summaries = [...s]
       const summary: RoundSummary = {
@@ -115,29 +111,22 @@ export class PrepareNewRoundRule extends MaterialRulesPart {
         }
       }
 
-
       summaries.push(summary)
       return summaries
     })
   }
 
   hasFourHyenas(player: Heir) {
-    const hyenas = this
-      .material(MaterialType.AnimalCard)
+    const hyenas = this.material(MaterialType.AnimalCard)
       .location((l) => l.type === LocationType.PlayerHyena || l.type === LocationType.PlayerTrickStack)
       .player(player)
-      .id((id: Animal) => isHyena(id))
-      .length
-    return hyenas === 4;
+      .id((id: Animal) => isHyena(id)).length
+    return hyenas === 4
   }
 
   getPlayerCrowns(player: Heir) {
     // Rechercher les MaterialType.AnimalCard dans LocationType.PlayerColumns
-    const items = this
-      .material(MaterialType.AnimalCard)
-      .location(LocationType.PlayerTrickStack)
-      .player(player)
-      .getItems()
+    const items = this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).player(player).getItems()
 
     // Parcourir les cartes, et pour chaque animal, additionner les couronnes
     let count = 0

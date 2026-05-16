@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import Animal from '@gamepark/awimbawe/material/Animal'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
@@ -22,41 +21,69 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
   steps: TutorialStep[] = [
     {
       popup: {
-        text: () => <Trans defaults="tuto.welcome"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.welcome">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.intro"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.intro">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.objective"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.objective">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -14,
           y: 2
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.HeirCard).id(Heir.WhiteTiger)
-        ]
+        materials: [this.material(game, MaterialType.HeirCard).id(Heir.WhiteTiger)]
       })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.intro.1"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.intro.1">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.intro.2"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.intro.2">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.hand"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.hand">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 34
@@ -68,7 +95,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.piles"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.piles">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 28
@@ -80,12 +112,15 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.elephant"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.elephant">
+            <strong />
+            <em />
+          </Trans>
+        )
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandElephant)
-        ],
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandElephant)],
         locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
@@ -96,26 +131,25 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.color"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.color">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 32
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandElephant)
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandElephant)]
       })
     },
     {
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).location(LocationType.Hand).player(opponent)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).location(LocationType.Hand).player(opponent)],
+        locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
         player: opponent,
@@ -124,30 +158,36 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.rhino"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.rhino">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 32
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandRhinoceros)
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandRhinoceros)]
       })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.power"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.power">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -40,
           y: 30
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).location(LocationType.PlayArea)
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).location(LocationType.PlayArea)]
       })
     },
     {
@@ -163,7 +203,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.rhino.effect"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.rhino.effect">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 35
@@ -171,30 +216,40 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
       },
       focus: (game) => ({
         materials: [
-          this.material(game, MaterialType.AnimalCard).location(LocationType.PlayerColumns).player(me).locationId(2).filter((item) => item.location.x === 0)
+          this.material(game, MaterialType.AnimalCard)
+            .location(LocationType.PlayerColumns)
+            .player(me)
+            .locationId(2)
+            .filter((item) => item.location.x === 0)
         ]
       })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.solve.1"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.solve.1">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.snake"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.snake">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -8,
           y: 0
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandSnake)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandSnake)],
+        locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
         player: me,
@@ -203,7 +258,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.block.1"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.block.1">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 10,
           y: 0
@@ -212,16 +272,19 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.block.2"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.block.2">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 30
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.Eagle9)
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.Eagle9)]
       }),
       move: {
         player: me,
@@ -230,7 +293,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.eagle">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
@@ -241,37 +309,39 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.opponent"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.eagle.opponent">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -42,
           y: 3
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.Eagle7)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.Eagle7)],
+        locations: [this.location(LocationType.PlayArea).location]
+      })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.choice"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.eagle.choice">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -42,
           y: 3
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.Eagle7)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.Eagle7)],
+        locations: [this.location(LocationType.PlayArea).location]
+      })
     },
     {
       move: {
@@ -281,7 +351,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.fight"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.eagle.fight">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
@@ -292,36 +367,38 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.yellow-elephant"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.yellow-elephant">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 42,
           y: 3
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.DesertElephant)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.DesertElephant)],
+        locations: [this.location(LocationType.PlayArea).location]
+      })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.cheetah"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.cheetah">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -5,
           y: 0
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.DesertCheetah)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.DesertCheetah)],
+        locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
         player: me,
@@ -330,20 +407,21 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.solve.2"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.solve.2">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -35,
           y: 25
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).location(LocationType.PlayArea)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).location(LocationType.PlayArea)],
+        locations: [this.location(LocationType.PlayArea).location]
+      })
     },
     {
       move: {
@@ -353,19 +431,20 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.me"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.eagle.me">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -5,
           y: 0
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.Eagle10)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.Eagle10)],
+        locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
         player: me,
@@ -374,7 +453,12 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.start"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.eagle.start">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
@@ -385,24 +469,30 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.eagle.win"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.eagle.win">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.green-mouse"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.green-mouse">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: -5,
           y: 0
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandMouse)
-        ],
-        locations: [
-          this.location(LocationType.PlayArea).location
-        ]
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandMouse)],
+        locations: [this.location(LocationType.PlayArea).location]
       }),
       move: {
         player: me,
@@ -411,17 +501,20 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.discard"><strong/><em/></Trans>,
+        text: () => (
+          <Trans i18nKey="tuto.discard">
+            <strong />
+            <em />
+          </Trans>
+        ),
         position: {
           x: 0,
           y: 25
         }
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandMouse)
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.GrasslandMouse)]
+      })
     },
     {
       move: {
@@ -431,27 +524,38 @@ export class Tutorial extends MaterialTutorial<Heir, MaterialType, LocationType>
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.discard.hyena"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.discard.hyena">
+            <strong />
+            <em />
+          </Trans>
+        )
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.MountainHyena)
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.MountainHyena)]
+      })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.hyena.loose"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.hyena.loose">
+            <strong />
+            <em />
+          </Trans>
+        )
       },
       focus: (game) => ({
-        materials: [
-          this.material(game, MaterialType.AnimalCard).id(Animal.MountainHyena)
-        ]
-      }),
+        materials: [this.material(game, MaterialType.AnimalCard).id(Animal.MountainHyena)]
+      })
     },
     {
       popup: {
-        text: () => <Trans defaults="tuto.reminder"><strong/><em/></Trans>
+        text: () => (
+          <Trans i18nKey="tuto.reminder">
+            <strong />
+            <em />
+          </Trans>
+        )
       }
     }
   ]

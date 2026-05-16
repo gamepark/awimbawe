@@ -1,22 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import Animal, { getCrowns } from '@gamepark/awimbawe/material/Animal'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialHelpProps, PlayMoveButton, useLegalMove, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import range from 'lodash/range'
-import { FC } from 'react'
+import { isMoveItemType, MaterialItem } from '@gamepark/rules-api'
+import { range } from 'es-toolkit'
 import { Trans, useTranslation } from 'react-i18next'
 import Crown from '../../images/crown.jpg'
 import MinusCrown from '../../images/minus-crown.jpg'
-import {isMoveItemType} from "@gamepark/rules-api";
-import {MaterialItem} from "@gamepark/rules-api";
 import { getAnimalTitle } from '../animal-types'
 
-export const AnimalCardHelp: FC<MaterialHelpProps> = (props) => {
+export const AnimalCardHelp = (props: MaterialHelpProps) => {
   const { item } = props
   const { t } = useTranslation()
   const title = item.id ? getAnimalTitle(item.id) : 'help.card'
-  const crowns = item.id? getCrowns(item.id): 0
+  const crowns = item.id ? getCrowns(item.id) : 0
   const absCrowns = Math.abs(crowns)
   return (
     <>
@@ -24,38 +21,34 @@ export const AnimalCardHelp: FC<MaterialHelpProps> = (props) => {
       <LocationHelp {...props} />
       <p>
         {!!item.id && (
-          <Trans defaults={getAnimalDescription(item.id)}>
-            <strong/>
+          <Trans i18nKey={getAnimalDescription(item.id)}>
+            <strong />
           </Trans>
         )}
       </p>
-      {
-        !!crowns && (
-          <>
-            <hr />
-            <p css={alignIconText}>
-              {t('help.crown')}
-              {range(absCrowns).map((index: number) => {
-                return <span key={index} css={crownStyle(crowns < 0? MinusCrown: Crown)}/>
-              })}
-            </p>
-          </>
-        )
-      }
-      <Actions {...props} />
-      { item?.location?.rotation?.z === 1 && (
+      {!!crowns && (
         <>
-          <p css={[italic, red]}>
-            {t('help.card.blocked')}
+          <hr />
+          <p css={alignIconText}>
+            {t('help.crown')}
+            {range(absCrowns).map((index: number) => {
+              return <span key={index} css={crownStyle(crowns < 0 ? MinusCrown : Crown)} />
+            })}
           </p>
+        </>
+      )}
+      <Actions {...props} />
+      {item?.location?.rotation?.z === 1 && (
+        <>
+          <p css={[italic, red]}>{t('help.card.blocked')}</p>
         </>
       )}
     </>
   )
 }
 
-const Actions: FC<MaterialHelpProps> = (props) => {
-  const { itemIndex, closeDialog} = props;
+const Actions = (props: MaterialHelpProps) => {
+  const { itemIndex, closeDialog } = props
   const { t } = useTranslation()
   const move = useLegalMove((move) => isMoveItemType(move) && move.itemIndex === itemIndex)
   if (!move) return null
@@ -79,34 +72,30 @@ const Actions: FC<MaterialHelpProps> = (props) => {
   return null
 }
 
-const LocationHelp: FC<MaterialHelpProps> = (props) => {
+const LocationHelp = (props: MaterialHelpProps) => {
   const { item } = props
   const { t } = useTranslation()
   const player = usePlayerId()
   const playerName = usePlayerName(item?.location?.player ?? '')
   const locationText = getLocationText(item, player && player === item.location?.player)
 
-  return (
-    <p css={italic}>
-      {t(locationText, { player: playerName })}
-    </p>
-  )
+  return <p css={italic}>{t(locationText, { player: playerName })}</p>
 }
 
 const getLocationText = (item: Partial<MaterialItem>, me: boolean) => {
   switch (item.location?.type) {
     case LocationType.Hand:
-      return me? 'help.card.location.hand.me': 'help.card.location.hand'
+      return me ? 'help.card.location.hand.me' : 'help.card.location.hand'
     case LocationType.Deck:
       return 'help.card.location.deck'
     case LocationType.PlayArea:
-      return me? 'help.card.location.play-area.me': 'help.card.location.play-area'
+      return me ? 'help.card.location.play-area.me' : 'help.card.location.play-area'
     case LocationType.PlayerTrickStack:
-      return me? 'help.card.location.trick.me': 'help.card.location.trick'
+      return me ? 'help.card.location.trick.me' : 'help.card.location.trick'
     case LocationType.PlayerColumns:
-      return me? 'help.card.location.columns.me': 'help.card.location.columns'
+      return me ? 'help.card.location.columns.me' : 'help.card.location.columns'
     case LocationType.PlayerHyena:
-      return me? 'help.card.location.hyena.me': 'help.card.location.hyena'
+      return me ? 'help.card.location.hyena.me' : 'help.card.location.hyena'
   }
 
   return ''
@@ -137,7 +126,8 @@ export const alignIconText = css`
     vertical-align: top;
   }
 
-  picture, img {
+  picture,
+  img {
     vertical-align: top;
     margin-right: 0.1em;
   }
@@ -156,7 +146,7 @@ export const crownStyle = (image: string) => css`
   height: 1.2em;
   margin-right: 0.2em;
   box-shadow: 0.1em 0.1em 0.2em gray;
-  display:inline-block;
+  display: inline-block;
 `
 
 const italic = css`

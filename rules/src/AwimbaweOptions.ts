@@ -1,6 +1,6 @@
-import {OptionsSpec} from '@gamepark/rules-api'
-import {TFunction} from 'i18next'
-import Heir, {heirs} from './material/Heir'
+import { OptionsSpec } from '@gamepark/rules-api'
+import { TFunction } from 'i18next'
+import Heir, { heirs } from './material/Heir'
 
 /**
  * This is the options for each players in the game.
@@ -24,7 +24,7 @@ export const AwimbaweOptionsSpec: OptionsSpec<AwimbaweOptions> = {
     id: {
       label: (t: TFunction) => t('Heir'),
       values: heirs,
-      valueSpec: color => ({label: t => getPlayerName(color, t)})
+      valueSpec: (color) => ({ label: (t) => getPlayerName(color, t) })
     }
   }
 }

@@ -10,36 +10,26 @@ export class EndOfTurnRule extends MaterialRulesPart {
   onRuleStart() {
     const moves = []
 
-    const cards = this
-      .material(MaterialType.AnimalCard)
-      .location((location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns)
+    const cards = this.material(MaterialType.AnimalCard).location(
+      (location) => location.type === LocationType.Hand || location.type === LocationType.PlayerColumns
+    )
 
     if (!cards.length || this.someoneHasFourHyenas) {
-      moves.push(this
-        .material(MaterialType.AnimalCard)
-        .location(LocationType.PlayerTrickStack)
-        .rotation(true)
-        .moveItemsAtOnce({ rotation: false }))
+      moves.push(this.material(MaterialType.AnimalCard).location(LocationType.PlayerTrickStack).rotation(true).moveItemsAtOnce({ rotation: false }))
       moves.push(this.startRule(RuleId.PrepareNewRound))
       return moves
     }
 
+    const cardsOnTable = this.material(MaterialType.AnimalCard).location(LocationType.PlayerColumns)
 
-    const cardsOnTable = this
-      .material(MaterialType.AnimalCard)
-      .location(LocationType.PlayerColumns)
-
-    const hiddenCards = cardsOnTable
-      .rotation((rotation: any) => rotation?.y === 1)
-      .getIndexes()
+    const hiddenCards = cardsOnTable.rotation((rotation: any) => rotation?.y === 1).getIndexes()
 
     for (const index of hiddenCards) {
       const item = cardsOnTable.getItem(index)
       const cardOnTop = cardsOnTable
         .locationId(item.location.id)
         .player(item.location.player)
-        .location((location) => location.x! > item.location.x!)
-        .length
+        .location((location) => location.x! > item.location.x!).length
 
       if (!cardOnTop) {
         moves.push(
@@ -76,13 +66,11 @@ export class EndOfTurnRule extends MaterialRulesPart {
   }
 
   hasFourHyenas(player: Heir) {
-    const hyenas = this
-      .material(MaterialType.AnimalCard)
+    const hyenas = this.material(MaterialType.AnimalCard)
       .location((l) => l.type === LocationType.PlayerHyena || l.type === LocationType.PlayerTrickStack)
       .player(player)
-      .id((id: Animal) => isHyena(id))
-      .length
-    return hyenas === 4;
+      .id((id: Animal) => isHyena(id)).length
+    return hyenas === 4
   }
 
   get lead() {

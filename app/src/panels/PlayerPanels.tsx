@@ -1,24 +1,27 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { EagleChoice } from '@gamepark/awimbawe/rules/CustomMoveType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { PlayerPanel, SpeechBubble, SpeechBubbleDirection, usePlayerId, usePlayers, useRules } from '@gamepark/react-game'
-import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const PlayerPanels: FC<any> = () => {
+export const PlayerPanels = () => {
   const playerId = usePlayerId()
   const players = usePlayers({ sortFromMe: true })
   const rules = useRules<AwimbaweRules>()!
   return (
     <>
       {players.map((player) => (
-        <PlayerPanel activeRing key={player.id} playerId={player.id} color={playerColor[player.id]}
-                     css={[panelPosition, player.id === (playerId ?? rules.players[0]) ? bottomPosition : topPosition]}>
-          <StartPlayerChoice player={player.id}/>
-          <EaglePlayerChoice player={player.id}/>
+        <PlayerPanel
+          activeRing
+          key={player.id}
+          playerId={player.id}
+          color={playerColor[player.id as Heir]}
+          css={[panelPosition, player.id === (playerId ?? rules.players[0]) ? bottomPosition : topPosition]}
+        >
+          <StartPlayerChoice player={player.id} />
+          <EaglePlayerChoice player={player.id} />
         </PlayerPanel>
       ))}
     </>
@@ -32,11 +35,7 @@ const StartPlayerChoice = ({ player }: { player: number }) => {
   const actionPlayer = rules?.remind(Memory.CheetahPlayer)
   const isPlayerTurn = !actionPlayer || startPlayer === actionPlayer
   if (!startPlayer || player !== (actionPlayer ?? startPlayer)) return null
-  return (
-    <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
-      {t(isPlayerTurn ? 'rules.start.choose.me' : 'rules.start.choose.you')}
-    </SpeechBubble>
-  )
+  return <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>{t(isPlayerTurn ? 'rules.start.choose.me' : 'rules.start.choose.you')}</SpeechBubble>
 }
 
 const EaglePlayerChoice = ({ player }: { player: number }) => {
@@ -46,9 +45,7 @@ const EaglePlayerChoice = ({ player }: { player: number }) => {
   const actionPlayer = rules?.remind(Memory.EaglePlayer)
   if (choice === undefined || player !== actionPlayer) return null
   return (
-    <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>
-      {t(choice === EagleChoice.Attack ? 'rules.eagle.attack' : 'rules.eagle.runaway')}
-    </SpeechBubble>
+    <SpeechBubble direction={SpeechBubbleDirection.TOP_LEFT}>{t(choice === EagleChoice.Attack ? 'rules.eagle.attack' : 'rules.eagle.runaway')}</SpeechBubble>
   )
 }
 
@@ -71,8 +68,7 @@ const bottomPosition = css`
   top: 90em;
 `
 
-
-export const playerColor = {
+export const playerColor: Record<Heir, string> = {
   [Heir.BlackPanther]: '#272c70',
   [Heir.WhiteTiger]: '#f3ddaa'
 }

@@ -1,6 +1,5 @@
 import { MaterialGameSetup, MaterialItem } from '@gamepark/rules-api'
-import sample from 'lodash/sample'
-import shuffle from 'lodash/shuffle'
+import { sample, shuffle } from 'es-toolkit'
 import { AwimbaweOptions } from './AwimbaweOptions'
 import { AwimbaweRules } from './AwimbaweRules'
 import { animals, getCrowns } from './material/Animal'
@@ -21,17 +20,26 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
   }
 
   setupHeirCards() {
-    const items = heirs.map((heir) => ({ id: heir, location: { type: LocationType.HeirCard }}))
+    const items = heirs.map((heir) => ({
+      id: heir,
+      location: { type: LocationType.HeirCard }
+    }))
     this.material(MaterialType.HeirCard).createItems(items)
   }
 
   setupAnimalCards() {
     const shuffledAnimal = shuffle(animals)
 
-    const player1Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.WhiteTiger } }))
+    const player1Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({
+      id: animal,
+      location: { type: LocationType.Hand, player: Heir.WhiteTiger }
+    }))
     this.material(MaterialType.AnimalCard).createItems(player1Items)
 
-    const player2Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: Heir.BlackPanther } }))
+    const player2Items = shuffledAnimal.splice(0, START_HAND).map((animal) => ({
+      id: animal,
+      location: { type: LocationType.Hand, player: Heir.BlackPanther }
+    }))
     this.material(MaterialType.AnimalCard).createItems(player2Items)
 
     for (const heir of heirs) {
@@ -40,7 +48,11 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
         const column = (i % 4) + 1
         const item: MaterialItem = {
           id: shuffledAnimal.shift(),
-          location: { type: LocationType.PlayerColumns, player: heir, id: column }
+          location: {
+            type: LocationType.PlayerColumns,
+            player: heir,
+            id: column
+          }
         }
 
         if (i < 4) {
@@ -53,9 +65,9 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
   }
 
   start() {
-    const pantherCrowns  = this.getPlayerCrowns(Heir.BlackPanther)
-    const tigerCrowns  = this.getPlayerCrowns(Heir.WhiteTiger)
-    
+    const pantherCrowns = this.getPlayerCrowns(Heir.BlackPanther)
+    const tigerCrowns = this.getPlayerCrowns(Heir.WhiteTiger)
+
     let lead = undefined
     if (pantherCrowns === tigerCrowns) {
       lead = sample(heirs)
@@ -72,8 +84,7 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
 
   getPlayerCrowns(player: Heir) {
     // Rechercher les MaterialType.AnimalCard dans LocationType.PlayerColumns
-    const items = this
-      .material(MaterialType.AnimalCard)
+    const items = this.material(MaterialType.AnimalCard)
       .location(LocationType.PlayerColumns)
       .player(player)
       .rotation((rotation: Record<string, any>) => rotation?.y !== 1)
@@ -87,5 +98,4 @@ export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, Locatio
 
     return count
   }
-
 }

@@ -1,26 +1,26 @@
-import { CustomMove, MaterialMove, PlayerTurnRule } from "@gamepark/rules-api"
-import Heir from "../material/Heir"
-import { MaterialType } from "../material/MaterialType"
-import { LocationType } from "../material/LocationType"
-import { CustomMoveType } from "./CustomMoveType"
-import { RuleId } from "./RuleId"
-import { Memory } from "./Memory"
+import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import Heir from '../material/Heir'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
+import { CustomMoveType } from './CustomMoveType'
+import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
 export class ChooseStartPlayerRule extends PlayerTurnRule<Heir, MaterialType, LocationType> {
-    getPlayerMoves(): MaterialMove<Heir, MaterialType, LocationType>[] {
-      const moves: MaterialMove[] = []
-      for (const player of this.game.players) {
-        moves.push(this.customMove(CustomMoveType.ChoosePlayer, player))
-      }
+  getPlayerMoves(): MaterialMove<Heir, MaterialType, LocationType>[] {
+    const moves: MaterialMove[] = []
+    for (const player of this.game.players) {
+      moves.push(this.customMove(CustomMoveType.ChoosePlayer, player))
+    }
 
-      return moves
-    }
-  
-    onCustomMove(move: CustomMove): MaterialMove<Heir, MaterialType, LocationType>[] {
-      if (move.type === CustomMoveType.ChoosePlayer) {
-        this.memorize(Memory.Lead, move.data)
-        return [this.startPlayerTurn(RuleId.ChooseCard, move.data)]
-      }
-      return []
-    }
+    return moves
   }
+
+  onCustomMove(move: CustomMove): MaterialMove<Heir, MaterialType, LocationType>[] {
+    if (move.type === CustomMoveType.ChoosePlayer) {
+      this.memorize(Memory.Lead, move.data)
+      return [this.startPlayerTurn(RuleId.ChooseCard, move.data)]
+    }
+    return []
+  }
+}

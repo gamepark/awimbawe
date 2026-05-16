@@ -5,7 +5,6 @@ import Heir from '@gamepark/awimbawe/material/Heir'
 import { HeirCardHelp } from './help/HeirCardHelp'
 
 export class HeirCardDescription extends CardDescription {
-
   backImages = {
     [Heir.WhiteTiger]: Images.WhiteTigerGold,
     [Heir.BlackPanther]: Images.BlackPantherGold
@@ -15,7 +14,6 @@ export class HeirCardDescription extends CardDescription {
     [Heir.WhiteTiger]: Images.WhiteTiger,
     [Heir.BlackPanther]: Images.BlackPanther
   }
-
 
   isFlipped = (item: MaterialItem) => item.location.rotation
 

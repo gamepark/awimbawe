@@ -1,36 +1,11 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
-import { isHyena } from '@gamepark/awimbawe/material/Animal'
-import { LocationType } from '@gamepark/awimbawe/material/LocationType'
-import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
-import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
-import { HistoryEntry, usePlayerId, usePlayerName } from '@gamepark/react-game'
-import { isMoveItemType, isStartRule, MoveItem } from '@gamepark/rules-api'
-import { FC, useEffect } from 'react'
+import { MoveComponentProps, usePlayerId, usePlayerName } from '@gamepark/react-game'
+import { MaterialMove, MoveItem } from '@gamepark/rules-api'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { playerColor } from '../../panels/PlayerPanels'
-import { AwimbaweHistoryEntryProps } from '../AwimbaweHistory'
 
-
-export const SolveTrickRuleHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
-  const { move, game, context } = props
-  if (isMoveItemType(MaterialType.AnimalCard)(move) && (move.location.type === LocationType.PlayerTrickStack || move.location.type === LocationType.PlayerHyena)) {
-    const item = game.items[MaterialType.AnimalCard]![move.itemIndex]
-    if (isHyena(item.id) && !move.location.rotation) {
-      return <WinHyenaHistory game={game} move={move} context={context}/>
-    }
-  }
-  if (isStartRule(move) && move.id === RuleId.EndOfTurn) {
-    return <WinTrickHistory game={game} move={move} context={context}/>
-  }
-
-  return null
-}
-
-export const WinTrickHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
-  const { move, context } = props
+export const WinTrickHistory = ({ move, context }: MoveComponentProps<MaterialMove>) => {
   const { t } = useTranslation()
   const playerId = usePlayerId()
   const rules = new AwimbaweRules(context.game)
@@ -41,35 +16,15 @@ export const WinTrickHistory: FC<AwimbaweHistoryEntryProps> = (props) => {
   const itsMe = playerId && lead === playerId
   const winnerName = usePlayerName(lead)
 
-  return (
-    <HistoryEntry borderBottom css={winTrick}>
-      {t(itsMe ? 'history.solve.me' : 'history.solve', { player: winnerName })}
-    </HistoryEntry>
-  )
-
+  return <>{t(itsMe ? 'history.solve.me' : 'history.solve', { player: winnerName })}</>
 }
 
-type WinHyenaHistoryProps = {
-  move: MoveItem
-} & Omit<AwimbaweHistoryEntryProps, 'move'>
-
-export const WinHyenaHistory: FC<WinHyenaHistoryProps> = (props) => {
-  const { move, context } = props
+export const WinHyenaHistory = ({ move }: MoveComponentProps<MoveItem>) => {
   const { t } = useTranslation()
   const playerId = usePlayerId()
   const actionPlayer = move.location.player
   const itsMe = playerId && actionPlayer === playerId
   const playerName = usePlayerName(actionPlayer)
 
-  return (
-    <HistoryEntry depth={1} backgroundColor={playerColor[context.action.playerId] + '20'}>
-      {t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}
-    </HistoryEntry>
-  )
+  return <>{t(itsMe ? 'history.hyena.me' : 'history.hyena', { player: playerName })}</>
 }
-
-export const winTrick = css`
-  color: grey;
-  font-style: italic;
-  text-align: center
-`

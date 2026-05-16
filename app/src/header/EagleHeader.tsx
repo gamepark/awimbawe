@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import Heir from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
@@ -21,29 +20,31 @@ export const EagleHeader = () => {
   const me = player && player === activePlayer
 
   if (me) {
-    return <>
-      <Trans defaults="header.eagle.me">
-        <PlayMoveButton move={legalMoves.find(move => move.data === EagleChoice.Attack)} />
-        <PlayMoveButton move={legalMoves.find(move => move.data === EagleChoice.Runaway)} />
-      </Trans>
-      <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
-        <div css={rulesCss}>
-          <h2><Trans defaults="header.eagle.me"><span/></Trans></h2>
-          <div>
-            <p>
-              <PlayMoveButton move={legalMoves.find(move => move.data === EagleChoice.Attack)}>
-                {t('header.eagle.attack')}
-              </PlayMoveButton>
-            </p>
-            <p>
-              <PlayMoveButton move={legalMoves.find(move => move.data === EagleChoice.Runaway)}>
-                {t('header.eagle.runaway')}
-              </PlayMoveButton>
-            </p>
+    return (
+      <>
+        <Trans i18nKey="header.eagle.me">
+          <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Attack)} />
+          <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Runaway)} />
+        </Trans>
+        <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
+          <div css={rulesCss}>
+            <h2>
+              <Trans i18nKey="header.eagle.me">
+                <span />
+              </Trans>
+            </h2>
+            <div>
+              <p>
+                <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Attack)}>{t('header.eagle.attack')}</PlayMoveButton>
+              </p>
+              <p>
+                <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Runaway)}>{t('header.eagle.runaway')}</PlayMoveButton>
+              </p>
+            </div>
           </div>
-        </div>
-      </RulesDialog>
-    </>
+        </RulesDialog>
+      </>
+    )
   } else {
     return <>{t('header.eagle', { player: playerName })}</>
   }

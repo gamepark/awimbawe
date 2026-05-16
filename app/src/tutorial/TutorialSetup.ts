@@ -4,7 +4,7 @@ import Heir, { heirs } from '@gamepark/awimbawe/material/Heir'
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { MaterialType } from '@gamepark/awimbawe/material/MaterialType'
 import { MaterialItem } from '@gamepark/rules-api'
-import shuffle from 'lodash/shuffle'
+import { shuffle } from 'es-toolkit'
 
 const _ = undefined
 const me = Heir.WhiteTiger
@@ -24,7 +24,6 @@ const opponentColumns = [
   [_, Animal.Eagle9]
 ]
 export class TutorialSetup extends AwimbaweSetup {
-
   setupAnimalCards() {
     const shuffledAnimal = shuffle(
       animals
@@ -33,22 +32,32 @@ export class TutorialSetup extends AwimbaweSetup {
     )
 
     const shuffledPlayer1 = shuffle([...shuffledAnimal.splice(0, 2), ...meHand])
-    const player1Items = shuffledPlayer1.map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: me } }))
+    const player1Items = shuffledPlayer1.map((animal) => ({
+      id: animal,
+      location: { type: LocationType.Hand, player: me }
+    }))
     this.material(MaterialType.AnimalCard).createItems(player1Items)
 
     const shuffledPlayer2 = shuffle([...shuffledAnimal.splice(0, 4), ...opponentHand])
-    const player2Items = shuffledPlayer2.map((animal) => ({ id: animal, location: { type: LocationType.Hand, player: opponent } }))
+    const player2Items = shuffledPlayer2.map((animal) => ({
+      id: animal,
+      location: { type: LocationType.Hand, player: opponent }
+    }))
     this.material(MaterialType.AnimalCard).createItems(player2Items)
 
     for (const heir of heirs) {
       // Do it for 4 columns
-      const tutoColumns = heir === me? meColumns: opponentColumns
+      const tutoColumns = heir === me ? meColumns : opponentColumns
       for (let i = 0; i < 8; i++) {
         const column = (i % 4) + 1
-        const tutoAnimal = tutoColumns[column - 1][i < 4? 0: 1]
+        const tutoAnimal = tutoColumns[column - 1][i < 4 ? 0 : 1]
         const item: MaterialItem = {
-          id: tutoAnimal === _? shuffledAnimal.shift(): tutoAnimal,
-          location: { type: LocationType.PlayerColumns, player: heir, id: column }
+          id: tutoAnimal === _ ? shuffledAnimal.shift() : tutoAnimal,
+          location: {
+            type: LocationType.PlayerColumns,
+            player: heir,
+            id: column
+          }
         }
 
         if (i < 4) {

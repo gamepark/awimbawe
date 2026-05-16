@@ -1,17 +1,15 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { Memory, RoundSummary } from '@gamepark/awimbawe/rules/Memory'
 import { RuleId } from '@gamepark/awimbawe/rules/RuleId'
 import { RulesDialog, useRules } from '@gamepark/react-game'
 import { helpDialogContentCss } from '@gamepark/react-game/dist/components/dialogs/RulesDialog/RulesHelpDialogContent'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Crown from './images/crown.jpg'
 import { RoundSummaryDetail } from './summary/RoundSummary'
 
-
-export const NewRoundDialog: FC = () => {
+export const NewRoundDialog = () => {
   const { t } = useTranslation()
   const rules = useRules<AwimbaweRules>()
   const [opened, setOpened] = useState<boolean>(false)
@@ -36,12 +34,11 @@ export const NewRoundDialog: FC = () => {
       <div css={helpDialogCss}>
         <div css={helpDialogContentCss}>
           <h2>{t('round-summary.dialog.title')}</h2>
-          <RoundSummaryDetail summary={summary}/>
+          <RoundSummaryDetail summary={summary} />
         </div>
       </div>
     </RulesDialog>
   )
-
 }
 
 const helpDialogCss = css`
@@ -61,7 +58,8 @@ export const alignIconText = css`
     vertical-align: top;
   }
 
-  picture, img {
+  picture,
+  img {
     vertical-align: top;
     margin-right: 0.1em;
   }

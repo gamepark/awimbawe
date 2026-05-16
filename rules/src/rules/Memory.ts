@@ -18,7 +18,7 @@ export enum WinType {
 }
 
 export type RoundSummary = {
-  winner: Heir,
+  winner: Heir
   type: WinType
   crowns?: Record<Heir, number>
 }

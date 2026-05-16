@@ -1,7 +1,8 @@
 import { getEnumValues } from '@gamepark/rules-api'
 
 enum Heir {
-  WhiteTiger = 1, BlackPanther
+  WhiteTiger = 1,
+  BlackPanther
 }
 
 export default Heir

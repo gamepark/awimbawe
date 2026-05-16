@@ -1,6 +1,5 @@
 import Animal, { isCheetah, isEagle, isElephant, isHyena, isMouse, isRhinoceros, isSnake } from '@gamepark/awimbawe/material/Animal'
 
-
 export const getAnimalTitle = (animal: Animal) => {
   if (animal <= 10) return 'help.card.eagle.title'
   switch (animal % 10) {
@@ -23,7 +22,7 @@ export const getAnimalTitle = (animal: Animal) => {
 
 export const getAnimalColor = (animal: Animal) => {
   if (animal <= 10) return 'help.card.sky'
-  switch (Math.floor((animal-1)/10)) {
+  switch (Math.floor((animal - 1) / 10)) {
     case 1:
       return 'help.card.grassland'
     case 2:

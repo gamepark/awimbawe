@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Memory } from '@gamepark/awimbawe/rules/Memory'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { MaterialRules } from '@gamepark/rules-api'

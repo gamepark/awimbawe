@@ -1,11 +1,14 @@
-/** @jsxImportSource @emotion/react */
 import { LocationType } from '@gamepark/awimbawe/material/LocationType'
 import { DropAreaDescription, ItemContext, ListLocator } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { animalCardDescription } from '../material/AnimalCardDescription'
 
 class PlayAreaLocator extends ListLocator {
-  locationDescription = new DropAreaDescription({ width: 27, height: 18, borderRadius: 2 })
+  locationDescription = new DropAreaDescription({
+    width: 27,
+    height: 18,
+    borderRadius: 2
+  })
   location = { type: LocationType.PlayArea }
   gap = { x: animalCardDescription.width + 1 }
   maxCount = 2
