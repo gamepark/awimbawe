@@ -4,7 +4,7 @@ import { RoundSummary, WinType } from '@gamepark/awimbawe/rules/Memory'
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { HTMLAttributes } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { alignIconText, crownStyle } from '../NewRoundDialog'
+import Crown from '../images/crown.jpg'
 
 type RoundSummaryProps = {
   summary: RoundSummary
@@ -87,4 +87,32 @@ const summaryContainer = css`
 
 export const marginBottom = css`
   margin-bottom: 0.3em;
+`
+
+export const alignIconText = css`
+  > * {
+    vertical-align: top;
+  }
+
+  picture,
+  img {
+    vertical-align: top;
+    margin-right: 0.1em;
+  }
+`
+
+export const crownStyle = css`
+  flex: 1;
+  align-self: center;
+  background-image: url(${Crown});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0.05em solid black;
+  border-radius: 0.2em;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 0.2em;
+  box-shadow: 0.1em 0.1em 0.2em gray;
+  display: inline-block;
 `

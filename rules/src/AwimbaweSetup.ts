@@ -2,14 +2,13 @@ import { MaterialGameSetup, MaterialItem } from '@gamepark/rules-api'
 import { sample, shuffle } from 'es-toolkit'
 import { AwimbaweOptions } from './AwimbaweOptions'
 import { AwimbaweRules } from './AwimbaweRules'
+import { START_HAND } from './constants'
 import { animals, getCrowns } from './material/Animal'
 import Heir, { heirs } from './material/Heir'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
-
-export const START_HAND = 6
 
 export class AwimbaweSetup extends MaterialGameSetup<Heir, MaterialType, LocationType, AwimbaweOptions> {
   Rules = AwimbaweRules

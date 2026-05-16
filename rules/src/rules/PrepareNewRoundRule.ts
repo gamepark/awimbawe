@@ -1,5 +1,5 @@
 import { isShuffleItemType, Location, MaterialMove, MaterialRulesPart, MoveItem } from '@gamepark/rules-api'
-import { START_HAND } from '../AwimbaweSetup'
+import { START_HAND } from '../constants'
 import Animal, { getCrowns, isHyena } from '../material/Animal'
 import Heir from '../material/Heir'
 import { LocationType } from '../material/LocationType'
