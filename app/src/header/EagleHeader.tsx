@@ -28,18 +28,16 @@ export const EagleHeader = () => {
         </Trans>
         <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
           <div css={rulesCss}>
-            <h2>
-              <Trans i18nKey="header.eagle.me">
-                <span />
-              </Trans>
-            </h2>
-            <div>
-              <p>
+            <div css={contentCss}>
+              <h2>
+                <Trans i18nKey="header.eagle.me">
+                  <span />
+                </Trans>
+              </h2>
+              <div css={buttonsCss}>
                 <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Attack)}>{t('header.eagle.attack')}</PlayMoveButton>
-              </p>
-              <p>
                 <PlayMoveButton move={legalMoves.find((move) => move.data === EagleChoice.Runaway)}>{t('header.eagle.runaway')}</PlayMoveButton>
-              </p>
+              </div>
             </div>
           </div>
         </RulesDialog>
@@ -51,15 +49,33 @@ export const EagleHeader = () => {
 }
 
 const rulesCss = css`
-  max-width: 40em;
-  margin: 1em;
-  font-size: 3em;
+  display: flex;
+  padding: 3em;
+  max-width: inherit;
+  max-height: inherit;
+`
+
+const contentCss = css`
+  margin: 0 0.5em;
+  padding: 0 0.5em;
+  font-size: 2.4em;
+  overflow: auto;
+  flex: 1;
 
   > h2 {
-    margin-right: 2em;
+    margin: 0 1.5em 0.8em;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    color: #242b5d;
   }
+`
 
-  > p {
+const buttonsCss = css`
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+
+  > button {
     white-space: break-spaces;
   }
 `
