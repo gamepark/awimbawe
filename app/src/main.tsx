@@ -1,4 +1,4 @@
-import { AwimbaweOptionsSpec } from '@gamepark/awimbawe/AwimbaweOptions'
+import { AwimbaweOptionsSpecV2 } from '@gamepark/awimbawe/AwimbaweOptions'
 import { AwimbaweRules } from '@gamepark/awimbawe/AwimbaweRules'
 import { AwimbaweSetup } from '@gamepark/awimbawe/AwimbaweSetup'
 import { addStylesheetUrl, GameProvider } from '@gamepark/react-game'
@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')!).render(
       game="awimbawe"
       GameSetup={AwimbaweSetup}
       Rules={AwimbaweRules}
-      optionsSpec={AwimbaweOptionsSpec}
+      optionsSpec={AwimbaweOptionsSpecV2}
       material={material}
       locators={Locators}
       animations={awimbaweAnimations}
