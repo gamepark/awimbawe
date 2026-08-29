@@ -6,48 +6,43 @@ import { isMoveItemType, isShuffleItemType } from '@gamepark/rules-api'
 export const awimbaweAnimations = new MaterialGameAnimations()
 
 awimbaweAnimations
-  .when()
-  .move((move) => isMoveItemType(MaterialType.AnimalCard)(move) && move.location.type === LocationType.Deck)
-  .duration(0.2)
+  .configure((move) => isMoveItemType(MaterialType.AnimalCard)(move) && move.location.type === LocationType.Deck)
+  .duration(200)
 
 awimbaweAnimations
-  .when()
-  .move(
+  .configure(
     (move, context) =>
       isMoveItemType(MaterialType.AnimalCard)(move) && context.rules.game.items[move.itemType]![move.itemIndex].location.type === LocationType.Deck
   )
-  .duration(0.2)
+  .duration(200)
 
 awimbaweAnimations
-  .when()
-  .move(
+  .configure(
     (move, context) =>
       isMoveItemType(MaterialType.AnimalCard)(move) &&
       (context.rules.game.items[move.itemType]![move.itemIndex].location.type === LocationType.PlayerTrickStack ||
         move.location.type === LocationType.PlayerTrickStack ||
         move.location.type === LocationType.PlayerHyena)
   )
-  .duration(0.7)
+  .duration(700)
 
 awimbaweAnimations
-  .when()
-  .move(
+  .configure(
     (move, context) =>
       isMoveItemType(MaterialType.AnimalCard)(move) &&
       context.rules.game.items[move.itemType]![move.itemIndex].location.type === LocationType.PlayerColumns &&
       context.rules.game.items[move.itemType]![move.itemIndex].location?.rotation?.y === 1 &&
       !move.location.rotation.y
   )
-  .duration(0.7)
+  .duration(700)
 
 awimbaweAnimations
-  .when()
-  .move(
+  .configure(
     (move, context) =>
       isMoveItemType(MaterialType.AnimalCard)(move) &&
       ((context.rules.game.items[move.itemType]![move.itemIndex].location?.rotation?.z === 1 && !move.location?.rotation?.z) ||
         move.location?.rotation?.z === 1)
   )
-  .duration(0.5)
+  .duration(500)
 
-awimbaweAnimations.when().move(isShuffleItemType(MaterialType.AnimalCard)).none()
+awimbaweAnimations.configure(isShuffleItemType(MaterialType.AnimalCard)).skip()
