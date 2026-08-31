@@ -17,11 +17,13 @@ export class SolveTrickRule extends MaterialRulesPart<Heir, MaterialType, Locati
 
     const winnerAnimal = this.getWinnerAnimal(leadCard.id, opponentCard.id)
     const winner = winnerAnimal === leadCard.id ? lead : opponent
+    // when the eagle runs away, the trick is won by the lead whatever the strongest card is
+    const trickWinner = this.hasRanAway ? lead : winner
     const cards = this.material(MaterialType.AnimalCard).location(LocationType.PlayArea)
     const moves: MaterialMove[] = []
 
     moves.push(...this.flipTrickCards())
-    moves.push(...this.placeHyenasInTrick(cards, winner))
+    moves.push(...this.placeHyenasInTrick(cards, trickWinner))
 
     moves.push(
       ...cards.getIndexes().flatMap((index) => {
